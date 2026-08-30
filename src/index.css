@@ -1,0 +1,171 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Gönülden Tatlar — Design Tokens
+   Marka renkleri "Beana" referans görselinden türetildi ve açık tonlara
+   kaydırıldı: krem kağıt, sıcak kakao, zeytin yeşili, blush pembe.
+   ========================================================================== */
+@theme {
+  /* --- Krem / kağıt (background & surface) --- */
+  --color-cream-50: #fdfaf5;
+  --color-cream-100: #faf5ec;
+  --color-cream-200: #f4ecdf;
+  --color-cream-300: #ece0cd;
+  --color-cream-400: #ddcbb1;
+
+  /* --- Kakao / sıcak kahve (primary) --- */
+  --color-cocoa-50: #faf4f0;
+  --color-cocoa-100: #f0e3d9;
+  --color-cocoa-200: #dfc4b1;
+  --color-cocoa-300: #c8a086;
+  --color-cocoa-400: #ac7d60;
+  --color-cocoa-500: #8f5f45;
+  --color-cocoa-600: #764a34;
+  --color-cocoa-700: #5c3826;
+  --color-cocoa-800: #40251a;
+  --color-cocoa-900: #2b1811;
+
+  /* --- Zeytin / adaçayı (secondary) --- */
+  --color-olive-50: #f4f6ee;
+  --color-olive-100: #e8ecda;
+  --color-olive-200: #d2dab9;
+  --color-olive-300: #b5c194;
+  --color-olive-400: #99a774;
+  --color-olive-500: #7e8d5b;
+  --color-olive-600: #647049;
+  --color-olive-700: #4d5739;
+
+  /* --- Blush / çilek (accent) --- */
+  --color-blush-50: #fdf3f1;
+  --color-blush-100: #fbe5e1;
+  --color-blush-200: #f5cbc4;
+  --color-blush-300: #eeaba1;
+  --color-blush-400: #e28f84;
+  --color-blush-500: #cf7367;
+
+  /* --- Semantic --- */
+  --color-background: var(--color-cream-50);
+  --color-surface: #ffffff;
+  --color-surface-alt: var(--color-cream-100);
+  --color-line: #eadfd0;
+  --color-ink: var(--color-cocoa-800);
+  --color-muted: #8c7c6e;
+  --color-primary: var(--color-cocoa-600);
+  --color-primary-hover: var(--color-cocoa-700);
+  --color-secondary: var(--color-olive-500);
+  --color-accent: var(--color-blush-400);
+  --color-success: #5b8f66;
+  --color-warning: #c98a3c;
+  --color-error: #c0584f;
+
+  /* --- Typography --- */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* --- Radius --- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.25rem;
+
+  /* --- Shadows (yumuşak, sıcak tonlu) --- */
+  --shadow-soft: 0 1px 2px rgba(64, 37, 26, 0.04), 0 4px 16px rgba(64, 37, 26, 0.05);
+  --shadow-card: 0 2px 6px rgba(64, 37, 26, 0.05), 0 12px 28px -12px rgba(64, 37, 26, 0.14);
+  --shadow-lift: 0 6px 14px rgba(64, 37, 26, 0.07), 0 24px 48px -20px rgba(64, 37, 26, 0.22);
+
+  /* --- Motion --- */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--color-cocoa-800);
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cocoa-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-blush-200);
+    color: var(--color-cocoa-800);
+  }
+
+  /* Yumuşak, marka tonlu scrollbar */
+  @supports selector(::-webkit-scrollbar) {
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--color-cream-100); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-cream-400);
+      border-radius: 99px;
+      border: 3px solid var(--color-cream-100);
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-cocoa-300); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) { padding-inline: 2rem; }
+  @media (width >= 1280px) { padding-inline: 2.5rem; }
+}
+
+/* Yatay scroll şeritlerinde scrollbar'ı gizle */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* Kenarlarda yumuşak fade — yalnızca mobil yatay şeritlerde */
+@utility edge-fade-x {
+  @media (width < 768px) {
+    mask-image: linear-gradient(to right, transparent, #000 20px, #000 calc(100% - 20px), transparent);
+  }
+}
+
+@utility text-balance-none {
+  text-wrap: initial;
+}
