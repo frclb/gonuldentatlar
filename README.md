@@ -142,54 +142,58 @@ Repo → **Settings → Secrets and variables → Actions**
 > paneli kazara açılmaktan koruyan bir kilittir. Gizli kalması gereken hiçbir
 > bilgiyi buraya koymayın.
 
-### 4. Kendi domainin
+### 4. Yayın adresi
 
-Asıl (canonical) domain **gonuldentatlar.com**. `public/CNAME` dosyası bu adresi
-içerir ve build çıktısına kopyalanır — GitHub Actions ile deploy ederken custom
-domain ayarının sıfırlanmaması için gereklidir. Asıl domaini değiştirirsen bu
-dosyayı da güncelle.
+Site şu an **proje sayfasında** yayınlanıyor:
 
-Custom domain kullanırken `VITE_BASE_PATH` **tanımlanmamalıdır** (site kökte yayınlanır).
+    https://frclb.github.io/gonuldentatlar/
 
-#### DNS kayıtları (gonuldentatlar.com)
+Bunun için `.github/workflows/deploy.yml` içinde `VITE_BASE_PATH` varsayılanı
+`/gonuldentatlar/` olarak ayarlıdır. Alt yolda yayınlanan bir SPA'da bu şart:
+aksi hâlde tarayıcı `/assets/...` ister, dosyalar `/gonuldentatlar/assets/...`
+altındadır ve sayfa **beyaz ekran** olur.
+
+### Kendi domainine geçiş (gonuldentatlar.com)
+
+DNS hazır olduğunda üç adım:
+
+**1.** Domain panelinde DNS kayıtları:
 
 ```
-A     @    185.199.108.153
-A     @    185.199.109.153
-A     @    185.199.110.153
-A     @    185.199.111.153
-AAAA  @    2606:50c0:8000::153
-AAAA  @    2606:50c0:8001::153
-AAAA  @    2606:50c0:8002::153
-AAAA  @    2606:50c0:8003::153
-CNAME www  <kullanici-adi>.github.io
+A      @     185.199.108.153
+A      @     185.199.109.153
+A      @     185.199.110.153
+A      @     185.199.111.153
+AAAA   @     2606:50c0:8000::153
+AAAA   @     2606:50c0:8001::153
+AAAA   @     2606:50c0:8002::153
+AAAA   @     2606:50c0:8003::153
+CNAME  www   frclb.github.io
 ```
 
-Sıra önemli: önce DNS kayıtlarını gir, yayılmasını bekle, **sonra** Settings →
-Pages → Custom domain alanını doldur. Sertifika üretilince "Enforce HTTPS"
-kutusu aktifleşir.
+`dig +short gonuldentatlar.com` dört IP'yi gösterene kadar bekle.
 
-> DNS'i Cloudflare üzerinden yönetiyorsan bu kayıtlar **DNS only (gri bulut)**
-> olmalı. Proxy (turuncu bulut) açıkken GitHub sertifikayı üretemez.
+**2.** `public/CNAME` dosyasını geri ekle (tek satır: `gonuldentatlar.com`).
+GitHub Actions ile deploy ederken bu dosya olmazsa custom domain ayarı sıfırlanabilir.
+
+```bash
+echo gonuldentatlar.com > public/CNAME
+```
+
+**3.** Repo → Settings → Secrets and variables → Actions → *Variables* →
+`VITE_BASE_PATH` = `/` tanımla. (Workflow'daki `/gonuldentatlar/` varsayılanını ezer.)
+
+Push et; Settings → Pages'te domain doğrulanınca `Enforce HTTPS`'i işaretle.
+
+> Cloudflare kullanıyorsan kayıtlar **DNS only (gri bulut)** olmalı — proxy açıkken
+> GitHub sertifika üretemez.
 
 #### İkinci domain (gonuldentatlar.com.tr)
 
-GitHub Pages bir siteye yalnızca **tek** custom domain bağlar. İkinci domain,
-asıl domaine 301 ile yönlendirilir — kayıt firmasının "web yönlendirme"
-özelliğiyle veya Cloudflare'de bir Redirect Rule ile. Ayrıntı: README'nin
-"İki domaini bağlama" bölümü.
-
-### İki domaini bağlama
-
-| Domain | Rol | Nasıl |
-| --- | --- | --- |
-| `gonuldentatlar.com` | Asıl site | GitHub Pages custom domain + yukarıdaki DNS |
-| `www.gonuldentatlar.com` | Otomatik | `CNAME www` kaydı; GitHub apex'e yönlendirir |
-| `gonuldentatlar.com.tr` | Yönlendirme | 301 → `https://gonuldentatlar.com` |
-| `www.gonuldentatlar.com.tr` | Yönlendirme | 301 → `https://gonuldentatlar.com` |
-
-Aynı içeriği iki domainden birden yayınlama — arama motorları bunu yinelenen
-içerik sayar. Tek asıl domain, diğeri 301.
+GitHub Pages bir siteye yalnızca **tek** custom domain bağlar. İkinci domain, asıl
+domaine 301 ile yönlendirilir: kayıt firmasının "web yönlendirme" özelliğiyle veya
+Cloudflare'de bir Redirect Rule ile. Aynı içeriği iki domainden yayınlama — arama
+motorları bunu yinelenen içerik sayar.
 
 ### SPA yönlendirmesi
 

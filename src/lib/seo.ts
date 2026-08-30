@@ -1,7 +1,19 @@
 import { useEffect } from 'react'
 
 const SITE_NAME = 'Gönülden Tatlar'
-const SITE_URL = 'https://gonuldentatlar.com'
+/** Tarayıcı yoksa (build/test) kullanılacak adres */
+const FALLBACK_ORIGIN = 'https://gonuldentatlar.com'
+
+/**
+ * Mutlak adres üretir. Site alt yolda (frclb.github.io/gonuldentatlar/) ya da
+ * kendi domaininde yayınlansın, canonical ve OG etiketleri doğru çıkar.
+ */
+function siteUrl(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const origin = typeof window === 'undefined' ? FALLBACK_ORIGIN : window.location.origin
+  const suffix = path && path !== '/' ? (path.startsWith('/') ? path : `/${path}`) : '/'
+  return `${origin}${base}${suffix}`
+}
 
 export interface SeoOptions {
   title: string
@@ -40,8 +52,8 @@ export function useSeo({ title, description, path = '', image = '/images/hero/og
     setMeta('meta[name="description"]', 'name', 'description', description)
     setMeta('meta[property="og:title"]', 'property', 'og:title', fullTitle)
     setMeta('meta[property="og:description"]', 'property', 'og:description', description)
-    setMeta('meta[property="og:url"]', 'property', 'og:url', SITE_URL + path)
-    setMeta('meta[property="og:image"]', 'property', 'og:image', SITE_URL + image)
-    setCanonical(SITE_URL + (path || '/'))
+    setMeta('meta[property="og:url"]', 'property', 'og:url', siteUrl(path))
+    setMeta('meta[property="og:image"]', 'property', 'og:image', siteUrl(image))
+    setCanonical(siteUrl(path))
   }, [title, description, path, image])
 }
