@@ -15,7 +15,7 @@ export function CartDrawer() {
   const { settings } = useCatalog()
   const navigate = useNavigate()
 
-  const belowMinimum = subtotal > 0 && subtotal < settings.minOrderTotal
+  const belowMinimum = settings.showPrices && subtotal > 0 && subtotal < settings.minOrderTotal
 
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp,
@@ -25,6 +25,7 @@ export function CartDrawer() {
       deliveryFee: 0,
       total: subtotal,
       deliveryType: 'pickup',
+      showPrices: settings.showPrices,
     }),
   )
 
@@ -36,10 +37,14 @@ export function CartDrawer() {
       footer={
         items.length > 0 ? (
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm text-muted">
-              <span>Ara toplam</span>
-              <span className="text-[1.05rem] font-semibold text-cocoa-800">{formatPrice(subtotal)}</span>
-            </div>
+            {settings.showPrices ? (
+              <div className="flex items-center justify-between text-sm text-muted">
+                <span>Ara toplam</span>
+                <span className="text-[1.05rem] font-semibold text-cocoa-800">{formatPrice(subtotal)}</span>
+              </div>
+            ) : (
+              <p className="text-center text-xs text-muted">Tutar siparişin onaylanırken iletilir.</p>
+            )}
 
             {belowMinimum && (
               <p className="rounded-md bg-cream-200 px-3 py-2 text-xs text-cocoa-700">

@@ -58,7 +58,7 @@ export default function Checkout() {
   }, [deliveryType, subtotal, settings])
 
   const total = sum(subtotal, deliveryFee)
-  const belowMinimum = deliveryType === 'delivery' && subtotal < settings.minOrderTotal
+  const belowMinimum = settings.showPrices && deliveryType === 'delivery' && subtotal < settings.minOrderTotal
   const missingForMinimum = subtract(settings.minOrderTotal, subtotal)
 
   const update = (key: keyof FormState, value: string) => {
@@ -132,6 +132,7 @@ export default function Checkout() {
       customer: order.customer,
       address: order.address,
       note: order.note,
+      showPrices: settings.showPrices,
     })
 
     addOrder(order)
@@ -165,15 +166,21 @@ export default function Checkout() {
                   <span className="text-cocoa-700">
                     {item.quantity} × {item.name}
                   </span>
-                  <span className="font-medium text-cocoa-800">
-                    {formatPrice(multiply(item.unitPrice, item.quantity))}
-                  </span>
+                  {settings.showPrices && (
+                    <span className="font-medium text-cocoa-800">
+                      {formatPrice(multiply(item.unitPrice, item.quantity))}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
             <div className="mt-4 flex justify-between border-t border-line pt-4">
-              <span className="font-semibold text-cocoa-800">Toplam</span>
-              <span className="text-lg font-semibold text-cocoa-800">{formatPrice(placedOrder.total)}</span>
+              <span className="font-semibold text-cocoa-800">
+                {settings.showPrices ? 'Toplam' : `${placedOrder.items.length} kalem`}
+              </span>
+              {settings.showPrices && (
+                <span className="text-lg font-semibold text-cocoa-800">{formatPrice(placedOrder.total)}</span>
+              )}
             </div>
           </div>
 
@@ -345,32 +352,42 @@ export default function Checkout() {
                         <p className="truncate text-[0.75rem] text-muted">{optionsSummary(item)}</p>
                       )}
                     </div>
-                    <span className="shrink-0 font-medium text-cocoa-800">
-                      {formatPrice(multiply(item.unitPrice, item.quantity))}
-                    </span>
+                    {settings.showPrices && (
+                      <span className="shrink-0 font-medium text-cocoa-800">
+                        {formatPrice(multiply(item.unitPrice, item.quantity))}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
 
               <dl className="mt-5 space-y-2.5 border-t border-line pt-5 text-sm">
                 <div className="flex justify-between text-muted">
-                  <dt>Ara toplam ({itemCount} ürün)</dt>
-                  <dd className="font-medium text-cocoa-800">{formatPrice(subtotal)}</dd>
+                  <dt>Ürünler</dt>
+                  <dd className="font-medium text-cocoa-800">{itemCount} adet</dd>
                 </div>
                 <div className="flex justify-between text-muted">
                   <dt>Teslimat</dt>
                   <dd className="font-medium text-cocoa-800">
                     {deliveryType === 'pickup'
                       ? 'Gel al'
-                      : deliveryFee === 0
-                        ? 'Ücretsiz'
-                        : formatPrice(deliveryFee)}
+                      : !settings.showPrices
+                        ? 'Paket servis'
+                        : deliveryFee === 0
+                          ? 'Ücretsiz'
+                          : formatPrice(deliveryFee)}
                   </dd>
                 </div>
-                <div className="flex items-baseline justify-between border-t border-line pt-3">
-                  <dt className="text-[0.95rem] font-semibold text-cocoa-800">Toplam</dt>
-                  <dd className="text-xl font-semibold text-cocoa-800">{formatPrice(total)}</dd>
-                </div>
+                {settings.showPrices ? (
+                  <div className="flex items-baseline justify-between border-t border-line pt-3">
+                    <dt className="text-[0.95rem] font-semibold text-cocoa-800">Toplam</dt>
+                    <dd className="text-xl font-semibold text-cocoa-800">{formatPrice(total)}</dd>
+                  </div>
+                ) : (
+                  <p className="border-t border-line pt-3 text-[0.8rem] text-muted">
+                    Tutar siparişin onaylanırken WhatsApp üzerinden iletilir.
+                  </p>
+                )}
               </dl>
 
               {belowMinimum && (
@@ -379,7 +396,7 @@ export default function Checkout() {
                 </p>
               )}
 
-              {deliveryType === 'delivery' && deliveryFee > 0 && !belowMinimum && (
+              {settings.showPrices && deliveryType === 'delivery' && deliveryFee > 0 && !belowMinimum && (
                 <p className="mt-4 rounded-md bg-cream-200 px-3.5 py-2.5 text-[0.8rem] text-cocoa-700">
                   {formatPrice(settings.freeDeliveryOver)} ve üzeri siparişlerde teslimat ücretsiz.
                 </p>

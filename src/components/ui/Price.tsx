@@ -1,7 +1,11 @@
+import { useCatalog } from '@/context/CatalogContext'
 import { formatPrice } from '@/lib/format'
 import { cn } from '@/lib/cn'
 
-/** Site genelinde tek fiyat bileşeni — format tutarlılığı için. */
+/**
+ * Site genelinde tek fiyat bileşeni.
+ * İşletme ayarlarında fiyatlar kapalıysa hiçbir şey basmaz.
+ */
 export function Price({
   value,
   oldValue,
@@ -13,6 +17,9 @@ export function Price({
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }) {
+  const { settings } = useCatalog()
+  if (!settings.showPrices) return null
+
   const sizes = {
     sm: 'text-sm',
     md: 'text-[1.05rem]',

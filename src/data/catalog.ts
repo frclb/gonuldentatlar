@@ -109,6 +109,20 @@ export const products: Product[] = [
     order: 7,
   },
 
+  {
+    id: 'balkabakli-magnolya',
+    slug: 'balkabakli-magnolya',
+    name: 'Balkabaklı Magnolya',
+    description: 'Kendi pişirdiğimiz balkabağı püresi, süt kreması ve çıtır bisküvi kırıkları.',
+    categoryId: 'klasik',
+    price: 175,
+    image: '/images/products/balkabakli-magnolya.webp',
+    isActive: true,
+    isFeatured: true,
+    badge: { label: 'Mevsiminde güzel', tone: 'dark' },
+    order: 8,
+  },
+
   /* --- Kakaolu Bisküvili --- */
   {
     id: 'kakaolu-biskuvili-cilekli-magnolya',
@@ -353,6 +367,7 @@ export const storeSettings: StoreSettings = {
   addressShort: 'Cumhuriyet Mah. Tatlı Sk. No:12/A',
   mapsUrl: 'https://maps.google.com/?q=G%C3%B6n%C3%BClden+Tatlar',
   isOpen: true,
+  showPrices: false,
   minOrderTotal: 250,
   deliveryFee: 49,
   freeDeliveryOver: 600,

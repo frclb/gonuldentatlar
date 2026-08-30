@@ -10,6 +10,8 @@ export interface WhatsAppOrderPayload {
   customer?: Partial<Customer>
   address?: Partial<Address>
   note?: string
+  /** Fiyatlar sitede gizliyse mesajda da tutar yazılmaz. */
+  showPrices?: boolean
 }
 
 const deliveryLabel: Record<DeliveryType, string> = {
@@ -27,20 +29,27 @@ export function optionsSummary(item: CartItem): string {
 
 /** Sepeti WhatsApp mesaj gövdesine dönüştürür. */
 export function buildOrderMessage(payload: WhatsAppOrderPayload): string {
-  const { items, subtotal, deliveryFee, total, deliveryType, customer, address, note } = payload
+  const { items, subtotal, deliveryFee, total, deliveryType, customer, address, note, showPrices = true } = payload
 
   const lines: string[] = ['Merhaba Gönülden Tatlar,', '', 'sipariş vermek istiyorum.', '']
 
   for (const item of items) {
-    lines.push(`${item.quantity} x ${item.name} — ${formatPrice(item.unitPrice * item.quantity)}`)
+    const price = showPrices ? ` — ${formatPrice(item.unitPrice * item.quantity)}` : ''
+    lines.push(`${item.quantity} x ${item.name}${price}`)
     const summary = optionsSummary(item)
     if (summary) lines.push(`   ${summary}`)
     if (item.note) lines.push(`   Not: ${item.note}`)
   }
 
-  lines.push('', `Ara toplam: ${formatPrice(subtotal)}`)
-  if (deliveryFee > 0) lines.push(`Teslimat: ${formatPrice(deliveryFee)}`)
-  lines.push(`Toplam: ${formatPrice(total)}`, '', `Teslimat: ${deliveryLabel[deliveryType]}`)
+  if (showPrices) {
+    lines.push('', `Ara toplam: ${formatPrice(subtotal)}`)
+    if (deliveryFee > 0) lines.push(`Teslimat: ${formatPrice(deliveryFee)}`)
+    lines.push(`Toplam: ${formatPrice(total)}`)
+  } else {
+    lines.push('', 'Tutarı iletebilir misiniz?')
+  }
+
+  lines.push('', `Teslimat: ${deliveryLabel[deliveryType]}`)
 
   if (customer?.fullName) lines.push('', `Ad Soyad: ${customer.fullName}`)
   if (customer?.phone) lines.push(`Telefon: ${customer.phone}`)

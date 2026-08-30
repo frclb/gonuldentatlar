@@ -24,7 +24,14 @@ export default function Cart() {
 
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp,
-    buildOrderMessage({ items, subtotal, deliveryFee: 0, total: subtotal, deliveryType: 'pickup' }),
+    buildOrderMessage({
+      items,
+      subtotal,
+      deliveryFee: 0,
+      total: subtotal,
+      deliveryType: 'pickup',
+      showPrices: settings.showPrices,
+    }),
   )
 
   return (
@@ -62,17 +69,19 @@ export default function Cart() {
                 <h2 className="text-lg">Sipariş özeti</h2>
                 <dl className="mt-5 space-y-3 text-sm">
                   <div className="flex justify-between text-muted">
-                    <dt>Ürünler ({itemCount})</dt>
-                    <dd className="font-medium text-cocoa-800">{formatPrice(subtotal)}</dd>
+                    <dt>Ürünler</dt>
+                    <dd className="font-medium text-cocoa-800">{itemCount} adet</dd>
                   </div>
                   <div className="flex justify-between text-muted">
                     <dt>Teslimat</dt>
                     <dd>Sonraki adımda</dd>
                   </div>
-                  <div className="flex items-baseline justify-between border-t border-line pt-3">
-                    <dt className="text-[0.95rem] font-semibold text-cocoa-800">Toplam</dt>
-                    <dd className="text-xl font-semibold text-cocoa-800">{formatPrice(subtotal)}</dd>
-                  </div>
+                  {settings.showPrices && (
+                    <div className="flex items-baseline justify-between border-t border-line pt-3">
+                      <dt className="text-[0.95rem] font-semibold text-cocoa-800">Toplam</dt>
+                      <dd className="text-xl font-semibold text-cocoa-800">{formatPrice(subtotal)}</dd>
+                    </div>
+                  )}
                 </dl>
 
                 <Button
@@ -98,7 +107,9 @@ export default function Cart() {
                 </a>
 
                 <p className="mt-4 text-center text-[0.78rem] text-muted">
-                  Paket serviste minimum sipariş {formatPrice(settings.minOrderTotal)}.
+                  {settings.showPrices
+                    ? `Paket serviste minimum sipariş ${formatPrice(settings.minOrderTotal)}.`
+                    : 'Tutar siparişin onaylanırken iletilir.'}
                 </p>
               </div>
             </aside>

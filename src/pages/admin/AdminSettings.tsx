@@ -128,6 +128,19 @@ export function AdminSettings() {
                   onChange={(next) => setDraft({ ...draft, isOpen: next })}
                 />
               </div>
+              <div className="flex items-center justify-between rounded-lg bg-cream-100 p-4">
+                <div>
+                  <p className="text-sm font-semibold text-cocoa-700">Fiyatları sitede göster</p>
+                  <p className="text-[0.78rem] text-muted">
+                    Kapalıyken müşteri fiyat görmez; tutar WhatsApp'ta iletilir.
+                  </p>
+                </div>
+                <Toggle
+                  checked={draft.showPrices}
+                  label="Fiyatları göster"
+                  onChange={(next) => setDraft({ ...draft, showPrices: next })}
+                />
+              </div>
               <Input
                 label="Minimum sipariş tutarı (₺)"
                 type="number"

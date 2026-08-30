@@ -65,6 +65,8 @@ export interface Product {
   discountPercentage?: number
   /** Ürün kartında gösterilen kısa etiketler: "Taze çilek", "Günlük hazır" vb. */
   tags?: string[]
+  /** Kart ve detay sayfasında görselin üzerinde duran serbest rozet */
+  badge?: { label: string; tone?: 'new' | 'discount' | 'soft' | 'olive' | 'dark' }
   variants?: ProductVariant[]
   options?: ProductOption[]
   order?: number
@@ -190,6 +192,8 @@ export interface StoreSettings {
   addressShort: string
   mapsUrl: string
   isOpen: boolean
+  /** Fiyatlar sitede gösterilsin mi. Kapalıyken sepet ve sipariş tutarsız gösterilmez. */
+  showPrices: boolean
   minOrderTotal: number
   deliveryFee: number
   freeDeliveryOver: number

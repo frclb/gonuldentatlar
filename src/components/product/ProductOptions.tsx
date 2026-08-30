@@ -2,6 +2,7 @@ import { Check } from 'lucide-react'
 import type { Selections } from '@/lib/cart'
 import { cn } from '@/lib/cn'
 import { formatPrice } from '@/lib/format'
+import { useCatalog } from '@/context/CatalogContext'
 import type { Product } from '@/types'
 
 /**
@@ -18,6 +19,7 @@ export function ProductOptions({
   /** Fonksiyonel güncelleme — arka arkaya hızlı seçimlerde durum kaybolmaz. */
   onChange: (updater: (prev: Selections) => Selections) => void
 }) {
+  const { settings } = useCatalog()
   const options = product.options ?? []
   if (options.length === 0) return null
 
@@ -81,7 +83,7 @@ export function ProductOptions({
                   >
                     {isSelected && <Check className="size-3.5 text-cocoa-600" strokeWidth={3} />}
                     {value.name}
-                    {value.priceDelta > 0 && (
+                    {settings.showPrices && value.priceDelta > 0 && (
                       <span className={cn('text-xs', isSelected ? 'text-cocoa-600' : 'text-muted')}>
                         +{formatPrice(value.priceDelta)}
                       </span>

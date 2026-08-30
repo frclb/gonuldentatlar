@@ -24,7 +24,7 @@ import NotFound from './NotFound'
 
 export default function ProductDetail() {
   const { slug = '' } = useParams()
-  const { getProduct, getCategory, activeProducts } = useCatalog()
+  const { getProduct, getCategory, activeProducts, settings } = useCatalog()
   const { addItem, openCart } = useCart()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { notify } = useToast()
@@ -121,6 +121,7 @@ export default function ProductDetail() {
           <div>
             <div className="flex flex-wrap items-center gap-2">
               {category && <Badge tone="olive">{category.name}</Badge>}
+              {product.badge && <Badge tone={product.badge.tone ?? 'dark'}>{product.badge.label}</Badge>}
               {product.isNew && <Badge tone="new">Yeni</Badge>}
               {product.discountPercentage ? (
                 <Badge tone="discount">%{product.discountPercentage} indirim</Badge>
@@ -177,7 +178,7 @@ export default function ProductDetail() {
               <QuantityStepper value={quantity} onChange={setQuantity} />
               <Button size="lg" className="flex-1" onClick={() => handleAdd()}>
                 <ShoppingBag className="size-[1.15rem]" />
-                Sepete Ekle · {formatPrice(total)}
+                {settings.showPrices ? `Sepete Ekle · ${formatPrice(total)}` : 'Sepete Ekle'}
               </Button>
             </div>
 
@@ -209,7 +210,7 @@ export default function ProductDetail() {
         <div className="flex items-center gap-3">
           <QuantityStepper value={quantity} onChange={setQuantity} size="sm" />
           <Button size="lg" className="h-12 flex-1" onClick={() => handleAdd()}>
-            Sepete Ekle · {formatPrice(total)}
+            {settings.showPrices ? `Sepete Ekle · ${formatPrice(total)}` : 'Sepete Ekle'}
           </Button>
         </div>
       </motion.div>

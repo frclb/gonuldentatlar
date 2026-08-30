@@ -45,6 +45,7 @@ SLUGS = {
     "21.Çilekli Çikolatalı Cup": "cilekli-cikolatali-cup",
     "22.Muzlu Çikolatalı Cup": "muzlu-cikolatali-cup",
     "23.Çilekli Muzlu Çikolatalı Cup": "cilekli-muzlu-cikolatali-cup",
+    "24.Balkabaklı Magnolya": "balkabakli-magnolya",
 }
 
 # Paylaşım (Open Graph) görselinde kullanılacak ürün

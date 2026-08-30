@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ShoppingBag } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import { useCart } from '@/context/CartContext'
+import { useCatalog } from '@/context/CatalogContext'
 import { formatPrice } from '@/lib/format'
 
 /**
@@ -12,6 +13,7 @@ const hiddenOn = [/^\/siparis/, /^\/sepet/, /^\/menu\/[^/]+$/, /^\/admin/]
 
 export function MobileStickyBar() {
   const { itemCount, subtotal, openCart } = useCart()
+  const { settings } = useCatalog()
   const { pathname } = useLocation()
 
   const hidden = hiddenOn.some((pattern) => pattern.test(pathname))
@@ -40,7 +42,7 @@ export function MobileStickyBar() {
             </span>
             <span className="flex items-center gap-2 text-sm font-semibold">
               <span className="rounded-full bg-cream-50/15 px-2 py-0.5 text-xs">{itemCount} ürün</span>
-              {formatPrice(subtotal)}
+              {settings.showPrices && formatPrice(subtotal)}
             </span>
           </button>
         </motion.div>

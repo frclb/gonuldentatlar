@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Badge } from '@/components/ui/Badge'
 import { Price } from '@/components/ui/Price'
 import { useCart } from '@/context/CartContext'
+import { useCatalog } from '@/context/CatalogContext'
 import { useFavorites } from '@/context/FavoritesContext'
 import { useToast } from '@/context/ToastContext'
 import { buildCartItem } from '@/lib/cart'
@@ -17,6 +18,7 @@ import { assetUrl } from '@/lib/assets'
  */
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const { addItem, openCart } = useCart()
+  const { settings } = useCatalog()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { notify } = useToast()
 
@@ -52,6 +54,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
       {/* rozetler */}
       <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
+        {product.badge && <Badge tone={product.badge.tone ?? 'dark'}>{product.badge.label}</Badge>}
         {product.isNew && <Badge tone="new">Yeni</Badge>}
         {product.discountPercentage ? <Badge tone="discount">%{product.discountPercentage} indirim</Badge> : null}
       </div>
@@ -74,7 +77,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         </h3>
         <p className="mt-1.5 line-clamp-2 text-[0.85rem] leading-relaxed text-muted">{product.description}</p>
 
-        <div className="mt-4 flex items-end justify-between gap-3 pt-1">
+        <div className={cn('mt-4 flex items-end gap-3 pt-1', settings.showPrices ? 'justify-between' : 'justify-end')}>
           <Price value={product.price} oldValue={product.oldPrice} />
 
           <button
