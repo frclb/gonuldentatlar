@@ -23,7 +23,7 @@ export function LogoMark({
   const clipId = useId()
   const body = tone === 'light' ? 'fill-cream-100' : 'fill-cocoa-600'
   const layer = tone === 'light' ? 'fill-cocoa-600' : 'fill-cream-100'
-  const dome = tone === 'light' ? 'fill-cream-100/30' : 'fill-cocoa-600/25'
+  const dome = tone === 'light' ? 'fill-cream-100/20' : 'fill-cocoa-600/25'
 
   return (
     <svg viewBox="0 0 96 96" className={cn('size-9', className)} aria-hidden focusable="false">
