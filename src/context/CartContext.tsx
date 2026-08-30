@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 import type { CartItem } from '@/types'
 import { multiply, sum } from '@/lib/money'
 import { readStorage, writeStorage } from '@/lib/storage'
@@ -58,6 +59,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     writeStorage(STORAGE_KEY, items)
   }, [items])
+
+  /* Rota değişince sepet açık kalmasın */
+  const { pathname } = useLocation()
+  useEffect(() => setIsOpen(false), [pathname])
 
   /* Sepet açıkken arka plan kaymasın */
   useEffect(() => {
