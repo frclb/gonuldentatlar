@@ -20,7 +20,7 @@ const emptyCampaign = (): Campaign => ({
   slug: '',
   title: '',
   description: '',
-  image: '/images/campaigns/ikili-cup-menu.svg',
+  image: '/images/products/cilekli-cikolatali-cup.webp',
   startsAt: today(),
   endsAt: today(),
   isActive: true,

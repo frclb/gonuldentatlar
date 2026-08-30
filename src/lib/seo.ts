@@ -32,7 +32,7 @@ function setCanonical(href: string) {
 }
 
 /** Sayfa başına title / description / OG etiketlerini günceller. */
-export function useSeo({ title, description, path = '', image = '/images/hero/og-cover.svg' }: SeoOptions) {
+export function useSeo({ title, description, path = '', image = '/images/hero/og-cover.jpg' }: SeoOptions) {
   useEffect(() => {
     const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`
     document.title = fullTitle

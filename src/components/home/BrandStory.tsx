@@ -6,7 +6,7 @@ import { assetUrl } from '@/lib/assets'
 
 const pillars = [
   { icon: Sprout, title: 'Taze malzeme', text: 'Meyveler her sabah seçilir, kremalar günlük çırpılır.' },
-  { icon: Sun, title: 'Günlük hazırlık', text: 'Waffle hamuru ve soslar her gün yeniden hazırlanır.' },
+  { icon: Sun, title: 'Günlük hazırlık', text: 'Krema, bisküvi katmanları ve soslar her gün yeniden hazırlanır.' },
   { icon: HandHeart, title: 'Özenli sunum', text: 'Her tabak, bize gelen misafire hazırlanır gibi hazırlanır.' },
 ]
 
@@ -24,8 +24,8 @@ export function BrandStory() {
               className="overflow-hidden rounded-xl shadow-card"
             >
               <img
-                src={assetUrl('/images/hero/story-1.svg')}
-                alt="Günlük hazırlanan waffle hamuru ve taze meyveler"
+                src={assetUrl('/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp')}
+                alt="Kakaolu bisküvili çilekli çikolatalı magnolya"
                 width={800}
                 height={800}
                 loading="lazy"
@@ -42,8 +42,8 @@ export function BrandStory() {
               className="absolute -bottom-6 -right-2 w-40 overflow-hidden rounded-lg border-4 border-cream-100 shadow-lift sm:w-48"
             >
               <img
-                src={assetUrl('/images/hero/story-2.svg')}
-                alt="Taze çilekli cup tatlı"
+                src={assetUrl('/images/products/cilekli-magnolya.webp')}
+                alt="Taze çilekli magnolya"
                 width={800}
                 height={800}
                 loading="lazy"

@@ -8,10 +8,11 @@ import { useCatalog } from '@/context/CatalogContext'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { buildContactUrl } from '@/lib/whatsapp'
 import { cn } from '@/lib/cn'
-import { navLinks } from './navLinks'
+import { useNavLinks } from './navLinks'
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { settings } = useCatalog()
+  const navLinks = useNavLinks()
   useEscapeKey(open, onClose)
 
   return createPortal(

@@ -8,30 +8,32 @@ import { buildContactUrl } from '@/lib/whatsapp'
 import { track } from '@/lib/analytics'
 import { cn } from '@/lib/cn'
 
-const columns = [
-  {
-    title: 'Keşfet',
-    links: [
-      { label: 'Menü', to: '/menu' },
-      { label: 'Kampanyalar', to: '/kampanyalar' },
-      { label: 'Hakkımızda', to: '/hakkimizda' },
-      { label: 'İletişim', to: '/iletisim' },
-    ],
-  },
-  {
-    title: 'Kategoriler',
-    links: [
-      { label: 'Cup Tatlılar', to: '/menu?kategori=cup' },
-      { label: 'Waffle', to: '/menu?kategori=waffle' },
-      { label: 'Milkshake', to: '/menu?kategori=milkshake' },
-      { label: 'Dondurma', to: '/menu?kategori=dondurma' },
-    ],
-  },
-]
+const categoryColumn = {
+  title: 'Kategoriler',
+  links: [
+    { label: 'Klasik Magnolya', to: '/menu?kategori=klasik' },
+    { label: 'Kakaolu Bisküvili', to: '/menu?kategori=kakaolu-biskuvili' },
+    { label: 'Oreolu', to: '/menu?kategori=oreolu' },
+    { label: 'Cup', to: '/menu?kategori=cup' },
+  ],
+}
 
 export function Footer() {
-  const { settings } = useCatalog()
+  const { settings, activeCampaigns } = useCatalog()
   const { itemCount } = useCart()
+
+  const columns = [
+    {
+      title: 'Keşfet',
+      links: [
+        { label: 'Menü', to: '/menu' },
+        ...(activeCampaigns.length > 0 ? [{ label: 'Kampanyalar', to: '/kampanyalar' }] : []),
+        { label: 'Hakkımızda', to: '/hakkimizda' },
+        { label: 'İletişim', to: '/iletisim' },
+      ],
+    },
+    categoryColumn,
+  ]
   const today = new Date().getDay()
   const todayHours = settings.hours.find((h) => h.day === today)
 
@@ -53,7 +55,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream-300/75">
-              Her gün taze malzemelerle, gönülden hazırlanan cup tatlılar, waffle ve dondurmalar.
+              Her gün taze malzemelerle, gönülden hazırlanan magnolya ve cup tatlılar.
             </p>
             <div className="mt-5 flex gap-2">
               <a

@@ -12,7 +12,7 @@ export default function NotFound() {
   return (
     <div className="container-page flex min-h-[65vh] flex-col items-center justify-center py-20 text-center">
       <img
-        src={assetUrl('/images/products/cilekli-cup.svg')}
+        src={assetUrl('/images/products/cilekli-magnolya.webp')}
         alt=""
         width={900}
         height={900}

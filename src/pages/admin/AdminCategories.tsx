@@ -17,7 +17,7 @@ const emptyCategory = (order: number): Category => ({
   slug: '',
   name: '',
   tagline: '',
-  image: '/images/categories/cup.svg',
+  image: '/images/products/cilekli-magnolya.webp',
   tone: 'cream',
   order,
   isActive: true,

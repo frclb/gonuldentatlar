@@ -15,7 +15,7 @@ export function OrderCTA() {
           <div className="absolute -left-16 -top-16 size-64 rounded-full bg-cocoa-600" />
           <div className="absolute -bottom-24 -right-10 size-72 rounded-full bg-cocoa-800/60" />
           <img
-            src={assetUrl('/images/hero/hero-shake.svg')}
+            src={assetUrl('/images/products/lotuslu-magnolya.webp')}
             alt=""
             width={900}
             height={900}

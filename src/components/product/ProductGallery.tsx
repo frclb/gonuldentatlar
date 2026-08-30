@@ -5,7 +5,7 @@ import { assetUrl } from '@/lib/assets'
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0)
-  const gallery = images.length > 0 ? images : ['/images/products/lotus-cup.svg']
+  const gallery = images.length > 0 ? images : ['/images/products/cilekli-magnolya.webp']
 
   return (
     <div className="space-y-3">

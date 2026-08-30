@@ -60,7 +60,7 @@ export function Logo({
               tone === 'light' ? 'text-cream-300/80' : 'text-olive-600',
             )}
           >
-            Tatlı & Waffle
+            Magnolya & Cup
           </span>
         </span>
       )}

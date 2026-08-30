@@ -10,7 +10,11 @@ import { readStorage, removeStorage, writeStorage } from '@/lib/storage'
  */
 
 const STORAGE_KEY = 'catalog'
-const VERSION = 3
+/**
+ * Tohum veri her değiştiğinde artırılır. Sürüm uyuşmazsa tarayıcıda saklı
+ * eski katalog atılır ve güncel menü yüklenir.
+ */
+const VERSION = 4
 
 interface CatalogState {
   version: number

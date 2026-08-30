@@ -6,13 +6,7 @@ import { Input, Select, Textarea } from '@/components/ui/Field'
 import { Modal } from '@/components/ui/Modal'
 import { useCatalog } from '@/context/CatalogContext'
 import { useToast } from '@/context/ToastContext'
-import {
-  cupOptions,
-  drinkOptions,
-  iceCreamOptions,
-  milkshakeOptions,
-  waffleOptions,
-} from '@/data/options'
+import { sizeAndExtras, sizeOnly } from '@/data/options'
 import { formatPrice, slugify } from '@/lib/format'
 import type { Product, ProductOption } from '@/types'
 import { AdminHeader, Td, TableWrap, Th, Toggle } from './components'
@@ -21,11 +15,8 @@ import { assetUrl } from '@/lib/assets'
 /** Seçenek setleri hazır preset olarak sunulur — tam seçenek editörü MVP dışı. */
 const optionPresets: { id: string; label: string; options: ProductOption[] }[] = [
   { id: 'none', label: 'Seçeneksiz', options: [] },
-  { id: 'cup', label: 'Cup seçenekleri', options: cupOptions },
-  { id: 'waffle', label: 'Waffle seçenekleri', options: waffleOptions },
-  { id: 'milkshake', label: 'Milkshake seçenekleri', options: milkshakeOptions },
-  { id: 'icecream', label: 'Dondurma seçenekleri', options: iceCreamOptions },
-  { id: 'drink', label: 'İçecek seçenekleri', options: drinkOptions },
+  { id: 'size', label: 'Boyut seçimi', options: sizeOnly },
+  { id: 'size-extras', label: 'Boyut + ekstra', options: sizeAndExtras },
 ]
 
 const emptyProduct = (order: number): Product => ({
@@ -35,7 +26,7 @@ const emptyProduct = (order: number): Product => ({
   description: '',
   categoryId: '',
   price: 0,
-  image: '/images/products/lotus-cup.svg',
+  image: '/images/products/cilekli-magnolya.webp',
   isActive: true,
   isFeatured: false,
   order,

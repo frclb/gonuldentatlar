@@ -12,7 +12,7 @@ export default function Campaigns() {
   useSeo({
     title: 'Kampanyalar | Gönülden Tatlar',
     description:
-      'İkili cup menüler, hafta sonu waffle fırsatı ve öğrenci menüsü. Gönülden Tatlar kampanyalarını kaçırma.',
+      'Gönülden Tatlar kampanyalarını kaçırma: ikili menüler ve döneme özel fırsatlar.',
     path: '/kampanyalar',
   })
 
@@ -28,7 +28,7 @@ export default function Campaigns() {
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-blush-500">Kampanyalar</p>
           <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Tatlı Bir Fırsat Var!</h1>
           <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
-            Birlikte gelenlere, hafta sonuna ve öğrencilere özel menüler. Kampanyalar mağazada ve pakette geçerlidir.
+            İkili menüler ve döneme özel fırsatlar. Kampanyalar mağazada ve pakette geçerlidir.
           </p>
         </div>
       </header>

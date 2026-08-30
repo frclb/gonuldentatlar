@@ -21,7 +21,7 @@ npm run dev
 | `npm run preview` | Build çıktısını yerelde çalıştır |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | Sadece tip kontrolü |
-| `node scripts/generate-images.mjs` | Placeholder ürün görsellerini yeniden üret |
+| `python3 scripts/optimize_photos.py <klasör>` | Ürün fotoğraflarını WebP'ye optimize et |
 
 ## Environment değişkenleri
 
@@ -70,15 +70,24 @@ kaynağının API çağrılarıyla değiştirilmesi yeterlidir; bileşenler değ
 
 ## Görseller
 
-Ürün fotoğrafları gelene kadar `scripts/generate-images.mjs` marka paletiyle uyumlu SVG
-illüstrasyonlar üretir. Gerçek fotoğraflar hazır olduğunda:
+Ürün fotoğrafları `public/images/products/<slug>.webp` altında durur (1100px, ~70 KB).
 
-1. Fotoğrafları `public/images/products/<slug>.jpg` (veya `.webp`) olarak ekleyin.
-2. `src/data/catalog.ts` içindeki ilgili ürünün `image` alanını güncelleyin.
-3. Galeri otomatik olarak `<slug>-2` / `<slug>-3` dosyalarını arar; farklı isimler için
-   ürüne doğrudan `gallery: [...]` yazabilirsiniz.
+Yeni fotoğraf eklemek için:
 
-Klasör yapısı: `logo/`, `products/`, `categories/`, `campaigns/`, `instagram/`, `hero/`.
+1. Yüksek çözünürlüklü kare fotoğrafı bir klasöre koyun.
+2. `scripts/optimize_photos.py` içindeki `SLUGS` sözlüğüne `dosya adı → slug` satırı ekleyin.
+3. Çalıştırın:
+
+```bash
+python3 scripts/optimize_photos.py ~/Desktop/menuresimler
+```
+
+Script fotoğrafı kare kırpar, 1100px'e küçültür, WebP'ye çevirir ve paylaşım görselini
+(`hero/og-cover.jpg`) yeniden üretir. Ardından `src/data/catalog.ts` içinde ürünün `image`
+alanını güncellemek yeterlidir.
+
+Kategori görselleri, marka hikayesi ve Instagram bölümü de aynı ürün fotoğraflarını kullanır —
+ayrı dosya tutulmaz.
 
 ## Design system
 
@@ -87,6 +96,18 @@ bloğunda tanımlıdır. Bileşenler kendi rengini üretmez; hepsi bu token'lard
 
 Palet, markanın referans görselinden türetildi ve açık tonlara kaydırıldı:
 krem kağıt zemin, sıcak kakao (primary), zeytin yeşili (secondary), blush pembe (accent).
+
+## Menü
+
+Menüde 23 ürün var: 20 magnolya çeşidi ve 3 cup. Kategoriler ürünlerin bisküvi/çeşni
+ailesine göre ayrılır — Klasik Magnolya, Kakaolu Bisküvili, Oreolu, Lotuslu, Cevizli, Cup.
+
+> **Fiyatlar geçicidir.** `src/data/catalog.ts` içindeki `price` alanları işletmeden
+> alınacak güncel liste ile değiştirilmelidir.
+
+Ürünlerde varsayılan olarak seçenek (boyut/ekstra) tanımlı değildir; çeşitler ayrı ürün
+olarak listelenir. İhtiyaç olursa yönetim panelinden ürüne "Boyut" veya "Boyut + ekstra"
+seti iliştirilebilir.
 
 ## Deploy — GitHub Pages
 

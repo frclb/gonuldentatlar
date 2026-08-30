@@ -13,7 +13,7 @@ const values = [
   {
     icon: Sun,
     title: 'Günlük hazırlık',
-    text: 'Waffle hamuru, soslar ve dondurmalar her gün yeniden hazırlanır.',
+    text: 'Krema, bisküvi katmanları ve soslar her gün yeniden hazırlanır.',
   },
   {
     icon: HandHeart,
@@ -22,8 +22,8 @@ const values = [
   },
   {
     icon: Sparkles,
-    title: 'Sana göre',
-    text: 'Sosunu, topping’ini, meyvesini sen seç. Tatlın senin tarifin olsun.',
+    title: 'Her damak zevkine',
+    text: 'Çilekli, muzlu, çikolatalı, bisküvili — 23 çeşit arasından seç.',
   },
 ]
 
@@ -31,7 +31,7 @@ export default function About() {
   useSeo({
     title: 'Hakkımızda | Gönülden Tatlar',
     description:
-      'Gönülden Tatlar; taze malzeme, günlük hazırlık ve özenli sunumla hazırlanan cup tatlılar, waffle ve dondurmalar.',
+      'Gönülden Tatlar; taze malzeme, günlük hazırlık ve özenli sunumla hazırlanan magnolya ve cup tatlılar.',
     path: '/hakkimizda',
   })
 
@@ -54,16 +54,16 @@ export default function About() {
         <div className="container-page grid items-center gap-10 md:grid-cols-2 md:gap-14">
           <div className="grid grid-cols-2 gap-4">
             <img
-              src={assetUrl('/images/hero/story-1.svg')}
-              alt="Günlük hazırlanan waffle"
+              src={assetUrl('/images/products/lotuslu-magnolya.webp')}
+              alt="Lotuslu magnolya"
               width={800}
               height={800}
               loading="lazy"
               className="aspect-[3/4] w-full rounded-xl object-cover shadow-soft"
             />
             <img
-              src={assetUrl('/images/hero/story-2.svg')}
-              alt="Taze çilekli cup tatlı"
+              src={assetUrl('/images/products/cilekli-cikolatali-cup.webp')}
+              alt="Çilekli çikolatalı cup"
               width={800}
               height={800}
               loading="lazy"
@@ -76,10 +76,10 @@ export default function About() {
             <div className="mt-5 space-y-4 text-[0.98rem] leading-relaxed text-muted">
               <p>
                 Gönülden Tatlar, tatlının sadece bir tarif değil, bir paylaşma biçimi olduğuna inanan küçük bir
-                ekiple kuruldu. İlk cup tatlımızı komşularımıza ikram ettik; bugün aynı özenle hazırlıyoruz.
+                ekiple kuruldu. İlk magnolyamızı komşularımıza ikram ettik; bugün aynı özenle hazırlıyoruz.
               </p>
               <p>
-                Menümüzü sade tutuyoruz: iyi yaptığımız işleri, iyi malzemeyle yapmak. Çikolatayı erittiğimiz
+                Menümüzü sade tutuyoruz: iyi yaptığımız işi, iyi malzemeyle yapmak. Çikolatayı erittiğimiz
                 tencere de, çilekleri ayıkladığımız tezgâh da her gün aynı saatte hazır oluyor.
               </p>
               <p>Bize uğradığında bunu tabakta göreceksin.</p>

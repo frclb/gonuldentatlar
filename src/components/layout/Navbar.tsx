@@ -9,13 +9,14 @@ import { useCatalog } from '@/context/CatalogContext'
 import { useScrolled } from '@/hooks/useScrolled'
 import { cn } from '@/lib/cn'
 import { MobileMenu } from './MobileMenu'
-import { navLinks } from './navLinks'
+import { useNavLinks } from './navLinks'
 
 export function Navbar() {
   const scrolled = useScrolled(8)
   const { itemCount, openCart } = useCart()
   const { settings } = useCatalog()
   const [menuOpen, setMenuOpen] = useState(false)
+  const navLinks = useNavLinks()
   const location = useLocation()
 
   /* Rota değişince mobil menü kapansın */

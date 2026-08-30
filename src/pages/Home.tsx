@@ -13,9 +13,9 @@ import { useSeo } from '@/lib/seo'
 
 export default function Home() {
   useSeo({
-    title: 'Gönülden Tatlar | Cup, Waffle ve Tatlılar',
+    title: 'Gönülden Tatlar | Magnolya ve Cup Tatlılar',
     description:
-      "Gönülden Tatlar'ın birbirinden lezzetli cup, waffle, milkshake ve tatlılarını keşfet. Favori tatlılarını kolayca sipariş ver.",
+      "Gönülden Tatlar'ın taze meyveli, bisküvili ve çikolatalı magnolya ile cup tatlılarını keşfet. Favorini seç, WhatsApp'tan kolayca sipariş ver.",
     path: '/',
   })
 

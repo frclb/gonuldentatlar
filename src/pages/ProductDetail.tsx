@@ -53,13 +53,18 @@ export default function ProductDetail() {
     [product, selections],
   )
 
-  const related = useMemo(
-    () =>
-      product
-        ? activeProducts.filter((p) => p.categoryId === product.categoryId && p.id !== product.id).slice(0, 4)
-        : [],
-    [activeProducts, product],
-  )
+  /** Aynı kategoriden öneriler; kategoride yeterli ürün yoksa diğer favorilerle tamamlanır. */
+  const related = useMemo(() => {
+    if (!product) return []
+    const others = activeProducts.filter((p) => p.id !== product.id)
+    const sameCategory = others.filter((p) => p.categoryId === product.categoryId)
+    if (sameCategory.length >= 4) return sameCategory.slice(0, 4)
+
+    const fillers = others
+      .filter((p) => p.categoryId !== product.categoryId)
+      .sort((a, b) => Number(b.isPopular ?? false) - Number(a.isPopular ?? false))
+    return [...sameCategory, ...fillers].slice(0, 4)
+  }, [activeProducts, product])
 
   useSeo({
     title: product ? `${product.name} | Gönülden Tatlar` : 'Ürün bulunamadı',
@@ -177,7 +182,7 @@ export default function ProductDetail() {
             </div>
 
             <p className="mt-4 hidden text-[0.8rem] text-muted lg:block">
-              Gönülden hazırlıyoruz — ortalama hazırlanma süresi 15–20 dakika.
+              Gönülden hazırladık. Afiyetle.
             </p>
           </div>
         </div>

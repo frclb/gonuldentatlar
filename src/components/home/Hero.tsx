@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
-import { Clock, Leaf, Sparkles } from 'lucide-react'
-import { ButtonLink } from '@/components/ui/Button'
+import { Clock, Leaf, MessageCircle, ShoppingBag } from 'lucide-react'
+import { ButtonAnchor, ButtonLink } from '@/components/ui/Button'
 import { useCatalog } from '@/context/CatalogContext'
 import { assetUrl } from '@/lib/assets'
+import { track } from '@/lib/analytics'
+import { buildContactUrl } from '@/lib/whatsapp'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -14,13 +16,13 @@ const fadeUp = {
 }
 
 const trustPoints = [
-  { icon: Leaf, label: 'Günlük taze malzeme' },
-  { icon: Clock, label: '20 dk içinde hazır' },
-  { icon: Sparkles, label: 'Kendi tatlını tasarla' },
+  { icon: Leaf, label: 'Günlük taze meyve' },
+  { icon: Clock, label: 'Hazır, hemen teslim' },
+  { icon: ShoppingBag, label: 'Gel al & paket servis' },
 ]
 
 export function Hero() {
-  const { settings } = useCatalog()
+  const { settings, activeProducts, activeCampaigns } = useCatalog()
 
   return (
     <section className="relative overflow-hidden">
@@ -90,8 +92,8 @@ export function Hero() {
               custom={0.2}
               className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-muted"
             >
-              Cup tatlılar, çıtır waffle, milkshake ve günlük dondurma. Favorini seç, sosunu ve topping'ini kendin
-              belirle — gerisini bize bırak.
+              Süt kreması, bisküvi katmanları ve taze meyveyle hazırlanan magnolya ve cup tatlılar.
+              Favorini seç, gerisini bize bırak.
             </motion.p>
 
             <motion.div
@@ -104,9 +106,22 @@ export function Hero() {
               <ButtonLink to="/menu" size="lg">
                 Menüyü Keşfet
               </ButtonLink>
-              <ButtonLink to="/kampanyalar" size="lg" variant="outline">
-                Kampanyalar
-              </ButtonLink>
+              {activeCampaigns.length > 0 ? (
+                <ButtonLink to="/kampanyalar" size="lg" variant="outline">
+                  Kampanyalar
+                </ButtonLink>
+              ) : (
+                <ButtonAnchor
+                  href={buildContactUrl(settings.whatsapp)}
+                  target="_blank"
+                  rel="noreferrer"
+                  size="lg"
+                  variant="outline"
+                  onClick={() => track('click_whatsapp', { from: 'hero' })}
+                >
+                  <MessageCircle className="size-4" /> WhatsApp'tan Sor
+                </ButtonAnchor>
+              )}
             </motion.div>
 
             <motion.ul
@@ -135,8 +150,8 @@ export function Hero() {
             >
               <div className="absolute inset-0 rotate-3 rounded-[38%_62%_55%_45%/45%_38%_62%_55%] bg-cream-200" />
               <img
-                src={assetUrl('/images/hero/hero-cup.svg')}
-                alt="Lotus cup tatlı — krema, bisküvi kırıkları ve çikolata katmanları"
+                src={assetUrl('/images/products/cilekli-cikolatali-cup.webp')}
+                alt="Çilekli Çikolatalı Cup — çikolata sosu, süt kreması ve taze çilek katmanları"
                 width={1100}
                 height={1100}
                 decoding="sync"
@@ -152,7 +167,7 @@ export function Hero() {
               className="absolute -left-1 bottom-6 flex items-center gap-2.5 rounded-full bg-surface/90 py-2 pl-2 pr-4 shadow-card backdrop-blur sm:left-2"
             >
               <img
-                src={assetUrl('/images/hero/hero-waffle.svg')}
+                src={assetUrl('/images/products/oreolu-magnolya.webp')}
                 alt=""
                 width={120}
                 height={120}
@@ -160,7 +175,7 @@ export function Hero() {
                 className="size-11 rounded-full object-cover"
               />
               <div className="leading-tight">
-                <p className="text-[0.8rem] font-semibold text-cocoa-800">Lotus Waffle</p>
+                <p className="text-[0.8rem] font-semibold text-cocoa-800">Oreolu Magnolya</p>
                 <p className="text-[0.7rem] text-muted">Bu haftanın favorisi</p>
               </div>
             </motion.div>
@@ -171,7 +186,9 @@ export function Hero() {
               transition={{ delay: 0.65, duration: 0.6 }}
               className="absolute -right-1 top-8 rounded-lg bg-surface/90 px-3.5 py-2.5 text-center shadow-card backdrop-blur sm:right-2"
             >
-              <p className="font-[family-name:var(--font-display)] text-[1.35rem] leading-none text-cocoa-700">24+</p>
+              <p className="font-[family-name:var(--font-display)] text-[1.35rem] leading-none text-cocoa-700">
+                {activeProducts.length}
+              </p>
               <p className="mt-1 text-[0.68rem] font-medium uppercase tracking-wider text-muted">tatlı çeşidi</p>
             </motion.div>
           </div>

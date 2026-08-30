@@ -27,7 +27,7 @@ export default function Menu() {
   useSeo({
     title: 'Menü | Gönülden Tatlar',
     description:
-      'Cup tatlılar, waffle, milkshake, dondurma ve içecekler. Gönülden Tatlar menüsünü keşfet, favorini seç.',
+      'Magnolya ve cup tatlılar: çilekli, muzlu, çikolatalı, bisküvili çeşitler. Gönülden Tatlar menüsünü keşfet.',
     path: '/menu',
   })
 
@@ -42,9 +42,9 @@ export default function Menu() {
     () => [
       { id: ALL, label: 'Tümü' },
       ...activeCategories.map((category) => ({ id: category.slug, label: category.name })),
-      { id: CAMPAIGN, label: 'Kampanyalar' },
+      ...(activeCampaigns.length > 0 ? [{ id: CAMPAIGN, label: 'Kampanyalar' }] : []),
     ],
-    [activeCategories],
+    [activeCategories, activeCampaigns],
   )
 
   const filtered = useMemo(() => {
@@ -81,8 +81,7 @@ export default function Menu() {
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Menü</p>
           <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Gönülden Gelen Lezzetler</h1>
           <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
-            {activeProducts.length} tatlı seni bekliyor. Kategorine göre filtrele, favorini seç ve kendine göre
-            özelleştir.
+            {activeProducts.length} çeşit seni bekliyor. Kategoriye göre filtrele, favorini seç ve sepete ekle.
           </p>
         </div>
       </header>
