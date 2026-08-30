@@ -1,26 +1,54 @@
+import { useId } from 'react'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/cn'
 
-/** Monogram: kâse + kalp, üstünde dalgalı krema çizgisi. */
-export function LogoMark({ className }: { className?: string }) {
+/**
+ * Kubbeli Kupa — Gönülden Tatlar marka işareti.
+ *
+ * Kubbe kapak + krema katmanları + kalp garnitür. Parçalar `currentColor`
+ * yerine sınıflarla boyanır ki krem zemin ve kakao zemin varyantları aynı
+ * bileşenden çıksın.
+ */
+export function LogoMark({
+  className,
+  tone = 'default',
+  /** 24px altında kubbe ve kalp okunmuyor; sade sürüm kullanılır. */
+  simple = false,
+}: {
+  className?: string
+  tone?: 'default' | 'light'
+  simple?: boolean
+}) {
+  // Aynı sayfada birden çok işaret olabiliyor; clipPath kimliği benzersiz olmalı
+  const clipId = useId()
+  const body = tone === 'light' ? 'fill-cream-100' : 'fill-cocoa-600'
+  const layer = tone === 'light' ? 'fill-cocoa-600' : 'fill-cream-100'
+  const dome = tone === 'light' ? 'fill-cream-100/30' : 'fill-cocoa-600/25'
+
   return (
-    <svg viewBox="0 0 64 64" className={cn('size-9', className)} aria-hidden focusable="false">
-      <rect width="64" height="64" rx="16" className="fill-cocoa-600" />
-      <path
-        d="M18 22h28l-3.2 20.2A6 6 0 0 1 36.9 47H27.1a6 6 0 0 1-5.9-4.8L18 22Z"
-        className="fill-cream-100"
-      />
-      <path
-        d="M32 39.6c-3.4-2.5-6.4-4.6-6.4-7.4a3.4 3.4 0 0 1 6.4-1.7 3.4 3.4 0 0 1 6.4 1.7c0 2.8-3 4.9-6.4 7.4Z"
-        className="fill-blush-400"
-      />
-      <path
-        d="M17.4 17.6c3.1-1.9 6.2-1.9 9.3 0s6.2 1.9 9.3 0 6.2-1.9 9.3 0"
-        fill="none"
-        strokeWidth="3.2"
-        strokeLinecap="round"
-        className="stroke-olive-300"
-      />
+    <svg viewBox="0 0 96 96" className={cn('size-9', className)} aria-hidden focusable="false">
+      <defs>
+        <clipPath id={clipId}>
+          <path d="M21 38H75l-6.6 33.5Q66.9 81 57.4 81H38.6Q29.1 81 27.6 71.5Z" />
+        </clipPath>
+      </defs>
+
+      {!simple && (
+        <>
+          <path d="M25.5 30a22.5 20 0 0 1 45 0Z" className={dome} />
+          <path
+            d="M48 28.4c-4-3-9.1-5.6-9.1-9.5a4.6 4.6 0 0 1 9.1-2.2 4.6 4.6 0 0 1 9.1 2.2c0 3.9-5.1 6.5-9.1 9.5Z"
+            className="fill-blush-400"
+          />
+        </>
+      )}
+
+      <rect x="17.5" y="29" width="61" height="9.5" rx="4.75" className={body} />
+      <path d="M21 38H75l-6.6 33.5Q66.9 81 57.4 81H38.6Q29.1 81 27.6 71.5Z" className={body} />
+      <g clipPath={`url(#${clipId})`} className={layer}>
+        <rect x="16" y="45" width="66" height="9" />
+        <rect x="16" y="62" width="66" height="7" />
+      </g>
     </svg>
   )
 }
@@ -43,7 +71,10 @@ export function Logo({
       className={cn('group inline-flex min-w-0 items-center gap-2 sm:gap-2.5', className)}
       aria-label="Gönülden Tatlar — ana sayfa"
     >
-      <LogoMark className="size-8 shrink-0 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10" />
+      <LogoMark
+        tone={tone}
+        className="size-8 shrink-0 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10"
+      />
       {showWordmark && (
         <span className={cn('flex-col leading-none', compact ? 'hidden min-[420px]:flex' : 'flex')}>
           <span

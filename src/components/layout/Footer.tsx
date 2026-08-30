@@ -49,7 +49,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <LogoMark className="size-10" />
+              <LogoMark tone="light" className="size-10" />
               <span className="font-[family-name:var(--font-display)] text-xl font-semibold text-cream-100">
                 Gönülden Tatlar
               </span>
