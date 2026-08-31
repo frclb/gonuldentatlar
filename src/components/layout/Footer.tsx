@@ -11,10 +11,10 @@ import { cn } from '@/lib/cn'
 const categoryColumn = {
   title: 'Kategoriler',
   links: [
-    { label: 'Klasik Magnolya', to: '/menu?kategori=klasik' },
+    { label: 'Çilekli', to: '/menu?kategori=cilekli' },
+    { label: 'Çikolatalı', to: '/menu?kategori=cikolatali' },
     { label: 'Kakaolu Bisküvili', to: '/menu?kategori=kakaolu-biskuvili' },
     { label: 'Oreolu', to: '/menu?kategori=oreolu' },
-    { label: 'Cup', to: '/menu?kategori=cup' },
   ],
 }
 

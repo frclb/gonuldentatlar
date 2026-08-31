@@ -46,14 +46,14 @@ export default function ProductDetail() {
     track('view_product', { productId: product.id })
   }, [product])
 
-  const category = product ? getCategory(product.categoryId) : undefined
+  /** Breadcrumb ve rozet için birincil kategori — listenin ilki. */
+  const category = product ? getCategory(product.categoryIds[0]) : undefined
 
   const unitPrice = useMemo(
     () => (product ? computeUnitPrice(product, selections) : 0),
     [product, selections],
   )
 
-  /** Aynı kategoriden öneriler; kategoride yeterli ürün yoksa diğer favorilerle tamamlanır. */
   /**
    * Sunum "Kavanoz" seçilince galeriyi kavanoz fotoğrafına getir.
    * Galeri sırası: [cup, kavanoz] — bkz. data/catalog.ts
@@ -64,16 +64,25 @@ export default function ProductDetail() {
     return selections['sunum']?.includes('kavanoz') ? 1 : 0
   }, [product, selections])
 
+  /**
+   * Öneriler: en çok ortak filtreyi paylaşan ürünler önce. Ürünler birden çok
+   * kategoride olabildiği için "aynı kategori" yerine örtüşme sayısına bakılır.
+   */
   const related = useMemo(() => {
     if (!product) return []
-    const others = activeProducts.filter((p) => p.id !== product.id)
-    const sameCategory = others.filter((p) => p.categoryId === product.categoryId)
-    if (sameCategory.length >= 4) return sameCategory.slice(0, 4)
-
-    const fillers = others
-      .filter((p) => p.categoryId !== product.categoryId)
-      .sort((a, b) => Number(b.isPopular ?? false) - Number(a.isPopular ?? false))
-    return [...sameCategory, ...fillers].slice(0, 4)
+    return activeProducts
+      .filter((p) => p.id !== product.id)
+      .map((p) => ({
+        product: p,
+        ortak: p.categoryIds.filter((id) => product.categoryIds.includes(id)).length,
+      }))
+      .sort(
+        (a, b) =>
+          b.ortak - a.ortak ||
+          Number(b.product.isPopular ?? false) - Number(a.product.isPopular ?? false),
+      )
+      .slice(0, 4)
+      .map((entry) => entry.product)
   }, [activeProducts, product])
 
   useSeo({

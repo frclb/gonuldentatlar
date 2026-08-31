@@ -52,7 +52,8 @@ export interface Product {
   slug: string
   name: string
   description: string
-  categoryId: string
+  /** Ürünün bulunduğu filtreler. İlki birincil kategoridir (breadcrumb, sıralama). */
+  categoryIds: string[]
   /** TL cinsinden temel fiyat */
   price: number
   oldPrice?: number

@@ -11,6 +11,7 @@ import { formatPrice, slugify } from '@/lib/format'
 import type { Product, ProductOption } from '@/types'
 import { AdminHeader, Td, TableWrap, Th, Toggle } from './components'
 import { assetUrl } from '@/lib/assets'
+import { cn } from '@/lib/cn'
 
 /** Seçenek setleri hazır preset olarak sunulur — tam seçenek editörü MVP dışı. */
 const optionPresets: { id: string; label: string; options: ProductOption[] }[] = [
@@ -25,7 +26,7 @@ const emptyProduct = (order: number): Product => ({
   slug: '',
   name: '',
   description: '',
-  categoryId: '',
+  categoryIds: [],
   price: 0,
   image: '/images/products/cilekli-magnolya.webp',
   isActive: true,
@@ -64,6 +65,11 @@ export function AdminProducts() {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
     if (!editing) return
+
+    if (editing.categoryIds.length === 0) {
+      notify('En az bir filtre seçmelisin.', 'error')
+      return
+    }
 
     const slug = editing.slug || slugify(editing.name)
     const preset = optionPresets.find((entry) => entry.id === presetId)
@@ -138,7 +144,16 @@ export function AdminProducts() {
                     </div>
                   </div>
                 </Td>
-                <Td>{categories.find((category) => category.id === product.categoryId)?.name ?? '—'}</Td>
+                <Td>
+                  <div className="flex flex-wrap gap-1">
+                    {product.categoryIds.length === 0 && <span className="text-muted">—</span>}
+                    {product.categoryIds.map((id, index) => (
+                      <Badge key={id} tone={index === 0 ? 'olive' : 'soft'}>
+                        {categories.find((category) => category.id === id)?.name ?? id}
+                      </Badge>
+                    ))}
+                  </div>
+                </Td>
                 <Td>
                   <span className="font-semibold text-cocoa-800">{formatPrice(product.price)}</span>
                   {product.oldPrice ? (
@@ -226,20 +241,43 @@ export function AdminProducts() {
               onChange={(event) => setEditing({ ...editing, description: event.target.value })}
             />
 
-            <div className="grid gap-5 sm:grid-cols-3">
-              <Select
-                label="Kategori"
-                required
-                value={editing.categoryId}
-                onChange={(event) => setEditing({ ...editing, categoryId: event.target.value })}
-              >
-                <option value="">Seçiniz</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </Select>
+            <fieldset>
+              <legend className="mb-2 text-sm font-semibold text-cocoa-700">
+                Filtreler <span className="font-normal text-muted">— ilk seçilen birincil kategoridir</span>
+              </legend>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => {
+                  const index = editing.categoryIds.indexOf(category.id)
+                  const secili = index !== -1
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      aria-pressed={secili}
+                      onClick={() =>
+                        setEditing({
+                          ...editing,
+                          categoryIds: secili
+                            ? editing.categoryIds.filter((id) => id !== category.id)
+                            : [...editing.categoryIds, category.id],
+                        })
+                      }
+                      className={cn(
+                        'inline-flex items-center gap-1.5 rounded-full border px-3.5 py-2 text-sm font-medium transition-colors',
+                        secili
+                          ? 'border-cocoa-600 bg-cocoa-50 text-cocoa-800'
+                          : 'border-line bg-surface text-cocoa-700 hover:border-cocoa-300',
+                      )}
+                    >
+                      {secili && <span className="text-[0.7rem] font-bold text-olive-600">{index + 1}</span>}
+                      {category.name}
+                    </button>
+                  )
+                })}
+              </div>
+            </fieldset>
+
+            <div className="grid gap-5 sm:grid-cols-2">
               <Input
                 label="Fiyat (₺)"
                 type="number"

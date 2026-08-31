@@ -58,7 +58,7 @@ export default function Menu() {
           ? true
           : activeFilter === CAMPAIGN
             ? campaignProductIds.has(product.id) || product.discountPercentage !== undefined
-            : product.categoryId === activeFilter
+            : product.categoryIds.includes(activeFilter)
       if (!matchesFilter) return false
       if (!normalized) return true
       return (
@@ -88,8 +88,9 @@ export default function Menu() {
 
       <div className="sticky top-16 z-30 border-b border-line bg-background/90 backdrop-blur-xl lg:top-[4.5rem]">
         <div className="container-page">
-          <div className="flex items-center gap-3 py-3">
-            <div className="no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1">
+          <div className="flex items-start gap-3 py-3 lg:items-center">
+            {/* Mobilde yatay kaydırma, geniş ekranda alt satıra sarma */}
+            <div className="no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1 lg:flex-wrap lg:overflow-visible">
               {filters.map((filter) => {
                 const isActive = filter.id === activeFilter
                 return (
@@ -111,7 +112,7 @@ export default function Menu() {
               })}
             </div>
 
-            <div className="relative hidden w-56 shrink-0 sm:block">
+            <div className="relative hidden w-56 shrink-0 sm:block lg:mt-0">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
               <input
                 type="search"

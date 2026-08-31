@@ -99,8 +99,16 @@ krem kağıt zemin, sıcak kakao (primary), zeytin yeşili (secondary), blush pe
 
 ## Menü
 
-Menüde 23 ürün var: 20 magnolya çeşidi ve 3 cup. Kategoriler ürünlerin bisküvi/çeşni
-ailesine göre ayrılır — Klasik Magnolya, Kakaolu Bisküvili, Oreolu, Lotuslu, Cevizli, Cup.
+Menüde 25 ürün var. Filtreler çeşni bazlıdır: Çilekli, Muzlu, Çikolatalı, Kakaolu
+Bisküvili, Oreolu, Lotuslu, Cevizli, Balkabaklı, Red Velvet.
+
+Bir ürün **birden çok filtrede** bulunabilir — `Product.categoryIds` bir dizidir ve
+listenin **ilk elemanı birincil kategoridir** (breadcrumb ve rozette o kullanılır).
+Örneğin "Kakaolu Bisküvili Çilekli Çikolatalı Magnolya" üç filtrede birden çıkar.
+
+Yönetim panelinde filtreler çoklu seçim olarak işaretlenir; seçim sırası numaralanır,
+ilk işaretlenen birincil olur. Bir kategori silindiğinde ürünler silinmez, yalnızca o
+filtreden çıkarılır.
 
 > **Fiyatlar geçicidir.** `src/data/catalog.ts` içindeki `price` alanları işletmeden
 > alınacak güncel liste ile değiştirilmelidir.

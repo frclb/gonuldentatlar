@@ -14,7 +14,7 @@ const STORAGE_KEY = 'catalog'
  * Tohum veri her değiştiğinde artırılır. Sürüm uyuşmazsa tarayıcıda saklı
  * eski katalog atılır ve güncel menü yüklenir.
  */
-const VERSION = 8
+const VERSION = 9
 
 interface CatalogState {
   version: number
@@ -113,17 +113,25 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
 
       getProduct: (slug) => state.products.find((p) => p.slug === slug),
       getCategory: (id) => state.categories.find((c) => c.id === id),
-      productsByCategory: (categoryId) => activeProducts.filter((p) => p.categoryId === categoryId),
-      countByCategory: (categoryId) => activeProducts.filter((p) => p.categoryId === categoryId).length,
+      productsByCategory: (categoryId) => activeProducts.filter((p) => p.categoryIds.includes(categoryId)),
+      countByCategory: (categoryId) => activeProducts.filter((p) => p.categoryIds.includes(categoryId)).length,
 
       upsertProduct: (product) => patch((prev) => ({ ...prev, products: upsertList(prev.products, product) })),
       deleteProduct: (id) => patch((prev) => ({ ...prev, products: prev.products.filter((p) => p.id !== id) })),
       upsertCategory: (category) => patch((prev) => ({ ...prev, categories: upsertList(prev.categories, category) })),
+      /**
+       * Kategori silinince ürünler silinmez; yalnızca o filtreden çıkarılır.
+       * Hiç kategorisi kalmayan ürün pasife alınır ki menüde kaybolmasın.
+       */
       deleteCategory: (id) =>
         patch((prev) => ({
           ...prev,
           categories: prev.categories.filter((c) => c.id !== id),
-          products: prev.products.filter((p) => p.categoryId !== id),
+          products: prev.products.map((product) => {
+            if (!product.categoryIds.includes(id)) return product
+            const categoryIds = product.categoryIds.filter((c) => c !== id)
+            return { ...product, categoryIds, isActive: categoryIds.length > 0 && product.isActive }
+          }),
         })),
       upsertCampaign: (campaign) => patch((prev) => ({ ...prev, campaigns: upsertList(prev.campaigns, campaign) })),
       deleteCampaign: (id) => patch((prev) => ({ ...prev, campaigns: prev.campaigns.filter((c) => c.id !== id) })),
