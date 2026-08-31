@@ -9,6 +9,12 @@ import { cn } from '@/lib/cn'
 const INTERVAL = 2000
 
 /**
+ * Geçiş biçimi. 'fade' görseli yerinde soldurur, 'slide' yandan kaydırır.
+ * Değiştirmek için bu sabiti güncellemek yeterli.
+ */
+const TRANSITION: 'fade' | 'slide' = 'slide'
+
+/**
  * Ana sayfadaki büyük görsel. Cup ve kavanoz sunumları dönüşümlü gösterilir;
  * her karede farklı bir ürün çıkar.
  *
@@ -88,7 +94,9 @@ export function HeroCarousel() {
       to={`/menu/${active.slug}`}
       aria-label={`${active.name} — ürünü incele`}
       className={cn(
-        'relative mx-auto block aspect-square w-full max-w-[26rem] md:max-w-none',
+        // `isolate` şart: içerideki z-index'ler kendi bağlamında kalsın, yoksa
+        // üstteki görsel yüzen kartların önüne geçiyor
+        'relative isolate mx-auto block aspect-square w-full max-w-[26rem] md:max-w-none',
         BLOB,
       )}
       /* Üzerine gelince dursun: tıklamak isteyen kaçan hedefle uğraşmasın. */
@@ -112,10 +120,21 @@ export function HeroCarousel() {
             loading={i === 0 ? 'eager' : 'lazy'}
             className={cn(
               'absolute inset-0 size-full object-cover',
-              i === current && 'z-20 scale-100 opacity-100 transition-[opacity,transform] duration-700 ease-[var(--ease-soft)]',
-              // Çıkan görsel altta opak kalır; üstteki belirirken zemin sızmaz
-              i === previous && 'z-10 scale-100 opacity-100',
-              i !== current && i !== previous && 'z-0 scale-[1.04] opacity-0',
+              TRANSITION === 'fade'
+                ? cn(
+                    // Çıkan görsel altta opak kalır; üstteki belirirken zemin sızmaz
+                    i === current &&
+                      'z-20 scale-100 opacity-100 transition-[opacity,transform] duration-700 ease-[var(--ease-soft)]',
+                    i === previous && 'z-10 scale-100 opacity-100',
+                    i !== current && i !== previous && 'z-0 scale-[1.04] opacity-0',
+                  )
+                : cn(
+                    // Kayma: giren sağdan gelir, çıkan sola gider, bekleyenler sağda durur
+                    'transition-transform duration-700 ease-[var(--ease-soft)]',
+                    i === current && 'z-20 translate-x-0',
+                    i === previous && 'z-10 -translate-x-full',
+                    i !== current && i !== previous && 'z-0 translate-x-full transition-none',
+                  ),
             )}
           />
         ))}

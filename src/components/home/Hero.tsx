@@ -164,7 +164,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -left-1 bottom-6 sm:left-2"
+              className="absolute -left-1 bottom-6 z-10 sm:left-2"
             >
               <Link
                 to={`/menu/${FAVOURITE.slug}`}
@@ -189,7 +189,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.65, duration: 0.6 }}
-              className="absolute -right-1 top-8 rounded-lg bg-surface/90 px-3.5 py-2.5 text-center shadow-card backdrop-blur sm:right-2"
+              className="absolute -right-1 top-8 z-10 rounded-lg bg-surface/90 px-3.5 py-2.5 text-center shadow-card backdrop-blur sm:right-2"
             >
               <p className="font-[family-name:var(--font-display)] text-[1.35rem] leading-none text-cocoa-700">
                 {activeProducts.length}
