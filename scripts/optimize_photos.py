@@ -13,6 +13,7 @@ Yeni fotoğraf eklendiğinde SLUGS sözlüğüne dosya adı → slug eşlemesi e
 komutu yeniden çalıştırmak yeterli.
 """
 import sys
+import unicodedata
 from pathlib import Path
 from PIL import Image
 
@@ -46,6 +47,7 @@ SLUGS = {
     "22.Muzlu Çikolatalı Cup": "muzlu-cikolatali-cup",
     "23.Çilekli Muzlu Çikolatalı Cup": "cilekli-muzlu-cikolatali-cup",
     "24.Balkabaklı Magnolya": "balkabakli-magnolya",
+    "25.Çilekli Red Velvet Magnolya": "cilekli-red-velvet-magnolya",
 }
 
 # Paylaşım (Open Graph) görselinde kullanılacak ürün
@@ -55,6 +57,17 @@ OG_SLUG = "cilekli-cikolatali-cup"
 # (bazılarında sondaki "_" farkı var). Bu yüzden baştaki numaraya göre eşleştirilir.
 JAR_DIR = "Kavanoz"
 JAR_SUFFIX = "-kavanoz"
+
+
+def nfc(text: str) -> str:
+    """
+    macOS dosya adlarını NFC'ye çevirir.
+
+    Finder/AirDrop ile gelen dosyalar bazen NFD (ayrışık) biçimde saklanır:
+    "Ç" tek karakter yerine "C + birleştirici çengel" olur. Adlar ekranda
+    aynı görünür ama karşılaştırma tutmaz. Her iki tarafı da normalleştiriyoruz.
+    """
+    return unicodedata.normalize("NFC", text)
 
 
 def main() -> int:
@@ -67,15 +80,22 @@ def main() -> int:
     out_dir = root / "public/images/products"
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # Kaynak klasörü bir kez tara, adları normalleştirerek eşle
+    by_stem = {
+        nfc(path.stem): path
+        for path in src_dir.iterdir()
+        if path.is_file() and path.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+    }
+
     total = 0
     missing = []
     for stem, slug in SLUGS.items():
-        matches = list(src_dir.glob(f"{stem}.*"))
-        if not matches:
+        source = by_stem.get(nfc(stem))
+        if source is None:
             missing.append(stem)
             continue
 
-        img = Image.open(matches[0]).convert("RGB")
+        img = Image.open(source).convert("RGB")
         # Kare değilse ortadan kare kırp
         if img.width != img.height:
             side = min(img.size)
@@ -95,13 +115,13 @@ def main() -> int:
     # --- Kavanoz sürümleri: numaraya göre eşleştir ---
     jar_dir = src_dir / JAR_DIR
     if jar_dir.is_dir():
-        by_number = {stem.split(".", 1)[0]: slug for stem, slug in SLUGS.items()}
+        by_number = {nfc(stem).split(".", 1)[0].strip(): slug for stem, slug in SLUGS.items()}
         jar_total, matched, unmatched = 0, 0, []
         print()
         for path in sorted(jar_dir.iterdir()):
             if path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
                 continue
-            number = path.stem.split(".", 1)[0].strip()
+            number = nfc(path.stem).split(".", 1)[0].strip()
             slug = by_number.get(number)
             if not slug:
                 unmatched.append(path.name)

@@ -9,7 +9,8 @@ export const categories: Category[] = [
   { id: 'oreolu', slug: 'oreolu', name: 'Oreolu', tagline: 'Bol Oreo kırığı', image: '/images/products/oreolu-magnolya.webp', tone: 'cocoa', order: 3, isActive: true },
   { id: 'lotuslu', slug: 'lotuslu', name: 'Lotuslu', tagline: 'Karamelize bisküvi', image: '/images/products/lotuslu-magnolya.webp', tone: 'cream', order: 4, isActive: true },
   { id: 'cevizli', slug: 'cevizli', name: 'Cevizli', tagline: 'Çıtır ceviz', image: '/images/products/cevizli-magnolya.webp', tone: 'olive', order: 5, isActive: true },
-  { id: 'cup', slug: 'cup', name: 'Cup', tagline: 'Çikolata sosuyla', image: '/images/products/cilekli-cikolatali-cup.webp', tone: 'blush', order: 6, isActive: true },
+  { id: 'red-velvet', slug: 'red-velvet', name: 'Red Velvet', tagline: 'Çilekli ve kadifemsi', image: '/images/products/cilekli-red-velvet-magnolya.webp', tone: 'blush', order: 6, isActive: true },
+  { id: 'cup', slug: 'cup', name: 'Cup', tagline: 'Çikolata sosuyla', image: '/images/products/cilekli-cikolatali-cup.webp', tone: 'blush', order: 7, isActive: true },
 ]
 
 /* ------------------------------------------------------------------ Ürünler */
@@ -135,7 +136,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-cilekli-magnolya.webp',
     isActive: true,
     isFeatured: true,
-    order: 8,
+    order: 9,
   },
   {
     id: 'kakaolu-biskuvili-muzlu-magnolya',
@@ -147,7 +148,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-muzlu-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 9,
+    order: 10,
   },
   {
     id: 'kakaolu-biskuvili-cilekli-muzlu-magnolya',
@@ -159,7 +160,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-cilekli-muzlu-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 10,
+    order: 11,
   },
   {
     id: 'kakaolu-biskuvili-cikolatali-magnolya',
@@ -172,7 +173,7 @@ const productList: Product[] = [
     isActive: true,
     isFeatured: false,
     isPopular: true,
-    order: 11,
+    order: 12,
   },
   {
     id: 'kakaolu-biskuvili-cilekli-cikolatali-magnolya',
@@ -184,7 +185,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp',
     isActive: true,
     isFeatured: true,
-    order: 12,
+    order: 13,
   },
   {
     id: 'kakaolu-biskuvili-muzlu-cikolatali-magnolya',
@@ -196,7 +197,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-muzlu-cikolatali-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 13,
+    order: 14,
   },
   {
     id: 'kakaolu-biskuvili-cilekli-muzlu-cikolatali-magnolya',
@@ -208,7 +209,7 @@ const productList: Product[] = [
     image: '/images/products/kakaolu-biskuvili-cilekli-muzlu-cikolatali-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 14,
+    order: 15,
   },
 
   /* --- Oreolu --- */
@@ -224,7 +225,7 @@ const productList: Product[] = [
     isFeatured: true,
     isPopular: true,
     tags: ['Çok satan'],
-    order: 15,
+    order: 16,
   },
   {
     id: 'oreolu-cilekli-magnolya',
@@ -236,7 +237,7 @@ const productList: Product[] = [
     image: '/images/products/oreolu-cilekli-magnolya.webp',
     isActive: true,
     isFeatured: true,
-    order: 16,
+    order: 17,
   },
   {
     id: 'oreolu-muzlu-magnolya',
@@ -248,7 +249,7 @@ const productList: Product[] = [
     image: '/images/products/oreolu-muzlu-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 17,
+    order: 18,
   },
 
   /* --- Lotuslu --- */
@@ -264,7 +265,7 @@ const productList: Product[] = [
     isFeatured: true,
     isPopular: true,
     tags: ['Çok satan'],
-    order: 18,
+    order: 19,
   },
 
   /* --- Cevizli --- */
@@ -278,7 +279,7 @@ const productList: Product[] = [
     image: '/images/products/cevizli-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 19,
+    order: 20,
   },
   {
     id: 'cevizli-cikolatali-magnolya',
@@ -290,7 +291,23 @@ const productList: Product[] = [
     image: '/images/products/cevizli-cikolatali-magnolya.webp',
     isActive: true,
     isFeatured: false,
-    order: 20,
+    order: 21,
+  },
+
+  /* --- Red Velvet --- */
+  {
+    id: 'cilekli-red-velvet-magnolya',
+    slug: 'cilekli-red-velvet-magnolya',
+    name: 'Çilekli Red Velvet Magnolya',
+    description: 'Red velvet kırıkları, süt kreması ve bardağı çevreleyen taze çilek dilimleri.',
+    categoryId: 'red-velvet',
+    price: 195,
+    image: '/images/products/cilekli-red-velvet-magnolya.webp',
+    isActive: true,
+    isFeatured: true,
+    isNew: true,
+    tags: ['Taze çilek'],
+    order: 22,
   },
 
   /* --- Cup --- */
@@ -306,7 +323,7 @@ const productList: Product[] = [
     isFeatured: true,
     isPopular: true,
     tags: ['Taze çilek'],
-    order: 21,
+    order: 23,
   },
   {
     id: 'muzlu-cikolatali-cup',
@@ -318,7 +335,7 @@ const productList: Product[] = [
     image: '/images/products/muzlu-cikolatali-cup.webp',
     isActive: true,
     isFeatured: false,
-    order: 22,
+    order: 24,
   },
   {
     id: 'cilekli-muzlu-cikolatali-cup',
@@ -330,7 +347,7 @@ const productList: Product[] = [
     image: '/images/products/cilekli-muzlu-cikolatali-cup.webp',
     isActive: true,
     isFeatured: true,
-    order: 23,
+    order: 25,
   },
 ]
 
