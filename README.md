@@ -144,20 +144,29 @@ Repo → **Settings → Secrets and variables → Actions**
 
 ### 4. Yayın adresi
 
-Site şu an **proje sayfasında** yayınlanıyor:
+Site kendi domaininde yayınlanır:
 
-    https://frclb.github.io/gonuldentatlar/
+    https://gonuldentatlar.com
 
-Bunun için `.github/workflows/deploy.yml` içinde `VITE_BASE_PATH` varsayılanı
-`/gonuldentatlar/` olarak ayarlıdır. Alt yolda yayınlanan bir SPA'da bu şart:
-aksi hâlde tarayıcı `/assets/...` ister, dosyalar `/gonuldentatlar/assets/...`
-altındadır ve sayfa **beyaz ekran** olur.
+`public/CNAME` bu adresi içerir ve build çıktısına kopyalanır — GitHub Actions ile
+deploy ederken bu dosya olmazsa custom domain ayarı sıfırlanabiliyor.
+Workflow'da `VITE_BASE_PATH` varsayılanı `/`.
 
-### Kendi domainine geçiş (gonuldentatlar.com)
+Proje sayfasına (`frclb.github.io/gonuldentatlar/`) geri dönmek gerekirse:
+repo değişkeni `VITE_BASE_PATH` = `/gonuldentatlar/` yap ve `public/CNAME`'i sil.
+Alt yolda `/` tabanıyla derlenen bir SPA beyaz ekran verir; asset yolları tutmaz.
 
-DNS hazır olduğunda üç adım:
+### DNS kayıtları
 
-**1.** Domain panelinde DNS kayıtları:
+Domain Natro'da. **Alan Adlarım → gonuldentatlar.com → DNS Yönetimi**
+
+Önce park kayıtlarını sil:
+
+- `A` `@` → `208.91.112.55` (Natro park IP'si)
+- `CNAME` `www` → `redirect.natrocdn.com`
+- Panelde "Web Yönlendirme" açıksa kapat, yoksa kayıtları geri yazar
+
+Sonra ekle:
 
 ```
 A      @     185.199.108.153
@@ -168,32 +177,29 @@ AAAA   @     2606:50c0:8000::153
 AAAA   @     2606:50c0:8001::153
 AAAA   @     2606:50c0:8002::153
 AAAA   @     2606:50c0:8003::153
-CNAME  www   frclb.github.io
+CNAME  www   frclb.github.io.
 ```
 
-`dig +short gonuldentatlar.com` dört IP'yi gösterene kadar bekle.
-
-**2.** `public/CNAME` dosyasını geri ekle (tek satır: `gonuldentatlar.com`).
-GitHub Actions ile deploy ederken bu dosya olmazsa custom domain ayarı sıfırlanabilir.
+Kontrol:
 
 ```bash
-echo gonuldentatlar.com > public/CNAME
+dig +short gonuldentatlar.com @8.8.8.8
 ```
 
-**3.** Repo → Settings → Secrets and variables → Actions → *Variables* →
-`VITE_BASE_PATH` = `/` tanımla. (Workflow'daki `/gonuldentatlar/` varsayılanını ezer.)
+Dört GitHub IP'si görünene kadar bekle (5–30 dk). Ardından
+**Settings → Pages → Custom domain** alanında yeşil tik çıkar, sonra
+`Enforce HTTPS` işaretlenebilir hale gelir.
 
-Push et; Settings → Pages'te domain doğrulanınca `Enforce HTTPS`'i işaretle.
+> Cloudflare kullanılırsa bu kayıtlar **DNS only (gri bulut)** olmalı; proxy
+> açıkken GitHub sertifika üretemez.
 
-> Cloudflare kullanıyorsan kayıtlar **DNS only (gri bulut)** olmalı — proxy açıkken
-> GitHub sertifika üretemez.
+### İkinci domain (gonuldentatlar.com.tr)
 
-#### İkinci domain (gonuldentatlar.com.tr)
-
-GitHub Pages bir siteye yalnızca **tek** custom domain bağlar. İkinci domain, asıl
-domaine 301 ile yönlendirilir: kayıt firmasının "web yönlendirme" özelliğiyle veya
-Cloudflare'de bir Redirect Rule ile. Aynı içeriği iki domainden yayınlama — arama
-motorları bunu yinelenen içerik sayar.
+GitHub Pages bir siteye tek custom domain bağlar. `.com.tr` asıl domaine 301 ile
+yönlendirilir — kayıt firmasının web yönlendirme özelliğiyle (hızlı, ama kaynak
+domainde HTTPS sunmayabilir) veya Cloudflare'de bir Redirect Rule ile (ücretsiz,
+HTTPS dahil). Aynı içeriği iki domainden yayınlama; arama motorları bunu
+yinelenen içerik sayar.
 
 ### SPA yönlendirmesi
 

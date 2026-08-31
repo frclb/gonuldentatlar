@@ -30,10 +30,10 @@ jobs:
 
       - run: npm run build
         env:
-          # Site şu an proje sayfasında yayınlanıyor: frclb.github.io/gonuldentatlar/
-          # Kendi domainine (gonuldentatlar.com) geçerken repo değişkeni olarak
-          # VITE_BASE_PATH = "/" tanımla ve public/CNAME dosyasını geri ekle.
-          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/gonuldentatlar/' }}
+          # Kendi domaininde site kökte yayınlanır -> VITE_BASE_PATH = "/"
+          # Proje sayfasına (frclb.github.io/gonuldentatlar/) dönmek gerekirse
+          # repo değişkenini "/gonuldentatlar/" yap.
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
           VITE_WHATSAPP_NUMBER: ${{ vars.VITE_WHATSAPP_NUMBER }}
           VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
 
