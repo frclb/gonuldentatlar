@@ -6,6 +6,7 @@ import { assetUrl } from '@/lib/assets'
 import { track } from '@/lib/analytics'
 import { buildContactUrl } from '@/lib/whatsapp'
 import { HeroCarousel } from './HeroCarousel'
+import { Link } from 'react-router-dom'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -14,6 +15,13 @@ const fadeUp = {
     y: 0,
     transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
   }),
+}
+
+/** Haftanın favorisi kartı — ürünü değiştirmek için tek yer burası. */
+const FAVOURITE = {
+  slug: 'oreolu-magnolya',
+  name: 'Oreolu Magnolya',
+  image: '/images/products/oreolu-magnolya.webp',
 }
 
 const trustPoints = [
@@ -156,20 +164,25 @@ export function Hero() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -left-1 bottom-6 flex items-center gap-2.5 rounded-full bg-surface/90 py-2 pl-2 pr-4 shadow-card backdrop-blur sm:left-2"
+              className="absolute -left-1 bottom-6 sm:left-2"
             >
-              <img
-                src={assetUrl('/images/products/oreolu-magnolya.webp')}
-                alt=""
-                width={120}
-                height={120}
-                loading="lazy"
-                className="size-11 rounded-full object-cover"
-              />
-              <div className="leading-tight">
-                <p className="text-[0.8rem] font-semibold text-cocoa-800">Oreolu Magnolya</p>
-                <p className="text-[0.7rem] text-muted">Bu haftanın favorisi</p>
-              </div>
+              <Link
+                to={`/menu/${FAVOURITE.slug}`}
+                className="flex items-center gap-2.5 rounded-full bg-surface/90 py-2 pl-2 pr-4 shadow-card backdrop-blur transition-[transform,box-shadow] duration-300 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:shadow-lift"
+              >
+                <img
+                  src={assetUrl(FAVOURITE.image)}
+                  alt=""
+                  width={120}
+                  height={120}
+                  loading="lazy"
+                  className="size-11 rounded-full object-cover"
+                />
+                <div className="leading-tight">
+                  <p className="text-[0.8rem] font-semibold text-cocoa-800">{FAVOURITE.name}</p>
+                  <p className="text-[0.7rem] text-muted">Bu haftanın favorisi</p>
+                </div>
+              </Link>
             </motion.div>
 
             <motion.div

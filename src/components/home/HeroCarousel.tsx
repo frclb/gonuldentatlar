@@ -31,9 +31,15 @@ const BLOB = 'rounded-[38%_62%_55%_45%/45%_38%_62%_55%]'
 export function HeroCarousel() {
   const { getProduct } = useCatalog()
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
-  const [index, setIndex] = useState(0)
+  /**
+   * İki katman tutulur: geçiş sırasında önceki görsel altta tam opak kalır,
+   * yeni görsel üstünde belirir. Tek katmanla çapraz geçişte ikisi de yarı
+   * saydam olduğu an zemin sızıyor ve geçiş "sıçrama" gibi görünüyordu.
+   */
+  const [{ current, previous }, setFrame] = useState({ current: 0, previous: -1 })
   const [paused, setPaused] = useState(false)
-  const hidden = useRef(false)
+  /** Sayfa zaten gizliyken açılmış olabilir; olay beklemeden ilk durumu oku. */
+  const hidden = useRef(typeof document !== 'undefined' && document.visibilityState === 'hidden')
 
   const slides = useMemo(
     () =>
@@ -66,13 +72,16 @@ export function HeroCarousel() {
     if (paused || reducedMotion || slides.length < 2) return
     const timer = window.setInterval(() => {
       if (hidden.current) return
-      setIndex((current) => (current + 1) % slides.length)
+      setFrame((frame) => ({
+        current: (frame.current + 1) % slides.length,
+        previous: frame.current,
+      }))
     }, INTERVAL)
     return () => window.clearInterval(timer)
   }, [paused, reducedMotion, slides.length])
 
   if (slides.length === 0) return null
-  const active = slides[index] ?? slides[0]
+  const active = slides[current] ?? slides[0]
 
   return (
     <Link
@@ -95,16 +104,18 @@ export function HeroCarousel() {
           <img
             key={slide.image}
             src={assetUrl(slide.image)}
-            alt={i === index ? slide.alt : ''}
-            aria-hidden={i !== index}
+            alt={i === current ? slide.alt : ''}
+            aria-hidden={i !== current}
             width={1100}
             height={1100}
             decoding={i === 0 ? 'sync' : 'async'}
             loading={i === 0 ? 'eager' : 'lazy'}
             className={cn(
               'absolute inset-0 size-full object-cover',
-              'transition-[opacity,transform] duration-500 ease-[var(--ease-soft)]',
-              i === index ? 'scale-100 opacity-100' : 'scale-[1.05] opacity-0',
+              i === current && 'z-20 scale-100 opacity-100 transition-[opacity,transform] duration-700 ease-[var(--ease-soft)]',
+              // Çıkan görsel altta opak kalır; üstteki belirirken zemin sızmaz
+              i === previous && 'z-10 scale-100 opacity-100',
+              i !== current && i !== previous && 'z-0 scale-[1.04] opacity-0',
             )}
           />
         ))}
