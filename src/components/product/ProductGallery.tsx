@@ -1,30 +1,44 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
-import { cn } from '@/lib/cn'
+import { useEffect, useState } from 'react'
 import { assetUrl } from '@/lib/assets'
+import { cn } from '@/lib/cn'
 
-export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
-  const [active, setActive] = useState(0)
+/**
+ * Ürün galerisi. Geçiş CSS ile yapılır; framer-motion'ın AnimatePresence'ı
+ * çıkış animasyonu tamamlanmadan yeni görseli basmıyor ve sekme arka plandayken
+ * animasyon hiç başlamadığı için görsel takılı kalıyordu.
+ */
+export function ProductGallery({
+  images,
+  alt,
+  /** Seçeneğe göre dışarıdan gösterilecek görseli belirlemek için. */
+  activeIndex,
+}: {
+  images: string[]
+  alt: string
+  activeIndex?: number
+}) {
+  const [active, setActive] = useState(activeIndex ?? 0)
   const gallery = images.length > 0 ? images : ['/images/products/cilekli-magnolya.webp']
+
+  /* Sunum seçimi değişince galeriyi ona getir; kullanıcı yine elle gezebilir. */
+  useEffect(() => {
+    if (activeIndex !== undefined) setActive(activeIndex)
+  }, [activeIndex])
+
+  const current = Math.min(active, gallery.length - 1)
 
   return (
     <div className="space-y-3">
       <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-cream-100 shadow-soft">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={gallery[active]}
-            src={assetUrl(gallery[active])}
-            alt={alt}
-            width={900}
-            height={900}
-            decoding="async"
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="size-full object-cover"
-          />
-        </AnimatePresence>
+        <img
+          key={gallery[current]}
+          src={assetUrl(gallery[current])}
+          alt={alt}
+          width={900}
+          height={900}
+          decoding="async"
+          className="size-full animate-[gallery-fade_300ms_ease-out] object-cover"
+        />
       </div>
 
       {gallery.length > 1 && (
@@ -34,12 +48,12 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
               key={image}
               type="button"
               role="tab"
-              aria-selected={index === active}
+              aria-selected={index === current}
               aria-label={`${alt} — görsel ${index + 1}`}
               onClick={() => setActive(index)}
               className={cn(
                 'size-[4.5rem] shrink-0 overflow-hidden rounded-md border-2 bg-cream-100 transition-colors md:size-20',
-                index === active ? 'border-cocoa-500' : 'border-transparent hover:border-cocoa-200',
+                index === current ? 'border-cocoa-500' : 'border-transparent hover:border-cocoa-200',
               )}
             >
               <img

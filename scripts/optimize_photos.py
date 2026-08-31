@@ -51,6 +51,11 @@ SLUGS = {
 # Paylaşım (Open Graph) görselinde kullanılacak ürün
 OG_SLUG = "cilekli-cikolatali-cup"
 
+# Kavanoz fotoğrafları alt klasörde ve dosya adları birebir aynı değil
+# (bazılarında sondaki "_" farkı var). Bu yüzden baştaki numaraya göre eşleştirilir.
+JAR_DIR = "Kavanoz"
+JAR_SUFFIX = "-kavanoz"
+
 
 def main() -> int:
     if len(sys.argv) < 2:
@@ -86,6 +91,38 @@ def main() -> int:
 
     if missing:
         print("\n  ! kaynağı bulunamayan:", ", ".join(missing))
+
+    # --- Kavanoz sürümleri: numaraya göre eşleştir ---
+    jar_dir = src_dir / JAR_DIR
+    if jar_dir.is_dir():
+        by_number = {stem.split(".", 1)[0]: slug for stem, slug in SLUGS.items()}
+        jar_total, matched, unmatched = 0, 0, []
+        print()
+        for path in sorted(jar_dir.iterdir()):
+            if path.suffix.lower() not in {".png", ".jpg", ".jpeg", ".webp"}:
+                continue
+            number = path.stem.split(".", 1)[0].strip()
+            slug = by_number.get(number)
+            if not slug:
+                unmatched.append(path.name)
+                continue
+
+            img = Image.open(path).convert("RGB")
+            if img.width != img.height:
+                side = min(img.size)
+                left, top = (img.width - side) // 2, (img.height - side) // 2
+                img = img.crop((left, top, left + side, top + side))
+            img = img.resize((SIZE, SIZE), Image.LANCZOS)
+
+            target = out_dir / f"{slug}{JAR_SUFFIX}.webp"
+            img.save(target, "WEBP", quality=QUALITY, method=6)
+            jar_total += target.stat().st_size
+            matched += 1
+            print(f"  ✓ {slug}{JAR_SUFFIX}.webp  ({target.stat().st_size / 1024:.0f} KB)")
+
+        if unmatched:
+            print("  ! numarası eşleşmeyen:", ", ".join(unmatched))
+        print(f"\n✓ {matched} kavanoz fotoğrafı işlendi — {jar_total / 1024 / 1024:.1f} MB")
 
     # Open Graph görseli: kare fotoğrafı krem zemine ortalanmış 1200x630
     og_src = out_dir / f"{OG_SLUG}.webp"

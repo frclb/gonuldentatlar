@@ -334,15 +334,26 @@ const productList: Product[] = [
   },
 ]
 
+/** Cup fotoğrafından kavanoz fotoğrafının yolunu üretir. */
+const jarImage = (image: string): string => image.replace(/(\.[a-z0-9]+)$/i, '-kavanoz$1')
+
 /**
  * Menüdeki her tatlı hem cup hem kavanoz olarak hazırlanıyor; sunum seçeneği
- * tek yerden bütün ürünlere iliştirilir. Bir ürüne özel seçenek seti gerekirse
- * o ürüne doğrudan `options` yazmak yeterli.
+ * tek yerden bütün ürünlere iliştirilir. Sunum seçeneği olan ürünün galerisi
+ * cup ve kavanoz fotoğraflarından oluşur — bu iki dosya birlikte bulunur.
+ *
+ * Bir ürüne özel seçenek seti ya da galeri gerekirse o ürüne doğrudan
+ * `options` / `gallery` yazmak yeterli.
  */
-export const products: Product[] = productList.map((product) => ({
-  ...product,
-  options: product.options ?? servingOnly,
-}))
+export const products: Product[] = productList.map((product) => {
+  const options = product.options ?? servingOnly
+  const hasJar = options.some((option) => option.id === 'sunum')
+  return {
+    ...product,
+    options,
+    gallery: product.gallery ?? (hasJar ? [product.image, jarImage(product.image)] : [product.image]),
+  }
+})
 
 /* -------------------------------------------------------------- Kampanyalar */
 

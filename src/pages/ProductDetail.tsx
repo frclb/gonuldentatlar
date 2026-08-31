@@ -54,6 +54,16 @@ export default function ProductDetail() {
   )
 
   /** Aynı kategoriden öneriler; kategoride yeterli ürün yoksa diğer favorilerle tamamlanır. */
+  /**
+   * Sunum "Kavanoz" seçilince galeriyi kavanoz fotoğrafına getir.
+   * Galeri sırası: [cup, kavanoz] — bkz. data/catalog.ts
+   */
+  const galleryIndex = useMemo(() => {
+    const serving = product?.options?.find((option) => option.id === 'sunum')
+    if (!serving) return undefined
+    return selections['sunum']?.includes('kavanoz') ? 1 : 0
+  }, [product, selections])
+
   const related = useMemo(() => {
     if (!product) return []
     const others = activeProducts.filter((p) => p.id !== product.id)
@@ -115,7 +125,11 @@ export default function ProductDetail() {
 
         <div className="mt-6 grid gap-8 md:mt-8 md:grid-cols-2 md:gap-12 lg:gap-16">
           <div className="md:sticky md:top-24 md:self-start">
-            <ProductGallery images={product.gallery ?? [product.image]} alt={product.name} />
+            <ProductGallery
+              images={product.gallery ?? [product.image]}
+              alt={product.name}
+              activeIndex={galleryIndex}
+            />
           </div>
 
           <div>
