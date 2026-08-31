@@ -84,7 +84,14 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         </h3>
         <p className="mt-1.5 line-clamp-2 text-[0.85rem] leading-relaxed text-muted">{product.description}</p>
 
-        <div className={cn('mt-4 flex items-end gap-3 pt-1', settings.showPrices ? 'justify-between' : 'justify-end')}>
+        {/* mt-auto: ürün adı bir ya da iki satır olsa da alt blok kartın dibinde
+            hizalanır, kartlar yan yana dizilince satır kaymaz */}
+        <div
+          className={cn(
+            'mt-auto flex items-end gap-3 pt-4',
+            settings.showPrices ? 'justify-between' : 'justify-end',
+          )}
+        >
           <Price value={product.price} oldValue={product.oldPrice} />
 
           <button
