@@ -5,14 +5,19 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { assetUrl } from '@/lib/assets'
 import { cn } from '@/lib/cn'
 
-/** Görselin ekranda kalma süresi. */
-const INTERVAL = 2000
+/**
+ * Bir karenin toplam süresi: FADE kadar solma + kalanı sabit durma.
+ * FADE her zaman INTERVAL'den küçük kalmalı; aksi hâlde önceki geçiş
+ * bitmeden yenisi başlar ve görüntü sıçrar.
+ */
+const INTERVAL = 2400
+const FADE = 1200
 
 /**
  * Geçiş biçimi. 'fade' görseli yerinde soldurur, 'slide' yandan kaydırır.
  * Değiştirmek için bu sabiti güncellemek yeterli.
  */
-const TRANSITION: 'fade' | 'slide' = 'slide'
+const TRANSITION: 'fade' | 'slide' = 'fade'
 
 /**
  * Ana sayfadaki büyük görsel. Cup ve kavanoz sunumları dönüşümlü gösterilir;
@@ -118,19 +123,20 @@ export function HeroCarousel() {
             height={1100}
             decoding={i === 0 ? 'sync' : 'async'}
             loading={i === 0 ? 'eager' : 'lazy'}
+            style={{ transitionDuration: `${FADE}ms` }}
             className={cn(
               'absolute inset-0 size-full object-cover',
               TRANSITION === 'fade'
                 ? cn(
                     // Çıkan görsel altta opak kalır; üstteki belirirken zemin sızmaz
                     i === current &&
-                      'z-20 scale-100 opacity-100 transition-[opacity,transform] duration-700 ease-[var(--ease-soft)]',
+                      'z-20 scale-100 opacity-100 transition-[opacity,transform] ease-[var(--ease-soft)]',
                     i === previous && 'z-10 scale-100 opacity-100',
                     i !== current && i !== previous && 'z-0 scale-[1.04] opacity-0',
                   )
                 : cn(
                     // Kayma: giren sağdan gelir, çıkan sola gider, bekleyenler sağda durur
-                    'transition-transform duration-700 ease-[var(--ease-soft)]',
+                    'transition-transform ease-[var(--ease-soft)]',
                     i === current && 'z-20 translate-x-0',
                     i === previous && 'z-10 -translate-x-full',
                     i !== current && i !== previous && 'z-0 translate-x-full transition-none',
