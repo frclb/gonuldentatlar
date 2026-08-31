@@ -5,8 +5,8 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { assetUrl } from '@/lib/assets'
 import { cn } from '@/lib/cn'
 
-/** Görselin geçiş süresi. 3 sn telaşlı, 5 sn durağan; 4 sn dengeli duruyor. */
-const INTERVAL = 4000
+/** Görselin ekranda kalma süresi. */
+const INTERVAL = 2000
 
 /**
  * Ana sayfadaki büyük görsel. Cup ve kavanoz sunumları dönüşümlü gösterilir;
@@ -103,7 +103,7 @@ export function HeroCarousel() {
             loading={i === 0 ? 'eager' : 'lazy'}
             className={cn(
               'absolute inset-0 size-full object-cover',
-              'transition-[opacity,transform] duration-[900ms] ease-[var(--ease-soft)]',
+              'transition-[opacity,transform] duration-500 ease-[var(--ease-soft)]',
               i === index ? 'scale-100 opacity-100' : 'scale-[1.05] opacity-0',
             )}
           />
