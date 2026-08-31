@@ -5,6 +5,7 @@ import { useCatalog } from '@/context/CatalogContext'
 import { assetUrl } from '@/lib/assets'
 import { track } from '@/lib/analytics'
 import { buildContactUrl } from '@/lib/whatsapp'
+import { HeroCarousel } from './HeroCarousel'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 22 },
@@ -146,17 +147,8 @@ export function Hero() {
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="relative mx-auto aspect-square w-full max-w-[26rem] md:max-w-none"
             >
-              <div className="absolute inset-0 rotate-3 rounded-[38%_62%_55%_45%/45%_38%_62%_55%] bg-cream-200" />
-              <img
-                src={assetUrl('/images/products/cilekli-cikolatali-cup.webp')}
-                alt="Çilekli Çikolatalı Cup — çikolata sosu, süt kreması ve taze çilek katmanları"
-                width={1100}
-                height={1100}
-                decoding="sync"
-                className="relative size-full rounded-[38%_62%_55%_45%/45%_38%_62%_55%] object-cover"
-              />
+              <HeroCarousel />
             </motion.div>
 
             {/* yüzen mini kartlar */}
