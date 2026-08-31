@@ -10,8 +10,8 @@ import { cn } from '@/lib/cn'
  * FADE her zaman INTERVAL'den küçük kalmalı; aksi hâlde önceki geçiş
  * bitmeden yenisi başlar ve görüntü sıçrar.
  */
-const INTERVAL = 2400
-const FADE = 1200
+const INTERVAL = 3000
+const FADE = 1500
 
 /**
  * Geçiş biçimi. 'fade' görseli yerinde soldurur, 'slide' yandan kaydırır.
