@@ -385,14 +385,14 @@ export const campaigns: Campaign[] = []
 /* ---------------------------------------------------------------- Instagram */
 
 export const instagramPosts: SocialMediaPost[] = [
-  { id: 'post-1', image: '/images/products/cilekli-cikolatali-cup.webp', caption: 'Çilekli Çikolatalı Cup — taze çilekle.', likes: 412, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-2', image: '/images/products/oreolu-magnolya.webp', caption: 'Oreolu Magnolya, klasikleşti.', likes: 623, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-3', image: '/images/products/lotuslu-magnolya.webp', caption: 'Lotuslu Magnolya hazır.', likes: 501, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-4', image: '/images/products/cilekli-magnolya.webp', caption: 'Günün çilekleri seçildi.', likes: 388, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-5', image: '/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp', caption: 'Kakaolu bisküvi + çikolata + çilek.', likes: 457, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-6', image: '/images/products/cevizli-cikolatali-magnolya.webp', caption: 'Cevizli Çikolatalı Magnolya.', likes: 265, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-7', image: '/images/products/muzlu-magnolya.webp', caption: 'Muzlu Magnolya — sade sevenlere.', likes: 198, url: 'https://instagram.com/gonuldentatlar' },
-  { id: 'post-8', image: '/images/products/cilekli-muzlu-cikolatali-cup.webp', caption: 'Hepsi bir arada: çilek, muz, çikolata.', likes: 344, url: 'https://instagram.com/gonuldentatlar' },
+  { id: 'post-1', image: '/images/products/cilekli-cikolatali-cup.webp', caption: 'Çilekli Çikolatalı Cup — taze çilekle.', likes: 412, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-2', image: '/images/products/oreolu-magnolya.webp', caption: 'Oreolu Magnolya, klasikleşti.', likes: 623, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-3', image: '/images/products/lotuslu-magnolya.webp', caption: 'Lotuslu Magnolya hazır.', likes: 501, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-4', image: '/images/products/cilekli-magnolya.webp', caption: 'Günün çilekleri seçildi.', likes: 388, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-5', image: '/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp', caption: 'Kakaolu bisküvi + çikolata + çilek.', likes: 457, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-6', image: '/images/products/cevizli-cikolatali-magnolya.webp', caption: 'Cevizli Çikolatalı Magnolya.', likes: 265, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-7', image: '/images/products/muzlu-magnolya.webp', caption: 'Muzlu Magnolya — sade sevenlere.', likes: 198, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-8', image: '/images/products/cilekli-muzlu-cikolatali-cup.webp', caption: 'Hepsi bir arada: çilek, muz, çikolata.', likes: 344, url: 'https://instagram.com/gonuldenntatlar' },
 ]
 
 /* ------------------------------------------------------------------ İşletme */
@@ -402,8 +402,8 @@ export const storeSettings: StoreSettings = {
   slogan: 'Tatlısı gönülden, lezzeti dilden dile.',
   phone: '+90 500 000 00 00',
   whatsapp: import.meta.env.VITE_WHATSAPP_NUMBER ?? '905000000000',
-  instagram: 'https://instagram.com/gonuldentatlar',
-  instagramHandle: '@gonuldentatlar',
+  instagram: 'https://instagram.com/gonuldenntatlar',
+  instagramHandle: '@gonuldenntatlar',
   address: 'Cumhuriyet Mah. Tatlı Sokak No: 12/A, Merkez',
   addressShort: 'Cumhuriyet Mah. Tatlı Sk. No:12/A',
   mapsUrl: 'https://maps.google.com/?q=G%C3%B6n%C3%BClden+Tatlar',
