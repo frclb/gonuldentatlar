@@ -22,8 +22,15 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   const { isFavorite, toggleFavorite } = useFavorites()
   const { notify } = useToast()
 
-  const hasOptions = (product.options?.length ?? 0) > 0
   const favorite = isFavorite(product.id)
+
+  /** Tek seçimli kısa bir seçenek varsa değerlerini göster: "Cup veya Kavanoz" */
+  const choiceHint = (() => {
+    const options = product.options ?? []
+    if (options.length === 0) return null
+    const single = options.find((o) => o.type === 'single' && o.values.length <= 3)
+    return single ? single.values.map((v) => v.name).join(' veya ') : 'Özelleştirilebilir'
+  })()
 
   const quickAdd = () => {
     addItem(buildCartItem(product))
@@ -94,10 +101,10 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           </button>
         </div>
 
-        {hasOptions && (
+        {choiceHint && (
           <p className="mt-2.5 flex items-center gap-1.5 text-[0.72rem] font-medium text-olive-600">
             <SlidersHorizontal className="size-3.5" />
-            Özelleştirilebilir
+            {choiceHint}
           </p>
         )}
       </div>

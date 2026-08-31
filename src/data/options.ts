@@ -17,6 +17,22 @@ export const sizeOption = (bigDelta = 40): ProductOption => ({
   ],
 })
 
+/**
+ * Sunum kabı. Menüdeki her tatlı hem cup hem kavanoz olarak hazırlanıyor.
+ *
+ * ⚠️ Kavanoz fiyat farkı geçicidir; işletmeden alınacak değerle güncellenmeli.
+ */
+export const servingOption: ProductOption = {
+  id: 'sunum',
+  name: 'Sunum',
+  type: 'single',
+  required: true,
+  values: [
+    { id: 'cup', name: 'Cup', priceDelta: 0, isDefault: true },
+    { id: 'kavanoz', name: 'Kavanoz', priceDelta: 45 },
+  ],
+}
+
 export const extraOption: ProductOption = {
   id: 'ekstra',
   name: 'Ekstra',
@@ -28,6 +44,9 @@ export const extraOption: ProductOption = {
     { id: 'ekstra-biskuvi', name: 'Ekstra Bisküvi', priceDelta: 20 },
   ],
 }
+
+/** Yalnızca sunum kabı seçimi — menüdeki varsayılan */
+export const servingOnly: ProductOption[] = [servingOption]
 
 /** Boyut seçimi olan ürünler için */
 export const sizeOnly: ProductOption[] = [sizeOption()]

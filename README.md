@@ -105,9 +105,17 @@ ailesine göre ayrılır — Klasik Magnolya, Kakaolu Bisküvili, Oreolu, Lotusl
 > **Fiyatlar geçicidir.** `src/data/catalog.ts` içindeki `price` alanları işletmeden
 > alınacak güncel liste ile değiştirilmelidir.
 
-Ürünlerde varsayılan olarak seçenek (boyut/ekstra) tanımlı değildir; çeşitler ayrı ürün
-olarak listelenir. İhtiyaç olursa yönetim panelinden ürüne "Boyut" veya "Boyut + ekstra"
-seti iliştirilebilir.
+Her tatlı hem **cup** hem **kavanoz** olarak hazırlanıyor. Bu ayrı ürün olarak değil,
+her üründe zorunlu bir **"Sunum"** seçeneği olarak modellendi (`src/data/options.ts` →
+`servingOption`) ve `src/data/catalog.ts` içinde tek yerden bütün ürünlere iliştirildi.
+
+Böylece menü 24 üründe kalıyor, sipariş mesajında mutfağa `Sunum: Kavanoz` diye net
+gidiyor ve fiyat farkı tek yerden yönetiliyor.
+
+> Kavanoz fiyat farkı da geçicidir; temel fiyatlarla birlikte güncellenmeli.
+
+Bir ürüne farklı bir seçenek seti gerekirse o ürüne doğrudan `options` yazmak yeterli;
+panelden de hazır setlerden biri seçilebilir.
 
 ## Deploy — GitHub Pages
 

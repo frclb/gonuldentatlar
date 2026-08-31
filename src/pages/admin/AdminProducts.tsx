@@ -6,7 +6,7 @@ import { Input, Select, Textarea } from '@/components/ui/Field'
 import { Modal } from '@/components/ui/Modal'
 import { useCatalog } from '@/context/CatalogContext'
 import { useToast } from '@/context/ToastContext'
-import { sizeAndExtras, sizeOnly } from '@/data/options'
+import { servingOnly, sizeAndExtras, sizeOnly } from '@/data/options'
 import { formatPrice, slugify } from '@/lib/format'
 import type { Product, ProductOption } from '@/types'
 import { AdminHeader, Td, TableWrap, Th, Toggle } from './components'
@@ -15,6 +15,7 @@ import { assetUrl } from '@/lib/assets'
 /** Seçenek setleri hazır preset olarak sunulur — tam seçenek editörü MVP dışı. */
 const optionPresets: { id: string; label: string; options: ProductOption[] }[] = [
   { id: 'none', label: 'Seçeneksiz', options: [] },
+  { id: 'serving', label: 'Sunum (cup / kavanoz)', options: servingOnly },
   { id: 'size', label: 'Boyut seçimi', options: sizeOnly },
   { id: 'size-extras', label: 'Boyut + ekstra', options: sizeAndExtras },
 ]

@@ -1,4 +1,5 @@
 import type { Campaign, Category, Product, SocialMediaPost, StoreSettings } from '@/types'
+import { servingOnly } from './options'
 
 /* ------------------------------------------------------------- Kategoriler */
 
@@ -18,7 +19,7 @@ export const categories: Category[] = [
  * İşletmeden alınacak güncel fiyat listesiyle değiştirilmelidir.
  * Fiyatlar yönetim panelinden de tek tek güncellenebilir.
  */
-export const products: Product[] = [
+const productList: Product[] = [
   /* --- Klasik Magnolya --- */
   {
     id: 'cilekli-magnolya',
@@ -332,6 +333,16 @@ export const products: Product[] = [
     order: 23,
   },
 ]
+
+/**
+ * Menüdeki her tatlı hem cup hem kavanoz olarak hazırlanıyor; sunum seçeneği
+ * tek yerden bütün ürünlere iliştirilir. Bir ürüne özel seçenek seti gerekirse
+ * o ürüne doğrudan `options` yazmak yeterli.
+ */
+export const products: Product[] = productList.map((product) => ({
+  ...product,
+  options: product.options ?? servingOnly,
+}))
 
 /* -------------------------------------------------------------- Kampanyalar */
 
