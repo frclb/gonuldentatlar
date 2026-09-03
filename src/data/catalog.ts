@@ -397,11 +397,40 @@ export const instagramPosts: SocialMediaPost[] = [
 
 /* ------------------------------------------------------------------ İşletme */
 
+/**
+ * Sipariş hattı numarası.
+ *
+ * GitHub Actions, tanımlı olmayan bir repo değişkenini boş metin olarak geçiriyor;
+ * `??` boş metni yakalamadığı için numara sessizce boş kalıyor ve bütün WhatsApp
+ * bağlantıları alıcısız bir wa.me adresine dönüşüyordu. Bu yüzden sadece rakamlara
+ * indirip uzunluğu da kontrol ediyoruz.
+ *
+ * ⚠️ Yedek değer gerçek bir numara değildir. Canlıda repo değişkeni
+ * VITE_WHATSAPP_NUMBER mutlaka tanımlı olmalı.
+ */
+const FALLBACK_WHATSAPP = '905000000000'
+
+function whatsappNumber(): string {
+  let digits = (import.meta.env.VITE_WHATSAPP_NUMBER ?? '').replace(/\D/g, '')
+
+  // wa.me ülke kodu ister; yerel yazımları (0532…, 532…) 90'lı biçime çevir
+  if (digits.length === 11 && digits.startsWith('0')) digits = `90${digits.slice(1)}`
+  else if (digits.length === 10 && digits.startsWith('5')) digits = `90${digits}`
+
+  if (digits.length >= 10) return digits
+  if (import.meta.env.DEV) {
+    console.warn(
+      '[Gönülden Tatlar] VITE_WHATSAPP_NUMBER tanımlı değil; siparişler için geçici numara kullanılıyor.',
+    )
+  }
+  return FALLBACK_WHATSAPP
+}
+
 export const storeSettings: StoreSettings = {
   name: 'Gönülden Tatlar',
   slogan: 'Tatlısı gönülden, lezzeti dilden dile.',
   phone: '+90 500 000 00 00',
-  whatsapp: import.meta.env.VITE_WHATSAPP_NUMBER ?? '905000000000',
+  whatsapp: whatsappNumber(),
   instagram: 'https://instagram.com/gonuldenntatlar',
   instagramHandle: '@gonuldenntatlar',
   address: 'Cumhuriyet Mah. Tatlı Sokak No: 12/A, Merkez',

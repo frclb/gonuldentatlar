@@ -34,6 +34,8 @@ jobs:
           # Proje sayfasına (frclb.github.io/gonuldentatlar/) dönmek gerekirse
           # repo değişkenini "/gonuldentatlar/" yap.
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
+          # Repo değişkeni tanımlı değilse burası boş metin geçirir. Kodda rakam
+          # kontrolü var ama asıl çözüm değişkeni tanımlamaktır.
           VITE_WHATSAPP_NUMBER: ${{ vars.VITE_WHATSAPP_NUMBER }}
 
       - uses: actions/upload-pages-artifact@v3

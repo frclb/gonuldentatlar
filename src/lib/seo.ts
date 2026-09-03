@@ -54,6 +54,9 @@ export function useSeo({ title, description, path = '', image = '/images/hero/og
     setMeta('meta[property="og:description"]', 'property', 'og:description', description)
     setMeta('meta[property="og:url"]', 'property', 'og:url', siteUrl(path))
     setMeta('meta[property="og:image"]', 'property', 'og:image', siteUrl(image))
+    setMeta('meta[name="twitter:title"]', 'name', 'twitter:title', fullTitle)
+    setMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description)
+    setMeta('meta[name="twitter:image"]', 'name', 'twitter:image', siteUrl(image))
     setCanonical(siteUrl(path))
   }, [title, description, path, image])
 }

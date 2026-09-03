@@ -23,8 +23,25 @@
       property="og:description"
       content="Gönülden hazırlanan magnolya ve cup tatlılar. Favorini seç, gerisini bize bırak."
     />
-    <meta property="og:image" content="/images/hero/og-cover.jpg" />
+    <!--
+      WhatsApp, Facebook ve X'in önizleme botları JavaScript çalıştırmaz; yalnızca
+      bu ham HTML'i okurlar. Bu yüzden adresler mutlak olmak zorunda — göreli yol
+      verildiğinde paylaşım görseli hiç görünmüyordu. Sayfa içi gezinmede aynı
+      etiketleri lib/seo.ts yeniden yazar.
+    -->
+    <meta property="og:url" content="https://gonuldentatlar.com/" />
+    <meta property="og:image" content="https://gonuldentatlar.com/images/hero/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Kavanozlarda çilekli, muzlu ve çikolatalı magnolya tatlıları" />
+
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gönülden Tatlar | Magnolya ve Cup Tatlılar" />
+    <meta
+      name="twitter:description"
+      content="Gönülden hazırlanan magnolya ve cup tatlılar. Favorini seç, gerisini bize bırak."
+    />
+    <meta name="twitter:image" content="https://gonuldentatlar.com/images/hero/og-cover.jpg" />
 
     <link rel="preload" as="image" href="/images/products/cilekli-red-velvet-magnolya.webp" fetchpriority="high" />
 
