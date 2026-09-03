@@ -49,15 +49,21 @@ güncellenebilir.
 | `/iletisim` | İletişim |
 | `/sepet` | Sepet |
 | `/siparis` | Sipariş bilgileri / checkout |
-| `/admin` | Yönetim paneli (şifre korumalı) |
+| `/admin` | Yönetim paneli — **yalnızca `npm run dev`'de**, canlı sitede yok |
 
 ## Yönetim paneli
 
-`/admin` adresinden `VITE_ADMIN_PASSWORD` ile girilir. Dashboard, ürün / kategori / kampanya
-CRUD'u, sipariş yönetimi, müşteri listesi ve işletme ayarları içerir.
+Panel **yalnızca geliştirme sunucusunda** vardır. `npm run dev` ile açıp `/admin`
+adresine gidilir; şifre `.env.local` (ya da `.env`) içindeki `VITE_ADMIN_PASSWORD`
+ile belirlenir, tanımlı değilse giriş yapılamaz. Dashboard, ürün / kategori /
+kampanya CRUD'u, sipariş yönetimi, müşteri listesi ve işletme ayarları içerir.
 
-> **Not:** Bu demo authentication yalnızca geliştirme içindir. Canlıya çıkarken gerçek bir
-> kimlik doğrulama servisi (JWT / httpOnly cookie) ile değiştirilmelidir.
+Üretim derlemesinde panelin kodu **hiç paketlenmez** — `/admin` adresi canlı sitede
+404 döner. Sebebi: site tamamen statik, tarayıcıya inen hiçbir şifre gizli değil.
+Eskiden şifre herkesin indirebildiği JavaScript dosyasının içinde açıkça duruyordu.
+
+> Gerçek bir çok kullanıcılı yönetim ihtiyacı doğarsa sunucu tarafı oturum
+> (JWT / httpOnly cookie) gerekir; istemci tarafı kilit bunu karşılamaz.
 
 ## Veri
 
@@ -151,12 +157,10 @@ Repo → **Settings → Secrets and variables → Actions**
 | --- | --- | --- |
 | `VITE_WHATSAPP_NUMBER` | Variable | `905321234567` (ülke kodu, sadece rakam) |
 | `VITE_BASE_PATH` | Variable | Proje sayfasında `/repo-adi/`, kendi domaininde **tanımlama** |
-| `VITE_ADMIN_PASSWORD` | Secret | Panel şifresi |
 
 > `VITE_` ile başlayan tüm değerler derlenen JavaScript'e gömülür ve tarayıcıdan
-> okunabilir. `VITE_ADMIN_PASSWORD` gerçek bir güvenlik katmanı değil, yalnızca
-> paneli kazara açılmaktan koruyan bir kilittir. Gizli kalması gereken hiçbir
-> bilgiyi buraya koymayın.
+> okunabilir. Gizli kalması gereken hiçbir bilgiyi buraya koymayın. Bu yüzden
+> `VITE_ADMIN_PASSWORD` GitHub'a tanımlanmaz; panel zaten üretime girmiyor.
 
 ### 4. Yayın adresi
 
@@ -233,12 +237,13 @@ npm run build && npm run preview
 
 ## Statik yayında admin paneli
 
-Backend olmadığı için panel değişiklikleri **yalnızca o tarayıcıda** geçerlidir;
-müşterilerin gördüğü menüyü değiştirmez. Panelde bu uyarı sürekli görünür.
+Panel canlı sitede yok; `npm run dev` ile yerelde açılır. Backend olmadığı için
+değişiklikler **yalnızca o tarayıcıda** geçerlidir, müşterilerin gördüğü menüyü
+değiştirmez. Panelde bu uyarı sürekli görünür.
 
 Menü kalıcı olarak nasıl güncellenir:
 
-1. Panelden değişiklikleri yap → **İşletme Ayarları → Veri → Yedek indir**
+1. `npm run dev` → `/admin` → değişiklikleri yap → **İşletme Ayarları → Veri → Yedek indir**
 2. JSON dosyasını geliştiriciye ilet (veya kendin `src/data/catalog.ts` içine işle)
 3. `git push` → GitHub Actions 1–2 dakikada yayınlar
 

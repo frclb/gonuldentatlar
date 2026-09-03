@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { useAdminAuth } from '@/context/AdminAuthContext'
+import { AdminAuthProvider, useAdminAuth } from '@/context/AdminAuthContext'
 import { useSeo } from '@/lib/seo'
 import { AdminCampaigns } from './AdminCampaigns'
 import { AdminCategories } from './AdminCategories'
@@ -12,6 +12,14 @@ import { AdminProducts } from './AdminProducts'
 import { AdminSettings } from './AdminSettings'
 
 export default function AdminRoutes() {
+  return (
+    <AdminAuthProvider>
+      <AdminScreens />
+    </AdminAuthProvider>
+  )
+}
+
+function AdminScreens() {
   const { isAuthenticated } = useAdminAuth()
 
   useSeo({

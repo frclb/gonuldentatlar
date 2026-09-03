@@ -35,7 +35,6 @@ jobs:
           # repo değişkenini "/gonuldentatlar/" yap.
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
           VITE_WHATSAPP_NUMBER: ${{ vars.VITE_WHATSAPP_NUMBER }}
-          VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

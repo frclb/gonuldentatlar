@@ -131,9 +131,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center gap-3 border-t border-cocoa-700 pt-6 text-center text-xs text-cream-300/60 sm:flex-row sm:justify-between sm:text-left">
-          <p>Gönülden hazırladık, afiyetle yiyin.</p>
+        <div className="mt-12 flex flex-col items-center gap-4 border-t border-cocoa-700 pt-6 text-center text-xs text-cream-300/60 sm:flex-row sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} Gönülden Tatlar. Tüm hakları saklıdır.</p>
+          <nav aria-label="Yasal" className="flex flex-wrap justify-center gap-x-5 gap-y-2">
+            <Link to="/kvkk" className="transition-colors hover:text-blush-200">
+              KVKK Aydınlatma Metni
+            </Link>
+            <Link to="/gizlilik" className="transition-colors hover:text-blush-200">
+              Gizlilik ve Çerez Politikası
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

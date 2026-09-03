@@ -411,6 +411,19 @@ export default function Checkout() {
                 <MessageCircle className="size-3.5 text-olive-500" />
                 Siparişin WhatsApp üzerinden bize iletilir.
               </p>
+
+              {/* Form ad, telefon ve adres topluyor; aydınlatma metnine buradan erişilebilmeli */}
+              <p className="mt-2 text-center text-[0.75rem] leading-relaxed text-muted">
+                Devam ederek{' '}
+                <Link to="/kvkk" className="underline underline-offset-2 hover:text-cocoa-700">
+                  KVKK Aydınlatma Metni
+                </Link>{' '}
+                ve{' '}
+                <Link to="/gizlilik" className="underline underline-offset-2 hover:text-cocoa-700">
+                  Gizlilik Politikası
+                </Link>
+                'nı okuduğunu kabul etmiş olursun.
+              </p>
             </div>
           </aside>
         </form>
