@@ -8,6 +8,7 @@ import { InstagramSection } from '@/components/home/InstagramSection'
 import { LocationSection } from '@/components/home/LocationSection'
 import { OrderCTA } from '@/components/home/OrderCTA'
 import { PopularProducts } from '@/components/home/PopularProducts'
+import { ServingCompare } from '@/components/home/ServingCompare'
 import { track } from '@/lib/analytics'
 import { useSeo } from '@/lib/seo'
 
@@ -26,6 +27,7 @@ export default function Home() {
       <Hero />
       <CategoryStrip />
       <FeaturedProducts />
+      <ServingCompare />
       <CampaignSection />
       <BrandStory />
       <PopularProducts />

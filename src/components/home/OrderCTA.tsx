@@ -14,13 +14,14 @@ export function OrderCTA() {
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -left-16 -top-16 size-64 rounded-full bg-cocoa-600" />
           <div className="absolute -bottom-24 -right-10 size-72 rounded-full bg-cocoa-800/60" />
+          {/* Butona basmadan hemen önce çeşit genişliğini gösteren kare */}
           <img
-            src={assetUrl('/images/products/lotuslu-magnolya.webp')}
+            src={assetUrl('/images/genel/vitrin-tumu.webp')}
             alt=""
-            width={900}
-            height={900}
+            width={1600}
+            height={1280}
             loading="lazy"
-            className="absolute -right-8 top-1/2 hidden size-64 -translate-y-1/2 rounded-full object-cover opacity-90 shadow-lift lg:block"
+            className="absolute -right-10 top-1/2 hidden w-[26rem] -translate-y-1/2 rounded-xl object-cover shadow-lift lg:block xl:w-[30rem]"
           />
         </div>
 

@@ -24,13 +24,13 @@ export function BrandStory() {
               className="overflow-hidden rounded-xl shadow-card"
             >
               <img
-                src={assetUrl('/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp')}
-                alt="Kakaolu bisküvili çilekli çikolatalı magnolya"
-                width={800}
-                height={800}
+                src={assetUrl('/images/genel/klasik-uclu-kavanoz.webp')}
+                alt="Çilekli, çikolatalı ve muzlu magnolyalar kavanoz sunumuyla"
+                width={1600}
+                height={1067}
                 loading="lazy"
                 decoding="async"
-                className="aspect-[4/5] w-full object-cover"
+                className="aspect-[4/3] w-full object-cover"
               />
             </motion.div>
 

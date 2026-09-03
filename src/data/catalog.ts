@@ -385,14 +385,14 @@ export const campaigns: Campaign[] = []
 /* ---------------------------------------------------------------- Instagram */
 
 export const instagramPosts: SocialMediaPost[] = [
-  { id: 'post-1', image: '/images/products/cilekli-cikolatali-cup.webp', caption: 'Çilekli Çikolatalı Cup — taze çilekle.', likes: 412, url: 'https://instagram.com/gonuldenntatlar' },
-  { id: 'post-2', image: '/images/products/oreolu-magnolya.webp', caption: 'Oreolu Magnolya, klasikleşti.', likes: 623, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-1', image: '/images/genel/vitrin-tumu-kare.webp', caption: 'Bugün vitrinde neler var?', likes: 412, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-2', image: '/images/genel/oreolu-uclu-kavanoz-kare.webp', caption: 'Oreolu üçlü — klasikleşti.', likes: 623, url: 'https://instagram.com/gonuldenntatlar' },
   { id: 'post-3', image: '/images/products/lotuslu-magnolya.webp', caption: 'Lotuslu Magnolya hazır.', likes: 501, url: 'https://instagram.com/gonuldenntatlar' },
-  { id: 'post-4', image: '/images/products/cilekli-magnolya.webp', caption: 'Günün çilekleri seçildi.', likes: 388, url: 'https://instagram.com/gonuldenntatlar' },
-  { id: 'post-5', image: '/images/products/kakaolu-biskuvili-cilekli-cikolatali-magnolya.webp', caption: 'Kakaolu bisküvi + çikolata + çilek.', likes: 457, url: 'https://instagram.com/gonuldenntatlar' },
-  { id: 'post-6', image: '/images/products/cevizli-cikolatali-magnolya.webp', caption: 'Cevizli Çikolatalı Magnolya.', likes: 265, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-4', image: '/images/genel/karisik-dortlu-kavanoz-kare.webp', caption: 'Çilek, muz, çikolata — dördü bir arada.', likes: 388, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-5', image: '/images/genel/kakaolu-uclu-kavanoz-kare.webp', caption: 'Kakaolu bisküvili üçlü.', likes: 457, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-6', image: '/images/genel/cevizli-ikili-kavanoz-kare.webp', caption: 'Cevizli, sade ve çikolatalı.', likes: 265, url: 'https://instagram.com/gonuldenntatlar' },
   { id: 'post-7', image: '/images/products/muzlu-magnolya.webp', caption: 'Muzlu Magnolya — sade sevenlere.', likes: 198, url: 'https://instagram.com/gonuldenntatlar' },
-  { id: 'post-8', image: '/images/products/cilekli-muzlu-cikolatali-cup.webp', caption: 'Hepsi bir arada: çilek, muz, çikolata.', likes: 344, url: 'https://instagram.com/gonuldenntatlar' },
+  { id: 'post-8', image: '/images/genel/karisik-dortlu-cup-kare.webp', caption: 'Aynı tatlar, cup sunumuyla.', likes: 344, url: 'https://instagram.com/gonuldenntatlar' },
 ]
 
 /* ------------------------------------------------------------------ İşletme */

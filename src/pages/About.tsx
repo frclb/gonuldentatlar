@@ -52,22 +52,23 @@ export default function About() {
 
       <Section>
         <div className="container-page grid items-center gap-10 md:grid-cols-2 md:gap-14">
-          <div className="grid grid-cols-2 gap-4">
+          {/* Aynı tatlıların iki sunumu; ikincisi kaydırılarak üst üste binmeden derinlik verir */}
+          <div className="space-y-4">
             <img
-              src={assetUrl('/images/products/lotuslu-magnolya.webp')}
-              alt="Lotuslu magnolya"
-              width={800}
-              height={800}
+              src={assetUrl('/images/genel/beyaz-cikolatali-uclu-kavanoz.webp')}
+              alt="Beyaz çikolatalı ve çilekli magnolyalar kavanoz sunumuyla"
+              width={1600}
+              height={1067}
               loading="lazy"
-              className="aspect-[3/4] w-full rounded-xl object-cover shadow-soft"
+              className="aspect-[3/2] w-full rounded-xl object-cover shadow-soft"
             />
             <img
-              src={assetUrl('/images/products/cilekli-cikolatali-cup.webp')}
-              alt="Çilekli çikolatalı cup"
-              width={800}
-              height={800}
+              src={assetUrl('/images/genel/beyaz-cikolatali-uclu-cup.webp')}
+              alt="Aynı tatlılar cup sunumuyla"
+              width={1600}
+              height={1067}
               loading="lazy"
-              className="mt-8 aspect-[3/4] w-full rounded-xl object-cover shadow-soft"
+              className="ml-auto aspect-[3/2] w-[85%] rounded-xl object-cover shadow-soft"
             />
           </div>
 

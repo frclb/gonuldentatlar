@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { assetUrl } from '@/lib/assets'
 import { ProductGrid } from '@/components/product/ProductGrid'
 import { ButtonLink } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/States'
@@ -77,12 +78,24 @@ export default function Menu() {
   return (
     <>
       <header className="border-b border-line bg-cream-100">
-        <div className="container-page py-10 md:py-14">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Menü</p>
-          <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Gönülden Gelen Lezzetler</h1>
-          <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
-            {activeProducts.length} çeşit seni bekliyor. Kategoriye göre filtrele, favorini seç ve sepete ekle.
-          </p>
+        <div className="container-page grid items-center gap-8 py-10 md:py-14 lg:grid-cols-[1fr_auto] lg:gap-12">
+          <div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Menü</p>
+            <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Gönülden Gelen Lezzetler</h1>
+            <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
+              {activeProducts.length} çeşit seni bekliyor. Kategoriye göre filtrele, favorini seç ve sepete ekle.
+            </p>
+          </div>
+          {/* Başlıkla birlikte görünür, bu yüzden gecikmeli yükleme yok */}
+          <img
+            src={assetUrl('/images/genel/karisik-dortlu-kavanoz.webp')}
+            alt=""
+            width={1600}
+            height={1067}
+            decoding="async"
+            /* Sabit yükseklik: başlık şişip ürünleri ekranın altına itmesin */
+            className="hidden h-44 w-[22rem] rounded-xl object-cover shadow-soft lg:block xl:h-48 xl:w-[26rem]"
+          />
         </div>
       </header>
 
