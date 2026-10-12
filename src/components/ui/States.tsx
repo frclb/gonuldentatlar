@@ -4,11 +4,14 @@ import { Button } from './Button'
 
 export function EmptyState({
   emoji = '🍓',
+  icon,
   title,
   description,
   action,
 }: {
   emoji?: string
+  /** Verilirse emoji yerine gösterilir (ör. logo) */
+  icon?: ReactNode
   title: string
   description?: string
   action?: ReactNode
@@ -16,7 +19,7 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-cream-300 bg-cream-100/60 px-6 py-14 text-center">
       <span className="mb-4 grid size-16 place-items-center rounded-full bg-surface text-3xl shadow-soft" aria-hidden>
-        {emoji}
+        {icon ?? emoji}
       </span>
       <h3 className="text-lg">{title}</h3>
       {description && <p className="mt-2 max-w-sm text-sm text-muted">{description}</p>}

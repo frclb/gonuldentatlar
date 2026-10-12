@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion'
 import { Search, X } from 'lucide-react'
-import { useEffect, useMemo, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { assetUrl } from '@/lib/assets'
+import { LogoMark } from '@/components/brand/Logo'
+import { FilterChips } from '@/components/product/FilterChips'
 import { ProductGrid } from '@/components/product/ProductGrid'
-import { ButtonLink } from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/States'
 import { useCatalog } from '@/context/CatalogContext'
+import { useFlipGrid } from '@/hooks/useFlipGrid'
 import { track } from '@/lib/analytics'
-import { cn } from '@/lib/cn'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
@@ -19,7 +21,9 @@ export default function Menu() {
   const { activeCategories, activeProducts, activeCampaigns } = useCatalog()
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState('')
-  const [isPending, startTransition] = useTransition()
+  // Tıklanan sekme, adres güncellenene kadar. Adres çıkış animasyonundan sonra
+  // değişiyor; hap ona bağlı kalsaydı tıklamadan ~370 ms sonra kıpırdardı
+  const [chosen, setChosen] = useState<string | null>(null)
 
   const activeFilter = searchParams.get('kategori') ?? ALL
   const campaignSlug = searchParams.get('kampanya')
@@ -50,18 +54,21 @@ export default function Menu() {
     [activeCategories, activeCampaigns],
   )
 
-  const filtered = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase('tr-TR')
-    const campaignIds = selectedCampaign?.productIds
-
+  /**
+   * Hem ekrandaki listeyi hem de bir sonraki filtrenin listesini hesaplar.
+   * İkisi aynı fonksiyondan çıkmalı: geçiş, hangi kartların çıkacağını
+   * buradan öğreniyor.
+   */
+  const filterProducts = (filterId: string, campaignIds?: string[], search = query) => {
+    const normalized = search.trim().toLocaleLowerCase('tr-TR')
     return activeProducts.filter((product) => {
       if (campaignIds && !campaignIds.includes(product.id)) return false
       const matchesFilter =
-        activeFilter === ALL
+        filterId === ALL
           ? true
-          : activeFilter === CAMPAIGN
+          : filterId === CAMPAIGN
             ? campaignProductIds.has(product.id) || product.discountPercentage !== undefined
-            : product.categoryIds.includes(activeFilter)
+            : product.categoryIds.includes(filterId)
       if (!matchesFilter) return false
       if (!normalized) return true
       return (
@@ -69,13 +76,43 @@ export default function Menu() {
         product.description.toLocaleLowerCase('tr-TR').includes(normalized)
       )
     })
-  }, [activeProducts, activeFilter, campaignProductIds, query, selectedCampaign])
+  }
 
-  const selectFilter = (id: string) => {
-    startTransition(() => {
+  const filtered = filterProducts(activeFilter, selectedCampaign?.productIds)
+  const { grid, exitThen } = useFlipGrid(filtered.map((product) => product.id))
+
+  // startTransition kaldırıldı: geçişi animasyon yönetiyor, isPending'in
+  // gösterdiği iskelet kartlar da FLIP ölçümlerini bozuyordu
+  /**
+   * @param nextQuery Verilirse arama da geçişle birlikte değişir. Sonraki liste
+   * yeni aramayla hesaplanmalı: eski aramayla boş çıkar ve geçiş "değişiklik
+   * yok" sanıp kartları yükseltmez.
+   */
+  const applyFilter = (id: string, nextQuery?: string) => {
+    // Filtre seçilince kampanya parametresi de düşüyor; sonraki liste ona göre
+    const nextIds = filterProducts(id, undefined, nextQuery ?? query).map((product) => product.id)
+    setChosen(id)
+    exitThen(nextIds, () => {
       setSearchParams(id === ALL ? {} : { kategori: id }, { replace: true })
+      if (nextQuery !== undefined) setQuery(nextQuery)
+      setChosen(null)
     })
   }
+
+  const selectFilter = (id: string) => {
+    if (id === (chosen ?? activeFilter) && !selectedCampaign) return
+    applyFilter(id)
+  }
+
+  // Boş durumdan dönüş: zaten "Tümü"deyken aramada boş kalındıysa da çalışmalı
+  const showAll = () => applyFilter(ALL, '')
+
+  const activeLabel = filters.find((filter) => filter.id === activeFilter)?.label
+  const emptyDescription = query
+    ? `"${query}" için sonuç yok. Başka bir şey deneyebilirsin.`
+    : activeFilter === CAMPAIGN
+      ? 'Şu an kampanyalı ürün yok. Diğer tatlara göz atabilirsin.'
+      : `${activeLabel ?? 'Bu tat'} çeşitler şu an menüde yok. Diğer tatlara göz atabilirsin.`
 
   return (
     <>
@@ -105,27 +142,12 @@ export default function Menu() {
         <div className="container-page">
           <div className="flex items-start gap-3 py-3 lg:items-center">
             {/* Mobilde yatay kaydırma, geniş ekranda alt satıra sarma */}
-            <div className="no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1 lg:flex-wrap lg:overflow-visible">
-              {filters.map((filter) => {
-                const isActive = filter.id === activeFilter
-                return (
-                  <button
-                    key={filter.id}
-                    type="button"
-                    onClick={() => selectFilter(filter.id)}
-                    aria-pressed={isActive}
-                    className={cn(
-                      'shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-200',
-                      isActive
-                        ? 'border-cocoa-600 bg-cocoa-600 text-cream-50'
-                        : 'border-line bg-surface text-cocoa-700 hover:border-cocoa-300 hover:bg-cream-100',
-                    )}
-                  >
-                    {filter.label}
-                  </button>
-                )
-              })}
-            </div>
+            <FilterChips
+              filters={filters}
+              active={chosen ?? activeFilter}
+              onSelect={selectFilter}
+              className="no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1 lg:flex-wrap lg:overflow-visible"
+            />
 
             <div className="relative hidden w-56 shrink-0 sm:block lg:mt-0">
               <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
@@ -169,18 +191,38 @@ export default function Menu() {
           </div>
         )}
 
-        {filtered.length === 0 && !isPending ? (
-          <EmptyState
-            title="Bu kategoride henüz ürün bulunmuyor."
-            description={query ? `"${query}" için sonuç yok. Başka bir şey deneyebilirsin.` : undefined}
-            action={
-              <ButtonLink to="/menu" onClick={() => setQuery('')} variant="outline">
-                Tüm menüyü gör
-              </ButtonLink>
-            }
-          />
+        {/* Sayaç: her değişimde yukarıdan düşerek güncellenir */}
+        <p aria-live="polite" className="mb-5 text-sm font-semibold text-cocoa-700">
+          <motion.span
+            key={`${activeFilter}-${filtered.length}`}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-block"
+          >
+            {filtered.length} çeşit
+          </motion.span>
+        </p>
+
+        {filtered.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <EmptyState
+              icon={<LogoMark className="size-14" />}
+              title={query ? 'Aradığın tatlıyı bulamadık.' : 'Bu tat çok yakında burada.'}
+              description={emptyDescription}
+              action={
+                <Button onClick={showAll} variant="outline">
+                  Tümünü gör
+                </Button>
+              }
+            />
+          </motion.div>
         ) : (
-          <ProductGrid products={filtered} loading={isPending} skeletonCount={8} />
+          <ProductGrid gridRef={grid} products={filtered} reveal={false} />
         )}
       </div>
     </>

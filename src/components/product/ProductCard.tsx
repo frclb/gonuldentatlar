@@ -16,7 +16,18 @@ import { assetUrl } from '@/lib/assets'
  * Sitenin en önemli UI parçası. Tek bir tasarımı vardır; menü, ana sayfa ve
  * kampanya listelerinde aynı bileşen kullanılır.
  */
-export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
+export function ProductCard({
+  product,
+  priority = false,
+  reveal = true,
+}: {
+  product: Product
+  priority?: boolean
+  /** Kaydırınca belirme. Menüde kapalı: filtre değişince gelen kartları
+      useFlipGrid getiriyor, framer-motion da aynı anda getirmeye çalışırsa
+      iki animasyon çakışır */
+  reveal?: boolean
+}) {
   const { addItem, openCart } = useCart()
   const { settings } = useCatalog()
   const { isFavorite, toggleFavorite } = useFavorites()
@@ -39,8 +50,9 @@ export function ProductCard({ product, priority = false }: { product: Product; p
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      data-flip-id={product.id}
+      initial={reveal ? { opacity: 0, y: 18 } : false}
+      whileInView={reveal ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="group relative flex flex-col overflow-hidden rounded-xl bg-surface shadow-soft transition-shadow duration-300 hover:shadow-card"
