@@ -2,6 +2,7 @@ import { useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Plus, X } from 'lucide-react'
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useNavigate } from 'react-router-dom'
 import { Price } from '@/components/ui/Price'
 import { ServingToggle } from '@/components/ui/ServingToggle'
 import { useCart } from '@/context/CartContext'
@@ -202,6 +203,7 @@ export function MagnolyaStage({
   onClose: () => void
 }) {
   const reduce = useReducedMotion()
+  const navigate = useNavigate()
   const { addItem } = useCart()
   const { notify } = useToast()
   const stage = useRef<HTMLDivElement>(null)
@@ -499,6 +501,19 @@ export function MagnolyaStage({
           <p className="mt-4 text-pretty leading-relaxed text-muted" style={textIn(0.18)}>
             {p.description}
           </p>
+          {/* Kartlar sahneyi açtığı için ürün sayfasına giden yol burada:
+              sipariş notu, adet ve benzer ürünler orada */}
+          <button
+            type="button"
+            onClick={() => {
+              onClose()
+              navigate(`/menu/${p.slug}`)
+            }}
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-cocoa-700 underline-offset-4 hover:underline"
+            style={textIn(0.24)}
+          >
+            Ürün detayları <ArrowRight className="size-4" />
+          </button>
 
           <ol className="mt-6 border-t border-line">
             {shot.layers.map((layer, j) => (

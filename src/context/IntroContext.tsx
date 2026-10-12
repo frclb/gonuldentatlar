@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useLocation } from 'react-router-dom'
 import { shouldPlayIntro } from '@/components/brand/IntroSplash'
 
 /**
@@ -20,7 +21,11 @@ interface IntroValue {
 const IntroCtx = createContext<IntroValue | null>(null)
 
 export function IntroProvider({ children }: { children: ReactNode }) {
-  const [playing, setPlaying] = useState(() => shouldPlayIntro())
+  const { pathname } = useLocation()
+  // Yalnızca oturum ana sayfada başlıyorsa. Ürün linkiyle gelen biri için
+  // "oynuyor" durumunda kalsaydı navbar logosu (açılış sürerken gizli) ana
+  // sayfaya gidene kadar görünmez kalıyordu
+  const [playing, setPlaying] = useState(() => pathname === '/' && shouldPlayIntro())
   // Açılış oynamıyorsa Hero doğrudan görünür olmalı
   const [heroIn, setHeroIn] = useState(!playing)
   const logoRef = useRef<HTMLSpanElement>(null)
