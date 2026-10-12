@@ -30,6 +30,7 @@ export function MagnolyaCard({
   active,
   onActive,
   split,
+  mountJar,
 }: {
   product: Product
   jarMode: boolean
@@ -37,6 +38,7 @@ export function MagnolyaCard({
   active: boolean
   onActive: (value: boolean) => void
   split?: boolean
+  mountJar: boolean
 }) {
   const canHover = useCanHover()
   const { addItem } = useCart()
@@ -84,6 +86,7 @@ export function MagnolyaCard({
           onToggle={() => onActive(!active)}
           index={index}
           alt={product.name}
+          mountJar={mountJar}
         >
           <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
             {product.badge && <Badge tone={product.badge.tone ?? 'dark'}>{product.badge.label}</Badge>}

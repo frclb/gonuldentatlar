@@ -70,6 +70,7 @@ export function LayerReveal({
   onToggle,
   index = 0,
   alt,
+  mountJar,
   children,
 }: {
   cup: ServingShot
@@ -80,6 +81,10 @@ export function LayerReveal({
   split?: boolean
   canHover: boolean
   onToggle: () => void
+  /** Kavanoz katmanı DOM'a girsin mi. Kullanıcı sunumu değiştirene (ya da
+      değiştirmeye niyetlenene) kadar false: aksi hâlde kimse Kavanoz'a
+      basmasa bile kavanoz fotoğrafları indiriliyor. */
+  mountJar: boolean
   /** Kavanoz dolum animasyonunda kartlar kademeli başlasın diye */
   index?: number
   alt: string
@@ -110,15 +115,19 @@ export function LayerReveal({
       <Slices shot={cup} active={active} split={split} alt={alt} eager={index < 2} />
 
       {/* Kavanoz alttan yukarı dolarak gelir, geri dönüşte boşalır */}
-      <div
-        className="absolute inset-0 transition-[clip-path] duration-[800ms] ease-[cubic-bezier(.65,0,.35,1)]"
-        style={{
-          clipPath: jarMode ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
-          transitionDelay: `${index * 0.07}s`,
-        }}
-      >
-        <Slices shot={jar} active={active} split={split} alt={alt} eager={false} />
-      </div>
+      {(mountJar || jarMode) && (
+        <div
+          className="absolute inset-0 transition-[clip-path] duration-[800ms] ease-[cubic-bezier(.65,0,.35,1)]"
+          style={{
+            clipPath: jarMode ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
+            transitionDelay: `${index * 0.07}s`,
+          }}
+        >
+          {/* Mount edildiği an gerekiyor; dolum 800 ms sürdüğü için
+              indirme çoğu bağlantıda perde arkasında bitiyor */}
+          <Slices shot={jar} active={active} split={split} alt={alt} eager />
+        </div>
+      )}
 
       {/* Sağdan gelen yarı saydam panel */}
       <div

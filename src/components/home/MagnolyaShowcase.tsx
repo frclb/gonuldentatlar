@@ -15,6 +15,9 @@ export function MagnolyaShowcase() {
   const { activeProducts } = useCatalog()
   const [jar, setJar] = useState(false)
   const [activeId, setActiveId] = useState<string | null>(null)
+  // Bir kez açıldıktan sonra kapanmaz: kavanoz katmanı DOM'da kalsın ki
+  // ileri geri geçişlerde dolum animasyonu tekrar beklemesin
+  const [jarMounted, setJarMounted] = useState(false)
 
   const items = layeredSlugs
     .map((slug) => activeProducts.find((product) => product.slug === slug))
@@ -31,7 +34,14 @@ export function MagnolyaShowcase() {
           description="Üzerine gel ya da dokun — her magnolyanın katmanlarını tek tek gör."
           action={
             <div className="flex flex-wrap items-center gap-3">
-              <ServingToggle jar={jar} onChange={setJar} />
+              <ServingToggle
+                jar={jar}
+                onIntent={() => setJarMounted(true)}
+                onChange={(value) => {
+                  setJarMounted(true)
+                  setJar(value)
+                }}
+              />
               <ButtonLink to="/menu" variant="outline">
                 Tüm menü <ArrowRight className="size-4" />
               </ButtonLink>
@@ -47,6 +57,7 @@ export function MagnolyaShowcase() {
               product={product}
               index={index}
               jarMode={jar}
+              mountJar={jarMounted}
               active={activeId === product.id}
               onActive={(value) => setActiveId(value ? product.id : null)}
             />
