@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { Clock, Leaf, MessageCircle, ShoppingBag } from 'lucide-react'
 import { ButtonAnchor, ButtonLink } from '@/components/ui/Button'
 import { useCatalog } from '@/context/CatalogContext'
@@ -12,9 +13,9 @@ import { fadeUp } from '@/lib/motion'
 
 /** Haftanın favorisi kartı — ürünü değiştirmek için tek yer burası. */
 const FAVOURITE = {
-  slug: 'oreolu-magnolya',
-  name: 'Oreolu Magnolya',
-  image: '/images/products/oreolu-magnolya.webp',
+  slug: 'lotuslu-magnolya',
+  name: 'Lotuslu Magnolya',
+  image: '/images/products/lotuslu-magnolya.webp',
 }
 
 const trustPoints = [
@@ -28,6 +29,14 @@ export function Hero() {
   const { heroIn } = useIntro()
   // Açılış oynarken Hero beklesin; logo uçmaya başladığı anda birlikte açılsın
   const reveal = heroIn ? 'show' : 'hidden'
+
+  // "Tatlar" altındaki çizgi Hero açılınca kendini çizer
+  const [drawn, setDrawn] = useState(false)
+  useEffect(() => {
+    if (!heroIn) return
+    const timer = window.setTimeout(() => setDrawn(true), 30)
+    return () => window.clearTimeout(timer)
+  }, [heroIn])
 
   return (
     <section className="relative overflow-hidden">
@@ -75,6 +84,12 @@ export function Hero() {
                     stroke="currentColor"
                     strokeWidth="5"
                     strokeLinecap="round"
+                    pathLength={1}
+                    style={{
+                      strokeDasharray: 1,
+                      strokeDashoffset: drawn ? 0 : 1,
+                      transition: 'stroke-dashoffset .7s cubic-bezier(.65,0,.35,1) .45s',
+                    }}
                   />
                 </svg>
               </span>
@@ -97,8 +112,8 @@ export function Hero() {
               custom={0.2}
               className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-muted"
             >
-              Süt kreması, bisküvi katmanları ve taze meyveyle hazırlanan magnolya ve cup tatlılar.
-              Favorini seç, gerisini bize bırak.
+              Katman katman magnolya: taze meyve, ipeksi krema ve çıtır bisküvi. Cup ya da kavanozda —
+              favorini seç, gerisini bize bırak.
             </motion.p>
 
             <motion.div

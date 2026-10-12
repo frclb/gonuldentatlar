@@ -1,16 +1,12 @@
 import { ArrowRight } from 'lucide-react'
-import { lazy, Suspense, useState } from 'react'
+import { Suspense, useState } from 'react'
+import { MagnolyaStage, preloadMagnolyaStage } from '@/components/product/LazyMagnolyaStage'
 import { MagnolyaCard } from '@/components/product/MagnolyaCard'
 import { ButtonLink } from '@/components/ui/Button'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { ServingToggle } from '@/components/ui/ServingToggle'
 import { useCatalog } from '@/context/CatalogContext'
-import { layeredSlugs } from '@/data/layers'
-
-/* Sahne yalnızca karta tıklanınca gerekiyor; ana paketi büyütmesin.
-   Kart üzerine gelinince önceden indirilir, tıklamada bekleme olmaz */
-const loadStage = () => import('@/components/product/MagnolyaStage')
-const MagnolyaStage = lazy(() => loadStage().then((module) => ({ default: module.MagnolyaStage })))
+import { showcaseSlugs } from '@/data/layers'
 
 /**
  * Katman vitrini — ana sayfadaki "Öne çıkanlar" bölümünün yerini alır.
@@ -30,7 +26,7 @@ export function MagnolyaShowcase() {
     setJar(value)
   }
 
-  const items = layeredSlugs
+  const items = showcaseSlugs
     .map((slug) => activeProducts.find((product) => product.slug === slug))
     .filter((product): product is NonNullable<typeof product> => Boolean(product?.serving))
 
@@ -59,8 +55,8 @@ export function MagnolyaShowcase() {
 
         {/* mobilde yatay kaydırma şeridi, sm+ grid */}
         <div
-          onPointerEnter={loadStage}
-          onTouchStart={loadStage}
+          onPointerEnter={preloadMagnolyaStage}
+          onTouchStart={preloadMagnolyaStage}
           className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0"
         >
           {items.map((product, index) => (

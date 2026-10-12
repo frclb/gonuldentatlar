@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion'
 import { Search, X } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { assetUrl } from '@/lib/assets'
 import { LogoMark } from '@/components/brand/Logo'
 import { FilterChips } from '@/components/product/FilterChips'
+import { MagnolyaStage, preloadMagnolyaStage } from '@/components/product/LazyMagnolyaStage'
+import { MagnolyaCard } from '@/components/product/MagnolyaCard'
 import { ProductGrid } from '@/components/product/ProductGrid'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/States'
@@ -24,6 +26,18 @@ export default function Menu() {
   // Tıklanan sekme, adres güncellenene kadar. Adres çıkış animasyonundan sonra
   // değişiyor; hap ona bağlı kalsaydı tıklamadan ~370 ms sonra kıpırdardı
   const [chosen, setChosen] = useState<string | null>(null)
+
+  /* Katmanlı magnolya kartları — ana sayfa vitriniyle aynı davranış:
+     üzerine gelince katmanlar, tıklayınca sahne, sahnede Cup ↔ Kavanoz */
+  const [hovered, setHovered] = useState<string | null>(null)
+  const [stage, setStage] = useState<{ id: string; from: DOMRect | null } | null>(null)
+  const [jar, setJar] = useState(false)
+  // Kavanoz görselleri sunum ilk değiştiğinde iner (bkz. MagnolyaShowcase)
+  const [jarMounted, setJarMounted] = useState(false)
+  const changeServing = (value: boolean) => {
+    setJarMounted(true)
+    setJar(value)
+  }
 
   const activeFilter = searchParams.get('kategori') ?? ALL
   const campaignSlug = searchParams.get('kampanya')
@@ -222,9 +236,50 @@ export default function Menu() {
             />
           </motion.div>
         ) : (
-          <ProductGrid gridRef={grid} products={filtered} reveal={false} />
+          <div onPointerEnter={preloadMagnolyaStage} onTouchStart={preloadMagnolyaStage}>
+            <ProductGrid
+              gridRef={grid}
+              products={filtered}
+              reveal={false}
+              renderCard={(product, index) =>
+                product.serving ? (
+                  <MagnolyaCard
+                    key={product.id}
+                    variant="grid"
+                    reveal={false}
+                    product={product}
+                    index={index}
+                    jarMode={jar}
+                    mountJar={jarMounted}
+                    active={hovered === product.id}
+                    onActive={(value) => setHovered(value ? product.id : null)}
+                    onOpen={(rect) => {
+                      // Kapanışta görsel karta döndüğünde kart düz hâlinde olsun
+                      setHovered(null)
+                      setStage({ id: product.id, from: rect })
+                    }}
+                  />
+                ) : undefined
+              }
+            />
+          </div>
         )}
       </div>
+
+      {stage && (
+        <Suspense fallback={null}>
+          <MagnolyaStage
+            // ← / → menüde o an listelenen ürünler arasında gezer
+            products={filtered.filter((product) => product.serving)}
+            activeId={stage.id}
+            fromRect={stage.from}
+            jar={jar}
+            onJarChange={changeServing}
+            onNavigate={(id) => setStage((current) => (current ? { ...current, id } : current))}
+            onClose={() => setStage(null)}
+          />
+        </Suspense>
+      )}
     </>
   )
 }

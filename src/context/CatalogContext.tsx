@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Campaign, Category, Order, OrderStatus, Product, StoreSettings } from '@/types'
 import { campaigns as seedCampaigns, categories as seedCategories, products as seedProducts, storeSettings as seedSettings } from '@/data/catalog'
+import { servingLayers } from '@/data/layers'
 import { readStorage, removeStorage, writeStorage } from '@/lib/storage'
 
 /**
@@ -66,7 +67,18 @@ const CatalogContext = createContext<CatalogContextValue | null>(null)
 function loadState(): CatalogState {
   const stored = readStorage<CatalogState | null>(STORAGE_KEY, null)
   if (!stored || stored.version !== VERSION) return seedState()
-  return stored
+  // Katman haritaları panelden düzenlenen veri değil; her açılışta kaynaktan
+  // alınır. Saklı katalog bunları taşımıyordu (eklendiklerinde VERSION
+  // artırılmamıştı): siteyi önceden açmış tarayıcılarda ana sayfa vitrini
+  // boş kalıyor, katman animasyonları hiç görünmüyordu. Böylece yeni ölçümler
+  // de sürüm artırıp ziyaretçinin yerel sipariş kayıtlarını silmeden yansır
+  return {
+    ...stored,
+    products: stored.products.map((product) => ({
+      ...product,
+      serving: servingLayers[product.slug] ?? product.serving,
+    })),
+  }
 }
 
 export function CatalogProvider({ children }: { children: ReactNode }) {

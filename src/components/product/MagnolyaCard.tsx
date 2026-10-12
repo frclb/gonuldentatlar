@@ -30,6 +30,8 @@ export function MagnolyaCard({
   split,
   mountJar,
   onOpen,
+  variant = 'strip',
+  reveal = true,
 }: {
   product: Product
   jarMode: boolean
@@ -40,6 +42,10 @@ export function MagnolyaCard({
   mountJar: boolean
   /** Sahneyi açar; kartın görsel kutusunun konumuyla */
   onOpen: (rect: DOMRect) => void
+  /** strip: ana sayfadaki yatay şerit (mobilde %78 genişlik); grid: menü ızgarası */
+  variant?: 'strip' | 'grid'
+  /** Kaydırınca belirme. Menüde kapalı — filtre geçişini useFlipGrid yönetiyor */
+  reveal?: boolean
 }) {
   const canHover = useCanHover()
   const { addItem } = useCart()
@@ -68,15 +74,19 @@ export function MagnolyaCard({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      data-flip-id={product.id}
+      initial={reveal ? { opacity: 0, y: 18 } : false}
+      whileInView={reveal ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: (index % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => canHover && onActive(true)}
       onMouseLeave={() => canHover && onActive(false)}
       // Sahne kapanırken görsel doğru karta geri dönsün diye
       data-magnolya-card={product.id}
-      className="group relative flex w-[78%] shrink-0 snap-start flex-col overflow-hidden rounded-xl bg-surface shadow-soft transition-shadow duration-300 hover:shadow-card sm:w-auto"
+      className={cn(
+        'group relative flex flex-col overflow-hidden rounded-xl bg-surface shadow-soft transition-shadow duration-300 hover:shadow-card',
+        variant === 'strip' && 'w-[78%] shrink-0 snap-start sm:w-auto',
+      )}
     >
       <div ref={imageBox}>
         <LayerReveal
@@ -95,6 +105,7 @@ export function MagnolyaCard({
           <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
             {product.badge && <Badge tone={product.badge.tone ?? 'dark'}>{product.badge.label}</Badge>}
             {product.isNew && <Badge tone="new">Yeni</Badge>}
+            {product.discountPercentage ? <Badge tone="discount">%{product.discountPercentage} indirim</Badge> : null}
           </div>
 
           <button

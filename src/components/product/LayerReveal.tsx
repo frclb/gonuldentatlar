@@ -125,7 +125,8 @@ export function LayerReveal({
           className="absolute inset-0 transition-[clip-path] duration-[800ms] ease-[cubic-bezier(.65,0,.35,1)]"
           style={{
             clipPath: jarMode ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
-            transitionDelay: `${index * 0.07}s`,
+            // Menüde 25 kart var; sonuncusu 1,7 sn beklemesin
+          transitionDelay: `${Math.min(index, 8) * 0.07}s`,
           }}
         >
           {/* Mount edildiği an gerekiyor; dolum 800 ms sürdüğü için
@@ -137,7 +138,7 @@ export function LayerReveal({
       {/* Sağdan gelen yarı saydam panel */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 w-[45%] border-l border-line/90 bg-background/85 backdrop-blur-md transition-transform duration-[550ms] ease-[var(--ease-soft)]"
+        className="pointer-events-none absolute inset-y-0 right-0 w-[45%] border-l @max-[230px]:hidden border-line/90 bg-background/85 backdrop-blur-md transition-transform duration-[550ms] ease-[var(--ease-soft)]"
         style={{ transform: active ? 'translateX(0)' : 'translateX(101%)' }}
       >
         <p className="absolute bottom-[5%] left-[8%] text-[max(8.5px,2.5cqw)] font-bold uppercase tracking-[0.18em] text-olive-600">
@@ -150,7 +151,9 @@ export function LayerReveal({
         const dx = LINE_END - dotX
         const dy = labelYs[j] - dotYs[j]
         return (
-          <div key={layer.name + j} className="pointer-events-none" aria-hidden={!active}>
+          // 230 px altındaki kartta (mobilde iki sütunlu menü) etiketler okunmuyor:
+          // katmanlar orada kartta değil, dokununca açılan sahnede gösteriliyor
+          <div key={layer.name + j} className="pointer-events-none @max-[230px]:hidden" aria-hidden={!active}>
             <span
               className="absolute h-px origin-left bg-cocoa-600/55 transition-[transform,top,left,width] duration-[380ms]"
               style={{
@@ -199,7 +202,7 @@ export function LayerReveal({
         }}
         aria-expanded={active}
         className={cn(
-          'absolute bottom-3 left-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-surface/90 py-1.5 pl-2.5 pr-3 text-[11.5px] font-semibold text-cocoa-700 shadow-soft backdrop-blur transition-[opacity,transform] duration-300',
+          'absolute bottom-3 left-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-surface/90 @max-[230px]:hidden py-1.5 pl-2.5 pr-3 text-[11.5px] font-semibold text-cocoa-700 shadow-soft backdrop-blur transition-[opacity,transform] duration-300',
           canHover && active && 'translate-y-1.5 opacity-0',
         )}
       >
