@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Clock, Instagram, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { LocationSection } from '@/components/home/LocationSection'
@@ -10,6 +11,7 @@ import { track } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
 import { useSeo } from '@/lib/seo'
+import { rise } from '@/lib/motion'
 
 interface FormErrors {
   name?: string
@@ -78,11 +80,11 @@ export default function Contact() {
     <>
       <header className="border-b border-line bg-cream-100">
         <div className="container-page py-10 md:py-14">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">İletişim</p>
-          <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Bize ulaş</h1>
-          <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
+          <motion.p {...rise(0)} className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">İletişim</motion.p>
+          <motion.h1 {...rise(0.07)} className="text-[2rem] leading-tight md:text-[2.75rem]">Bize ulaş</motion.h1>
+          <motion.p {...rise(0.14)} className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
             Sipariş, rezervasyon ya da özel gün siparişleri için en hızlı yol WhatsApp.
-          </p>
+          </motion.p>
         </div>
       </header>
 

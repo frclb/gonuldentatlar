@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Heart, Plus } from 'lucide-react'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { Badge } from '@/components/ui/Badge'
 import { Price } from '@/components/ui/Price'
 import { useCart } from '@/context/CartContext'
@@ -19,9 +18,8 @@ import { LayerReveal } from './LayerReveal'
 /**
  * ProductCard'ın katmanlı kardeşi. Kabuk aynı; görsel alanında LayerReveal var.
  *
- * ProductCard'daki "başlık bağlantısı tüm kartı kaplar" numarası burada yok:
- * dokunmatikte görsele dokunmak katmanları açıyor, aynı alan aynı anda ürüne
- * gidemez. Gezinme başlığa ve görselin altındaki alana bağlı.
+ * Görsele ya da başlığa tıklamak ürün sayfasına gitmez, Magnolya sahnesini
+ * açar (MagnolyaStage). Katmanları masaüstünde hover, dokunmatikte çip açar.
  */
 export function MagnolyaCard({
   product,
@@ -31,6 +29,7 @@ export function MagnolyaCard({
   onActive,
   split,
   mountJar,
+  onOpen,
 }: {
   product: Product
   jarMode: boolean
@@ -39,6 +38,8 @@ export function MagnolyaCard({
   onActive: (value: boolean) => void
   split?: boolean
   mountJar: boolean
+  /** Sahneyi açar; kartın görsel kutusunun konumuyla */
+  onOpen: (rect: DOMRect) => void
 }) {
   const canHover = useCanHover()
   const { addItem } = useCart()
@@ -73,6 +74,8 @@ export function MagnolyaCard({
       transition={{ duration: 0.45, delay: (index % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => canHover && onActive(true)}
       onMouseLeave={() => canHover && onActive(false)}
+      // Sahne kapanırken görsel doğru karta geri dönsün diye
+      data-magnolya-card={product.id}
       className="group relative flex w-[78%] shrink-0 snap-start flex-col overflow-hidden rounded-xl bg-surface shadow-soft transition-shadow duration-300 hover:shadow-card sm:w-auto"
     >
       <div ref={imageBox}>
@@ -87,6 +90,7 @@ export function MagnolyaCard({
           index={index}
           alt={product.name}
           mountJar={mountJar}
+          onOpen={onOpen}
         >
           <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
             {product.badge && <Badge tone={product.badge.tone ?? 'dark'}>{product.badge.label}</Badge>}
@@ -111,9 +115,14 @@ export function MagnolyaCard({
 
       <div className="flex flex-1 flex-col p-4">
         <h3 className="text-[1.05rem] leading-snug">
-          <Link to={`/menu/${product.slug}`} className="transition-colors hover:text-cocoa-600">
+          {/* Sahnenin klavyeyle açılabilen yolu; görsele tıklamak da aynı işi yapar */}
+          <button
+            type="button"
+            onClick={() => imageBox.current && onOpen(imageBox.current.getBoundingClientRect())}
+            className="text-left transition-colors hover:text-cocoa-600"
+          >
             {product.name}
-          </Link>
+          </button>
         </h3>
         <p className="mt-1.5 line-clamp-2 text-[0.85rem] leading-relaxed text-muted">{product.description}</p>
 

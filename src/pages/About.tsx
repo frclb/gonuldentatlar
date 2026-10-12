@@ -1,8 +1,10 @@
+import { motion } from 'framer-motion'
 import { HandHeart, Sparkles, Sprout, Sun } from 'lucide-react'
 import { ButtonLink } from '@/components/ui/Button'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { useSeo } from '@/lib/seo'
 import { assetUrl } from '@/lib/assets'
+import { rise } from '@/lib/motion'
 
 const values = [
   {
@@ -39,14 +41,14 @@ export default function About() {
     <>
       <header className="border-b border-line bg-cream-100">
         <div className="container-page py-10 md:py-14">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Hakkımızda</p>
-          <h1 className="max-w-2xl text-[2rem] leading-tight md:text-[2.75rem]">
+          <motion.p {...rise(0)} className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Hakkımızda</motion.p>
+          <motion.h1 {...rise(0.07)} className="max-w-2xl text-[2rem] leading-tight md:text-[2.75rem]">
             Gönülden Hazırlıyoruz.
-          </h1>
-          <p className="mt-3 max-w-xl text-[0.98rem] leading-relaxed text-muted">
+          </motion.h1>
+          <motion.p {...rise(0.14)} className="mt-3 max-w-xl text-[0.98rem] leading-relaxed text-muted">
             Küçük bir mutfakta, sevdiklerimize hazırladığımız tariflerle başladık. Bugün de aynı yerden devam
             ediyoruz.
-          </p>
+          </motion.p>
         </div>
       </header>
 

@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { Section } from '@/components/ui/Section'
+import { rise } from '@/lib/motion'
 
 /**
  * Hukuki metinlerin ortak iskeleti. İki sayfa da aynı görünsün diye ayrı
@@ -22,9 +24,9 @@ export function LegalPage({
     <>
       <header className="border-b border-line bg-cream-100">
         <div className="container-page py-10 md:py-14">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">{eyebrow}</p>
-          <h1 className="max-w-3xl text-[2rem] leading-tight md:text-[2.75rem]">{title}</h1>
-          <p className="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-muted">{intro}</p>
+          <motion.p {...rise(0)} className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">{eyebrow}</motion.p>
+          <motion.h1 {...rise(0.07)} className="max-w-3xl text-[2rem] leading-tight md:text-[2.75rem]">{title}</motion.h1>
+          <motion.p {...rise(0.14)} className="mt-3 max-w-2xl text-[0.98rem] leading-relaxed text-muted">{intro}</motion.p>
           <p className="mt-4 text-xs text-muted">Son güncelleme: {updatedAt}</p>
         </div>
       </header>

@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { AdminAuthProvider, useAdminAuth } from '@/context/AdminAuthContext'
 import { useSeo } from '@/lib/seo'
 import { AdminCampaigns } from './AdminCampaigns'
@@ -14,6 +15,9 @@ import { AdminSettings } from './AdminSettings'
 export default function AdminRoutes() {
   return (
     <AdminAuthProvider>
+      {/* Site sayfalarında başa kaydırmayı PageTransition yapıyor; panelin
+          kendi geçişi yok, burada eskisi gibi anında kaydırılıyor */}
+      <ScrollToTop />
       <AdminScreens />
     </AdminAuthProvider>
   )

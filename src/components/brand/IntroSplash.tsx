@@ -1,22 +1,24 @@
 import { useEffect, useRef, type RefObject } from 'react'
+import { DOME_FILL } from './colors'
 
 /**
- * Açılış animasyonu: boş kâse katman katman dolar, kalp belirir, işaret
- * navbar'daki logoya uçar.
+ * Açılış animasyonu: boş cam kâse katman katman dolar, kenar oturur, çilek
+ * dilimleri birleşip kalbe dönüşür ve kalp tepeye süzülür, krema tepesi
+ * kabarır, işaret navbar'daki logoya uçar.
  *
- * Geometri Logo.tsx'teki LogoMark ile birebir aynı (viewBox 0 0 96 96). İki SVG
- * aynı olduğu için uçuş sonunda overlay kalktığında geçiş dikişsiz görünüyor —
- * farklı bir çizim kullanılsaydı son karede sıçrama olurdu.
+ * Geometri Logo.tsx'teki LogoMark ile birebir aynı (viewBox 0 0 64 64). Son
+ * karede bantlar logodaki krema katmanlarını (33–38,6 ve 46–51) tam olarak
+ * oluşturuyor; overlay kalktığında geçiş dikişsiz görünüyor.
  */
 
 /** LogoMark ile aynı path'ler */
-const CUP = 'M21 38H75l-6.6 33.5Q66.9 81 57.4 81H38.6Q29.1 81 27.6 71.5Z'
-const DOME = 'M25.5 30a22.5 20 0 0 1 45 0Z'
+const BODY = 'M11 26h42l-3.6 29.2a6 6 0 0 1-5.95 5.3H20.55a6 6 0 0 1-5.95-5.3L11 26Z'
+const DOME = 'M14 20A18 15.5 0 0 1 50 20Z'
 const HEART =
-  'M48 28.6c-5.1-3.8-11.6-7.2-11.6-12.2a5.9 5.9 0 0 1 11.6-2.8 5.9 5.9 0 0 1 11.6 2.8c0 5-6.5 8.4-11.6 12.2Z'
+  'M32 19.5c-4.76-3.5-8.96-6.44-8.96-10.36a4.76 4.76 0 0 1 8.96-2.38 4.76 4.76 0 0 1 8.96 2.38c0 3.92-4.2 6.86-8.96 10.36Z'
 
-/** Çilek dilimlerinin yatay konumu (viewBox 96) */
-const SLICE_X = [33, 43, 53, 63]
+/** Çilek dilimlerinin yatay konumu */
+const SLICE_X = [20.5, 28.2, 35.8, 43.5]
 
 const KEY = 'gt-intro-seen'
 
@@ -51,8 +53,7 @@ export function IntroSplash({
   const mark = useRef<HTMLDivElement>(null)
   const word = useRef<HTMLDivElement>(null)
   const skip = useRef<HTMLButtonElement>(null)
-  const cupOutline = useRef<SVGPathElement>(null)
-  const cupSolid = useRef<SVGPathElement>(null)
+  const glass = useRef<SVGPathElement>(null)
   const rim = useRef<SVGRectElement>(null)
   const dome = useRef<SVGPathElement>(null)
   const heart = useRef<SVGPathElement>(null)
@@ -97,7 +98,10 @@ export function IntroSplash({
 
     window.setTimeout(() => onFlyStart?.(), 240 * k)
 
+    let done = false
     const finish = () => {
+      if (done) return
+      done = true
       document.documentElement.style.overflow = ''
       try {
         sessionStorage.setItem(KEY, '1')
@@ -112,13 +116,15 @@ export function IntroSplash({
   }
 
   useEffect(() => {
-    // Temizlikte ref'e değil, aynı diziye tutun: efekt boyunca dolduruluyor,
-    // referansı kopyalamak lint uyarısını da gideriyor
+    // Temizlikte ref'e değil, aynı diziye tutun: efekt boyunca dolduruluyor
     const running = anims.current
 
     document.documentElement.style.overflow = 'hidden'
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
 
+    // fill varsayılanı 'both': gecikme süresince ilk kare uygulanır. Bu yüzden
+    // başta görünmemesi gereken her öğenin ilk karesinde opacity 0 olmalı;
+    // krema tepesi istisna, ilk karede scaleY 0 olduğu için zaten görünmez
     const play = (
       el: Element | null | undefined,
       frames: Keyframe[],
@@ -139,70 +145,68 @@ export function IntroSplash({
     // Katmanlar yukarıdan düşüp hafifçe sekerek oturur
     const drop: Keyframe[] = [
       { transform: 'translateY(-30px)', opacity: 0 },
-      { transform: 'translateY(1.4px)', opacity: 1, offset: 0.72 },
+      { transform: 'translateY(1.2px)', opacity: 1, offset: 0.72 },
       { transform: 'translateY(0)', opacity: 1 },
     ]
-    const at = [250, 420, 590, 760]
-    const MERGE = 1580
+    const at = [250, 400, 550, 700, 850]
+    const MERGE = 1500
+    const settle = 'cubic-bezier(.33,0,.2,1)'
+    const bounce = 'cubic-bezier(.3,.7,.4,1)'
 
-    play(cupOutline.current, [{ opacity: 0, transform: 'scale(.9)' }, { opacity: 1, transform: 'scale(1)' }], {
+    play(glass.current, [{ opacity: 0, transform: 'scale(.92)' }, { opacity: 1, transform: 'scale(1)' }], {
       duration: 450,
     })
-    play(rim.current, [{ opacity: 0, transform: 'translateY(-8px)' }, { opacity: 1, transform: 'translateY(0)' }], {
-      duration: 420,
-      delay: 120,
-    })
-    layers.current.forEach((el, i) =>
-      play(el, drop, { duration: 560, delay: at[i], easing: 'cubic-bezier(.33,0,.2,1)' }),
+    layers.current.forEach((el, i) => play(el, drop, { duration: 520, delay: at[i], easing: settle }))
+    // Çilekler üst krema bandıyla birlikte düşer
+    play(fruit.current, drop, { duration: 520, delay: at[3], easing: settle })
+    play(
+      rim.current,
+      [
+        { transform: 'translateY(-12px)', opacity: 0 },
+        { transform: 'translateY(.8px)', opacity: 1, offset: 0.7 },
+        { transform: 'translateY(0)', opacity: 1 },
+      ],
+      { duration: 480, delay: 1050, easing: settle },
     )
-    play(fruit.current, drop, { duration: 560, delay: at[2], easing: 'cubic-bezier(.33,0,.2,1)' })
 
-    // Birleşme: çilek dilimleri merkeze kayıp kaybolur, yerini kalp alır
+    // Birleşme: cam kaybolur, dilimler merkeze kayar, kalp orada doğup tepeye süzülür
+    play(glass.current, [{ opacity: 1 }, { opacity: 0 }], { duration: 260, delay: MERGE, fill: 'forwards' })
     slices.current.forEach((el, j) =>
       play(
         el,
         [
           { transform: 'translate(0,0) scale(1)', opacity: 1 },
-          { transform: `translate(${48 - SLICE_X[j]}px,0) scale(.35)`, opacity: 0 },
+          { transform: `translate(${32 - SLICE_X[j]}px,0) scale(.35)`, opacity: 0 },
         ],
         { duration: 440, delay: MERGE, easing: 'cubic-bezier(.55,0,.35,1)', fill: 'forwards' },
       ),
     )
-    play(cupSolid.current, [{ opacity: 0 }, { opacity: 1 }], {
-      duration: 380,
-      delay: MERGE + 40,
-      fill: 'forwards',
-    })
-    play(cupOutline.current, [{ opacity: 1 }, { opacity: 0 }], {
-      duration: 260,
-      delay: MERGE + 200,
-      fill: 'forwards',
-    })
-    play(
-      dome.current,
-      [
-        { transform: 'scale(.3)', opacity: 0 },
-        { transform: 'scale(1.05)', opacity: 1, offset: 0.65 },
-        { transform: 'scale(1)', opacity: 1 },
-      ],
-      { duration: 620, delay: MERGE + 120 },
-    )
     play(
       heart.current,
       [
-        { transform: 'scale(0)', opacity: 0 },
-        { transform: 'scale(1.22)', opacity: 1, offset: 0.6 },
-        { transform: 'scale(1)', opacity: 1 },
+        { transform: 'translateY(24px) scale(0)', opacity: 0 },
+        { transform: 'translateY(24px) scale(1.1)', opacity: 1, offset: 0.3 },
+        { transform: 'translateY(-1.2px) scale(1)', opacity: 1, offset: 0.78 },
+        { transform: 'translateY(0) scale(1)', opacity: 1 },
       ],
-      { duration: 540, delay: MERGE + 300, easing: 'cubic-bezier(.3,.7,.4,1)' },
+      { duration: 840, delay: MERGE + 120, easing: bounce },
+    )
+    play(
+      dome.current,
+      [
+        { transform: 'scale(.86, 0)', opacity: 1 },
+        { transform: 'scale(1.02, 1.08)', opacity: 1, offset: 0.65 },
+        { transform: 'scale(1, 1)', opacity: 1 },
+      ],
+      { duration: 560, delay: MERGE + 300, easing: bounce },
     )
     play(
       word.current,
       [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }],
-      { duration: 480, delay: MERGE + 380 },
+      { duration: 480, delay: MERGE + 420 },
     )
 
-    timer.current = window.setTimeout(fly, (MERGE + 1100) * k)
+    timer.current = window.setTimeout(fly, (MERGE + 1200) * k)
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') fly()
@@ -222,7 +226,7 @@ export function IntroSplash({
   const fillBox = { transformBox: 'fill-box', transformOrigin: 'center' } as const
   const clipId = 'gt-intro-cup'
 
-  /** Kâsenin içine düşen krema / bisküvi şeridi */
+  /** Kâsenin içine düşen bant; gövdeye kırpıldığı için kenarları eğimli kalır */
   const slab = (i: number, y: number, h: number, className: string) => (
     <g
       ref={(el) => {
@@ -230,7 +234,7 @@ export function IntroSplash({
       }}
       style={{ opacity: 0 }}
     >
-      <rect x={16} y={y} width={66} height={h} className={className} />
+      <rect x={8} y={y} width={48} height={h} className={className} />
     </g>
   )
 
@@ -245,34 +249,34 @@ export function IntroSplash({
 
       <div className="relative flex flex-col items-center gap-[clamp(18px,3vh,28px)]">
         <div ref={mark} className="aspect-square w-[min(52vmin,260px)] will-change-transform">
-          <svg viewBox="0 0 96 96" className="block size-full overflow-visible" aria-hidden focusable="false">
+          <svg viewBox="0 0 64 64" className="block size-full overflow-visible" aria-hidden focusable="false">
             <defs>
               <clipPath id={clipId}>
-                <path d={CUP} />
+                <path d={BODY} />
               </clipPath>
             </defs>
 
-            {/* Kubbe kapak — birleşmeden sonra belirir */}
-            <path ref={dome} d={DOME} className="fill-cocoa-600/25" style={{ ...fillBox, opacity: 0 }} />
-
             {/* Boş cam kâse */}
             <path
-              ref={cupOutline}
-              d={CUP}
-              fill="rgba(255,255,255,.55)"
+              ref={glass}
+              d={BODY}
+              fill="rgba(255,255,255,.6)"
               className="stroke-cream-400"
-              strokeWidth={0.9}
+              strokeWidth={0.6}
               style={{ ...fillBox, opacity: 0 }}
             />
 
+            {/* Alttan üste: kakao, krema, kakao, krema (çilekli), kakao.
+                Sonradan düşen bant öncekinin üst kenarını örter; son karede
+                kremler tam olarak logodaki iki katmanı oluşturur */}
             <g clipPath={`url(#${clipId})`}>
-              {slab(0, 69, 10, 'fill-cream-400')}
-              {slab(1, 60, 9, 'fill-cream-100')}
-              {slab(2, 45, 15, 'fill-cream-100')}
-              {slab(3, 38, 7, 'fill-cream-400')}
+              {slab(0, 50.8, 11, 'fill-cocoa-600')}
+              {slab(1, 45.6, 5.4, 'fill-cream-100')}
+              {slab(2, 38.2, 7.8, 'fill-cocoa-600')}
+              {slab(3, 32.6, 6, 'fill-cream-100')}
+              {slab(4, 18, 15, 'fill-cocoa-600')}
             </g>
 
-            {/* Çilek dilimleri — kremanın içinde */}
             <g clipPath={`url(#${clipId})`}>
               <g ref={fruit} style={{ opacity: 0 }}>
                 {SLICE_X.map((cx, j) => (
@@ -283,24 +287,21 @@ export function IntroSplash({
                     }}
                     style={fillBox}
                   >
-                    <ellipse cx={cx} cy={55} rx={3.6} ry={4.6} className="fill-blush-400" />
-                    <ellipse cx={cx} cy={55.4} rx={1.8} ry={2.7} className="fill-blush-200" />
+                    <ellipse cx={cx} cy={35.8} rx={2.7} ry={2.3} className="fill-blush-400" />
+                    <ellipse cx={cx} cy={35.9} rx={1.3} ry={1.2} className="fill-blush-200" />
                   </g>
                 ))}
               </g>
             </g>
 
-            {/* Dolu gövde — logodaki hâli */}
-            <g ref={cupSolid} style={{ opacity: 0 }}>
-              <path d={CUP} className="fill-cocoa-600" />
-              <rect ref={rim} x={17.5} y={29} width={61} height={9.5} rx={4.75} className="fill-cocoa-600" />
-              <g clipPath={`url(#${clipId})`} className="fill-cream-100">
-                <rect x={16} y={45} width={66} height={9} />
-                <rect x={16} y={62} width={66} height={7} />
-              </g>
-            </g>
-
-            {/* Kalp — çileklerin buluştuğu yerde patlar */}
+            {/* Krema tepesi alttan kabarır */}
+            <path
+              ref={dome}
+              d={DOME}
+              fill={DOME_FILL}
+              style={{ transformBox: 'fill-box', transformOrigin: '50% 100%', opacity: 0 }}
+            />
+            <rect ref={rim} x={7.5} y={19.5} width={49} height={7} rx={2.6} className="fill-cocoa-600" style={{ opacity: 0 }} />
             <path ref={heart} d={HEART} className="fill-blush-400" style={{ ...fillBox, opacity: 0 }} />
           </svg>
         </div>

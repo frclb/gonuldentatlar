@@ -71,6 +71,7 @@ export function LayerReveal({
   index = 0,
   alt,
   mountJar,
+  onOpen,
   children,
 }: {
   cup: ServingShot
@@ -85,6 +86,8 @@ export function LayerReveal({
       değiştirmeye niyetlenene) kadar false: aksi hâlde kimse Kavanoz'a
       basmasa bile kavanoz fotoğrafları indiriliyor. */
   mountJar: boolean
+  /** Görsele tıklanınca sahneyi açar; FLIP başlangıcı için kutunun konumu */
+  onOpen?: (rect: DOMRect) => void
   /** Kavanoz dolum animasyonunda kartlar kademeli başlasın diye */
   index?: number
   alt: string
@@ -108,7 +111,9 @@ export function LayerReveal({
 
   return (
     <div
-      onClick={() => !canHover && onToggle()}
+      // Kapanışta sahne görseli bu kutuya geri küçülür (MagnolyaStage)
+      data-imgbox
+      onClick={(event) => onOpen?.(event.currentTarget.getBoundingClientRect())}
       role="presentation"
       className="relative aspect-square w-full cursor-pointer overflow-hidden bg-cream-100 [container-type:inline-size]"
     >

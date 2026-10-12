@@ -1,55 +1,37 @@
-import { useId } from 'react'
 import { Link } from 'react-router-dom'
 import { useIntro } from '@/context/IntroContext'
 import { cn } from '@/lib/cn'
+import { DOME_FILL } from './colors'
 
 /**
- * Kubbeli Kupa — Gönülden Tatlar marka işareti.
+ * Gönülden Tatlar marka işareti: kâse, üstünde krema tepesi, tepede kalp.
+ * Gövdede iki krema katmanı görünür.
  *
- * Kubbe kapak + krema katmanları + kalp garnitür. Parçalar `currentColor`
- * yerine sınıflarla boyanır ki krem zemin ve kakao zemin varyantları aynı
- * bileşenden çıksın.
+ * Geometri IntroSplash ile birebir aynı (viewBox 0 0 64 64). Açılışta işaret
+ * navbar'daki bu logoya uçuyor; çizimler ayrışırsa son karede sıçrama olur.
+ *
+ * Kendi zemini yok; koyu zeminde krem bir kutuya alınmalı (bkz. Footer).
  */
-export function LogoMark({
-  className,
-  tone = 'default',
-  /** 24px altında kubbe ve kalp okunmuyor; sade sürüm kullanılır. */
-  simple = false,
-}: {
-  className?: string
-  tone?: 'default' | 'light'
-  simple?: boolean
-}) {
-  // Aynı sayfada birden çok işaret olabiliyor; clipPath kimliği benzersiz olmalı
-  const clipId = useId()
-  const body = tone === 'light' ? 'fill-cream-100' : 'fill-cocoa-600'
-  const layer = tone === 'light' ? 'fill-cocoa-600' : 'fill-cream-100'
-  const dome = tone === 'light' ? 'fill-cream-100/20' : 'fill-cocoa-600/25'
-
+export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 96 96" className={cn('size-9', className)} aria-hidden focusable="false">
-      <defs>
-        <clipPath id={clipId}>
-          <path d="M21 38H75l-6.6 33.5Q66.9 81 57.4 81H38.6Q29.1 81 27.6 71.5Z" />
-        </clipPath>
-      </defs>
-
-      {!simple && (
-        <>
-          <path d="M25.5 30a22.5 20 0 0 1 45 0Z" className={dome} />
-          <path
-            d="M48 28.6c-5.1-3.8-11.6-7.2-11.6-12.2a5.9 5.9 0 0 1 11.6-2.8 5.9 5.9 0 0 1 11.6 2.8c0 5-6.5 8.4-11.6 12.2Z"
-            className="fill-blush-400"
-          />
-        </>
-      )}
-
-      <rect x="17.5" y="29" width="61" height="9.5" rx="4.75" className={body} />
-      <path d="M21 38H75l-6.6 33.5Q66.9 81 57.4 81H38.6Q29.1 81 27.6 71.5Z" className={body} />
-      <g clipPath={`url(#${clipId})`} className={layer}>
-        <rect x="16" y="45" width="66" height="9" />
-        <rect x="16" y="62" width="66" height="7" />
-      </g>
+    <svg viewBox="0 0 64 64" className={cn('size-9', className)} aria-hidden focusable="false">
+      {/* krema tepesi */}
+      <path d="M14 20A18 15.5 0 0 1 50 20Z" fill={DOME_FILL} />
+      {/* gövde */}
+      <path
+        d="M11 26h42l-3.6 29.2a6 6 0 0 1-5.95 5.3H20.55a6 6 0 0 1-5.95-5.3L11 26Z"
+        className="fill-cocoa-600"
+      />
+      {/* kenar */}
+      <rect x="7.5" y="19.5" width="49" height="7" rx="2.6" className="fill-cocoa-600" />
+      {/* krema katmanları */}
+      <path d="M11.86 33H52.14L51.45 38.6H12.55Z" className="fill-cream-100" />
+      <path d="M13.47 46H50.53L49.92 51H14.08Z" className="fill-cream-100" />
+      {/* kalp */}
+      <path
+        d="M32 19.5c-4.76-3.5-8.96-6.44-8.96-10.36a4.76 4.76 0 0 1 8.96-2.38 4.76 4.76 0 0 1 8.96 2.38c0 3.92-4.2 6.86-8.96 10.36Z"
+        className="fill-blush-400"
+      />
     </svg>
   )
 }
@@ -84,8 +66,11 @@ export function Logo({
         className={cn('inline-flex shrink-0', introTarget && playing && 'opacity-0')}
       >
         <LogoMark
-          tone={tone}
-          className="size-8 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10"
+          className={cn(
+            'size-8 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10',
+            // Koyu zeminde işaret kendi zemini olmadığı için krem kutuya alınır
+            tone === 'light' && 'rounded-lg bg-cream-100 p-[3px]',
+          )}
         />
       </span>
       {showWordmark && (

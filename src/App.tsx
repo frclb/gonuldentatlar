@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { SiteLayout } from '@/components/layout/SiteLayout'
 import { RouteFallback } from '@/components/ui/RouteFallback'
 import { Toaster } from '@/components/ui/Toaster'
@@ -42,7 +41,6 @@ export default function App() {
           <IntroProvider>
           <FavoritesProvider>
             <CartProvider>
-                <ScrollToTop />
                 <Suspense fallback={<RouteFallback />}>
                   <Routes>
                     <Route element={<SiteLayout />}>

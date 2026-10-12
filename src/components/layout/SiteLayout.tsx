@@ -1,10 +1,11 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { IntroSplash } from '@/components/brand/IntroSplash'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { useIntro } from '@/context/IntroContext'
 import { Footer } from './Footer'
 import { MobileStickyBar } from './MobileStickyBar'
 import { Navbar } from './Navbar'
+import { PageTransition } from './PageTransition'
 
 export function SiteLayout() {
   const { playing, logoRef, setPlaying, setHeroIn } = useIntro()
@@ -32,7 +33,7 @@ export function SiteLayout() {
       )}
 
       <main id="main" className="flex-1">
-        <Outlet />
+        <PageTransition />
       </main>
 
       <Footer />

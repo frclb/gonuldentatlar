@@ -8,15 +8,7 @@ import { track } from '@/lib/analytics'
 import { buildContactUrl } from '@/lib/whatsapp'
 import { HeroCarousel } from './HeroCarousel'
 import { Link } from 'react-router-dom'
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  show: (delay = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
-  }),
-}
+import { fadeUp } from '@/lib/motion'
 
 /** Haftanın favorisi kartı — ürünü değiştirmek için tek yer burası. */
 const FAVOURITE = {

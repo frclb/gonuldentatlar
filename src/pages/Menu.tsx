@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -9,6 +10,7 @@ import { useCatalog } from '@/context/CatalogContext'
 import { track } from '@/lib/analytics'
 import { cn } from '@/lib/cn'
 import { useSeo } from '@/lib/seo'
+import { rise } from '@/lib/motion'
 
 const ALL = 'tumu'
 const CAMPAIGN = 'kampanyalar'
@@ -80,11 +82,11 @@ export default function Menu() {
       <header className="border-b border-line bg-cream-100">
         <div className="container-page grid items-center gap-8 py-10 md:py-14 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Menü</p>
-            <h1 className="text-[2rem] leading-tight md:text-[2.75rem]">Gönülden Gelen Lezzetler</h1>
-            <p className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
+            <motion.p {...rise(0)} className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-olive-600">Menü</motion.p>
+            <motion.h1 {...rise(0.07)} className="text-[2rem] leading-tight md:text-[2.75rem]">Gönülden Gelen Lezzetler</motion.h1>
+            <motion.p {...rise(0.14)} className="mt-3 max-w-lg text-[0.98rem] leading-relaxed text-muted">
               {activeProducts.length} çeşit seni bekliyor. Kategoriye göre filtrele, favorini seç ve sepete ekle.
-            </p>
+            </motion.p>
           </div>
           {/* Başlıkla birlikte görünür, bu yüzden gecikmeli yükleme yok */}
           <img
