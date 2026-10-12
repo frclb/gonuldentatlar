@@ -47,7 +47,28 @@ export interface ProductVariant {
   isDefault?: boolean
 }
 
+/** Bir tatlı katmanı — fotoğraf üzerindeki dikey yeri yüzde olarak */
+export interface ProductLayer {
+  name: string
+  /** Görsel yüksekliğinin yüzdesi (0 = üst, 100 = alt) */
+  y: number
+  /** Etiket noktasının rengi — index.css token'ının hex karşılığı */
+  color: string
+}
+
+/** Bir sunumun (cup / kavanoz) görseli ve katman haritası */
+export interface ServingShot {
+  image: string
+  /** Kabın sağ kenarı, görsel genişliğinin yüzdesi */
+  edgeX: number
+  /** Üstten alta sıralı katmanlar */
+  layers: ProductLayer[]
+}
+
 export interface Product {
+  /** Katman animasyonu için iki sunumun görseli ve katman haritası.
+      Tanımlıysa ürün kartı LayerReveal ile gösterilir. */
+  serving?: { cup: ServingShot; jar: ServingShot }
   id: string
   slug: string
   name: string

@@ -7,6 +7,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { useCart } from '@/context/CartContext'
 import { useCatalog } from '@/context/CatalogContext'
 import { useScrolled } from '@/hooks/useScrolled'
+import { bumpBadge, registerBadge, registerBag } from '@/lib/flyToCart'
 import { cn } from '@/lib/cn'
 import { MobileMenu } from './MobileMenu'
 import { useNavLinks } from './navLinks'
@@ -21,6 +22,11 @@ export function Navbar() {
 
   /* Rota değişince mobil menü kapansın */
   useEffect(() => setMenuOpen(false), [location.pathname])
+
+  /* Sayaç ilk kez belirirken zaten spring ile giriyor; sonraki artışlarda zıplat */
+  useEffect(() => {
+    if (itemCount > 1) bumpBadge()
+  }, [itemCount])
 
   const orderTarget = itemCount > 0 ? '/siparis' : '/menu'
 
@@ -52,7 +58,7 @@ export function Navbar() {
               <Menu className="size-5" strokeWidth={2.2} />
             </button>
 
-            <Logo compact className="min-w-0 shrink-0" />
+            <Logo compact introTarget className="min-w-0 shrink-0" />
 
             <nav aria-label="Ana menü" className="hidden items-center gap-1 lg:flex">
               {navLinks.map((link) => (
@@ -85,6 +91,7 @@ export function Navbar() {
 
             <div className="flex shrink-0 items-center gap-2">
               <button
+                ref={registerBag}
                 type="button"
                 onClick={openCart}
                 aria-label={`Sepet — ${itemCount} ürün`}
@@ -95,6 +102,7 @@ export function Navbar() {
                   {itemCount > 0 && (
                     <motion.span
                       key="count"
+                      ref={registerBadge}
                       initial={{ scale: 0.4, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.4, opacity: 0 }}

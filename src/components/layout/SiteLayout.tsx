@@ -1,10 +1,17 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
+import { IntroSplash } from '@/components/brand/IntroSplash'
 import { CartDrawer } from '@/components/cart/CartDrawer'
+import { useIntro } from '@/context/IntroContext'
 import { Footer } from './Footer'
 import { MobileStickyBar } from './MobileStickyBar'
 import { Navbar } from './Navbar'
 
 export function SiteLayout() {
+  const { playing, logoRef, setPlaying, setHeroIn } = useIntro()
+  const { pathname } = useLocation()
+  // Açılış yalnızca ana sayfada; derin bağlantıyla gelen kullanıcıyı bekletmez
+  const showIntro = playing && pathname === '/'
+
   return (
     <div className="flex min-h-svh flex-col">
       <a
@@ -15,6 +22,14 @@ export function SiteLayout() {
       </a>
 
       <Navbar />
+
+      {showIntro && (
+        <IntroSplash
+          targetRef={logoRef}
+          onFlyStart={() => setHeroIn(true)}
+          onDone={() => setPlaying(false)}
+        />
+      )}
 
       <main id="main" className="flex-1">
         <Outlet />

@@ -1,5 +1,6 @@
 import { useId } from 'react'
 import { Link } from 'react-router-dom'
+import { useIntro } from '@/context/IntroContext'
 import { cn } from '@/lib/cn'
 
 /**
@@ -58,23 +59,35 @@ export function Logo({
   showWordmark = true,
   compact = false,
   tone = 'default',
+  introTarget = false,
 }: {
   className?: string
   showWordmark?: boolean
   /** Çok dar ekranlarda (<420px) yazıyı gizler — navbar'da CTA'ya yer açar. */
   compact?: boolean
   tone?: 'default' | 'light'
+  /** Açılış animasyonundaki işaret buraya uçar. Yalnızca Navbar'da true olmalı;
+      MobileMenu'deki logo da hedef sayılsaydı uçuş yanlış yere giderdi. */
+  introTarget?: boolean
 }) {
+  const { playing, logoRef } = useIntro()
+
   return (
     <Link
       to="/"
       className={cn('group inline-flex min-w-0 items-center gap-2 sm:gap-2.5', className)}
       aria-label="Gönülden Tatlar — ana sayfa"
     >
-      <LogoMark
-        tone={tone}
-        className="size-8 shrink-0 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10"
-      />
+      {/* Açılış sürerken gizli: işaret oraya uçana kadar iki logo birden görünmesin */}
+      <span
+        ref={introTarget ? logoRef : undefined}
+        className={cn('inline-flex shrink-0', introTarget && playing && 'opacity-0')}
+      >
+        <LogoMark
+          tone={tone}
+          className="size-8 transition-transform duration-300 ease-[var(--ease-soft)] group-hover:-rotate-6 sm:size-9 md:size-10"
+        />
+      </span>
       {showWordmark && (
         <span className={cn('flex-col leading-none', compact ? 'hidden min-[420px]:flex' : 'flex')}>
           <span

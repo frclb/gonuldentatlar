@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/Toaster'
 import { CartProvider } from '@/context/CartContext'
 import { CatalogProvider } from '@/context/CatalogContext'
 import { FavoritesProvider } from '@/context/FavoritesContext'
+import { IntroProvider } from '@/context/IntroContext'
 import { ToastProvider } from '@/context/ToastContext'
 import Home from '@/pages/Home'
 
@@ -38,6 +39,7 @@ export default function App() {
     <BrowserRouter basename={basename}>
       <CatalogProvider>
         <ToastProvider>
+          <IntroProvider>
           <FavoritesProvider>
             <CartProvider>
                 <ScrollToTop />
@@ -62,6 +64,7 @@ export default function App() {
                 <Toaster />
             </CartProvider>
           </FavoritesProvider>
+          </IntroProvider>
         </ToastProvider>
       </CatalogProvider>
     </BrowserRouter>

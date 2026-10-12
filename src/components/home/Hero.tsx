@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Clock, Leaf, MessageCircle, ShoppingBag } from 'lucide-react'
 import { ButtonAnchor, ButtonLink } from '@/components/ui/Button'
 import { useCatalog } from '@/context/CatalogContext'
+import { useIntro } from '@/context/IntroContext'
 import { assetUrl } from '@/lib/assets'
 import { track } from '@/lib/analytics'
 import { buildContactUrl } from '@/lib/whatsapp'
@@ -32,6 +33,9 @@ const trustPoints = [
 
 export function Hero() {
   const { settings, activeProducts, activeCampaigns } = useCatalog()
+  const { heroIn } = useIntro()
+  // Açılış oynarken Hero beklesin; logo uçmaya başladığı anda birlikte açılsın
+  const reveal = heroIn ? 'show' : 'hidden'
 
   return (
     <section className="relative overflow-hidden">
@@ -48,7 +52,7 @@ export function Hero() {
             <motion.p
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0}
               className="inline-flex items-center gap-2 rounded-full border border-cream-300 bg-surface/70 px-3.5 py-1.5 text-xs font-semibold text-olive-700 backdrop-blur"
             >
@@ -59,7 +63,7 @@ export function Hero() {
             <motion.h1
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0.07}
               className="mt-5 text-[2.5rem] leading-[1.05] sm:text-[3.25rem] lg:text-[4rem]"
             >
@@ -87,7 +91,7 @@ export function Hero() {
             <motion.p
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0.14}
               className="mt-6 max-w-md font-[family-name:var(--font-display)] text-xl text-cocoa-600 md:text-[1.4rem]"
             >
@@ -97,7 +101,7 @@ export function Hero() {
             <motion.p
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0.2}
               className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-muted"
             >
@@ -108,7 +112,7 @@ export function Hero() {
             <motion.div
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0.27}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
@@ -136,7 +140,7 @@ export function Hero() {
             <motion.ul
               variants={fadeUp}
               initial="hidden"
-              animate="show"
+              animate={reveal}
               custom={0.34}
               className="mt-9 flex flex-wrap gap-x-6 gap-y-3"
             >

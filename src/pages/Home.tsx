@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { BrandStory } from '@/components/home/BrandStory'
 import { CampaignSection } from '@/components/home/CampaignSection'
 import { CategoryStrip } from '@/components/home/CategoryStrip'
-import { FeaturedProducts } from '@/components/home/FeaturedProducts'
 import { Hero } from '@/components/home/Hero'
 import { InstagramSection } from '@/components/home/InstagramSection'
 import { LocationSection } from '@/components/home/LocationSection'
 import { OrderCTA } from '@/components/home/OrderCTA'
+import { MagnolyaShowcase } from '@/components/home/MagnolyaShowcase'
 import { PopularProducts } from '@/components/home/PopularProducts'
 import { ServingCompare } from '@/components/home/ServingCompare'
 import { track } from '@/lib/analytics'
@@ -26,7 +26,7 @@ export default function Home() {
     <>
       <Hero />
       <CategoryStrip />
-      <FeaturedProducts />
+      <MagnolyaShowcase />
       <ServingCompare />
       <CampaignSection />
       <BrandStory />

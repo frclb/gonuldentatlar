@@ -1,4 +1,5 @@
 import type { Campaign, Category, Product, SocialMediaPost, StoreSettings } from '@/types'
+import { servingLayers } from './layers'
 import { servingOnly } from './options'
 
 /* ------------------------------------------------------------- Kategoriler */
@@ -371,6 +372,8 @@ export const products: Product[] = productList.map((product) => {
     ...product,
     options,
     gallery: product.gallery ?? (hasJar ? [product.image, jarImage(product.image)] : [product.image]),
+    // Katman haritası ölçülmüş ürünlerde kart "Katmanları gör" animasyonunu açar
+    serving: product.serving ?? servingLayers[product.slug],
   }
 })
 
