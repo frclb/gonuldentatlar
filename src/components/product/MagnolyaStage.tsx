@@ -452,7 +452,17 @@ export function MagnolyaStage({
               }}
             />
             <div ref={img} className="absolute inset-[7%] overflow-hidden rounded-full shadow-lift">
-              <StageSlices shot={serving.cup} split={split} alt={p.name} />
+              {/* Kavanoz dolumu bitince alttaki cup gizlenir; yoksa katmanlar
+                  ayrışınca aralardaki boşluklardan cup dilimleri görünüyordu */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  visibility: jar ? 'hidden' : 'visible',
+                  transition: `visibility 0s linear ${jar ? 0.8 : 0}s`,
+                }}
+              >
+                <StageSlices shot={serving.cup} split={split} alt={p.name} />
+              </div>
               <div
                 className="absolute inset-0 transition-[clip-path] duration-[800ms] ease-[cubic-bezier(.65,0,.35,1)]"
                 style={{ clipPath: jar ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)' }}

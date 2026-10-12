@@ -117,7 +117,19 @@ export function LayerReveal({
       role="presentation"
       className="relative aspect-square w-full cursor-pointer overflow-hidden bg-cream-100 [container-type:inline-size]"
     >
-      <Slices shot={cup} active={active} split={split} alt={alt} eager={index < 2} />
+      {/* Kavanoz cup'ın üstüne biniyor. Katmanlar ayrışınca aralarda boşluk
+          kalıyor ve alttaki cup dilimleri o boşluklardan görünüyordu; kavanoz
+          dolumu bitince cup gizlenir (dolum sırasında görünmeli, kavanoz onun
+          üstünden yükseliyor). Cup'a dönüşte anında görünür olur */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: jarMode ? 'hidden' : 'visible',
+          transition: `visibility 0s linear ${jarMode ? 0.8 + Math.min(index, 8) * 0.07 : 0}s`,
+        }}
+      >
+        <Slices shot={cup} active={active} split={split} alt={alt} eager={index < 2} />
+      </div>
 
       {/* Kavanoz alttan yukarı dolarak gelir, geri dönüşte boşalır */}
       {(mountJar || jarMode) && (
