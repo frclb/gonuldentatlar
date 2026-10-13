@@ -10,6 +10,7 @@ import { useToast } from '@/context/ToastContext'
 import { assetUrl } from '@/lib/assets'
 import { buildCartItem, defaultSelections } from '@/lib/cart'
 import { flyToCart } from '@/lib/flyToCart'
+import { isStageEntryOnTop } from '@/lib/stageHistory'
 import type { Product, ServingShot } from '@/types'
 
 const EASE = 'cubic-bezier(.22,1,.36,1)'
@@ -399,6 +400,15 @@ export function MagnolyaStage({
   useEffect(() => {
     api.current = { close, step }
   })
+  // Geri tuşu (telefonda geri hareketi) sahneyi kapatır
+  useEffect(() => {
+    const onPop = () => {
+      if (!isStageEntryOnTop()) api.current.close()
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') api.current.close()
@@ -516,8 +526,11 @@ export function MagnolyaStage({
           <button
             type="button"
             onClick={() => {
+              // Sahnenin geçmiş kaydı ürün sayfasıyla değişir: ürün sayfasından
+              // geri gelince sahne değil liste görünür. Sıra önemli — önce
+              // gezinme, sonra kapanış (kapanış kayıt üstteyse geri alırdı)
+              navigate(`/menu/${p.slug}`, { replace: isStageEntryOnTop() })
               onClose()
-              navigate(`/menu/${p.slug}`)
             }}
             className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-cocoa-700 underline-offset-4 hover:underline"
             style={textIn(0.24)}

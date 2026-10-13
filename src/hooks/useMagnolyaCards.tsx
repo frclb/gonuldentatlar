@@ -1,6 +1,7 @@
 import { Suspense, useState, type ReactNode } from 'react'
 import { MagnolyaStage, preloadMagnolyaStage } from '@/components/product/LazyMagnolyaStage'
 import { MagnolyaCard } from '@/components/product/MagnolyaCard'
+import { isStageEntryOnTop, pushStageEntry } from '@/lib/stageHistory'
 import type { Product } from '@/types'
 
 /**
@@ -43,6 +44,9 @@ export function useMagnolyaCards(
           // Kapanışta görsel karta döndüğünde kart düz hâlinde olsun
           setHovered(null)
           setStage({ id: product.id, from: rect })
+          // Geri tuşu sahneyi kapatsın, sayfadan çıkarmasın. Efekt değil
+          // tıklama anı: geliştirmede StrictMode efektleri iki kez çalıştırıyor
+          pushStageEntry()
         }}
       />
     ) : undefined
@@ -57,7 +61,12 @@ export function useMagnolyaCards(
         jar={jar}
         onJarChange={changeServing}
         onNavigate={(id) => setStage((current) => (current ? { ...current, id } : current))}
-        onClose={() => setStage(null)}
+        onClose={() => {
+          setStage(null)
+          // X, Esc ya da zeminle kapandıysa sahnenin geçmiş kaydını geri al;
+          // geri tuşuyla kapandıysa kayıt zaten gitti
+          if (isStageEntryOnTop()) window.history.back()
+        }}
       />
     </Suspense>
   ) : null

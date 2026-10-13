@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
-import { useLocation, useOutlet } from 'react-router-dom'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { useLocation, useNavigationType, useOutlet } from 'react-router-dom'
 
 const OUT = 200
 const IN = 380
@@ -26,10 +26,10 @@ const styles: Record<Phase, CSSProperties> = {
 
 const prefersReduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-const scrollTop = (hash: string) => {
-  if (hash) return
-  // html'de scroll-behavior: smooth var; burada anında olmalı
-  window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
+// Kaydırma konumunu tarayıcı değil bu bileşen geri yüklüyor. Tarayıcıya
+// bırakılsaydı geri tuşunda eski sayfa sönerken yeni sayfanın konumuna zıplardı
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual'
 }
 
 /**
@@ -43,7 +43,8 @@ const scrollTop = (hash: string) => {
  * zamanlayıcılar yürütüyor; onlar gizli sekmede de çalışıyor.
  */
 export function PageTransition() {
-  const { pathname, hash } = useLocation()
+  const { pathname, hash, key } = useLocation()
+  const navigationType = useNavigationType()
   const outlet = useOutlet()
   const latest = useRef(outlet)
   latest.current = outlet
@@ -52,16 +53,29 @@ export function PageTransition() {
   const [view, setView] = useState({ key: pathname, outlet })
   const [phase, setPhase] = useState<Phase>('idle')
 
+  /* Geri gelince kalınan yere dön: her geçmiş kaydının kaydırma konumu saklanır */
+  const positions = useRef(new Map<string, number>())
+  const shownKey = useRef(key) // ekrandaki sayfanın geçmiş kaydı
+  const pendingScroll = useRef<number | null>(null)
+
   useEffect(() => {
     if (pathname === view.key) {
+      // Aynı sayfada yeni kayıt (ör. menüde filtre): konum bu kayda yazılsın
+      shownKey.current = key
       // Sönerken aynı sayfaya geri dönüldüyse (A → B → A) görünmez kalmasın
       setPhase((current) => (current === 'out' ? 'in' : current))
       return
     }
 
+    // Ayrılan sayfanın konumu; çıkış sırasında kaydırma henüz değişmedi
+    positions.current.set(shownKey.current, window.scrollY)
+    // Geri / ileri tuşunda kayıtlı konuma, yeni sayfada başa
+    const target = navigationType === 'POP' ? (positions.current.get(key) ?? 0) : 0
+
     const swap = () => {
       setView({ key: pathname, outlet: latest.current })
-      scrollTop(hash)
+      shownKey.current = key
+      pendingScroll.current = hash ? null : target
     }
 
     if (prefersReduced() || document.hidden) {
@@ -76,9 +90,18 @@ export function PageTransition() {
       setPhase('enter')
     }, OUT)
     return () => window.clearTimeout(timer)
-    // view.key bilerek dışarıda: yalnızca adres değişince tetiklenmeli
+    // view.key bilerek dışarıda: yalnızca adres ya da kayıt değişince tetiklenmeli
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, key])
+
+  // Kaydırma yeni sayfa DOM'a girdikten sonra: eski sayfa kısaysa (ör. ürün
+  // sayfası) konum ona göre kırpılırdı
+  useLayoutEffect(() => {
+    if (pendingScroll.current === null) return
+    // html'de scroll-behavior: smooth var; burada anında olmalı
+    window.scrollTo({ top: pendingScroll.current, behavior: 'instant' as ScrollBehavior })
+    pendingScroll.current = null
+  }, [view.key])
 
   /* enter → in → idle */
   useEffect(() => {
