@@ -14,6 +14,7 @@ import { useCart } from '@/context/CartContext'
 import { useCatalog } from '@/context/CatalogContext'
 import { useFavorites } from '@/context/FavoritesContext'
 import { useToast } from '@/context/ToastContext'
+import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
 import { track } from '@/lib/analytics'
 import { buildCartItem, computeUnitPrice, defaultSelections, validateSelections, type Selections } from '@/lib/cart'
 import { cn } from '@/lib/cn'
@@ -84,6 +85,9 @@ export default function ProductDetail() {
       .slice(0, 4)
       .map((entry) => entry.product)
   }, [activeProducts, product])
+
+  // Benzer ürünler de katmanlı kart: tıklayınca sahne, oradan "Ürün detayları"
+  const relatedCards = useMagnolyaCards(related)
 
   useSeo({
     title: product ? `${product.name} | Gönülden Tatlar` : 'Ürün bulunamadı',
@@ -214,11 +218,13 @@ export default function ProductDetail() {
         {related.length > 0 && (
           <section className="mt-16 md:mt-24">
             <h2 className="text-[1.5rem] md:text-[1.85rem]">Bunlar da hoşuna gidebilir</h2>
-            <div className="mt-6 grid grid-cols-2 gap-3.5 sm:gap-5 lg:grid-cols-4">
-              {related.map((item) => (
-                <ProductCard key={item.id} product={item} />
-              ))}
+            <div {...relatedCards.preload} className="mt-6 grid grid-cols-2 gap-3.5 sm:gap-5 lg:grid-cols-4">
+              {related.map(
+                (item, index) =>
+                  relatedCards.renderCard(item, index) ?? <ProductCard key={item.id} product={item} />,
+              )}
             </div>
+            {relatedCards.stage}
           </section>
         )}
       </div>

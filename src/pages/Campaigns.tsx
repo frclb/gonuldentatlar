@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { EmptyState } from '@/components/ui/States'
 import { useCatalog } from '@/context/CatalogContext'
+import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
@@ -22,6 +23,8 @@ export default function Campaigns() {
   const campaignProducts = activeProducts.filter(
     (product) => campaignProductIds.has(product.id) || product.discountPercentage !== undefined,
   )
+  // Katmanlı kartlar: tıklayınca ana sayfadaki sahne
+  const campaignCards = useMagnolyaCards(campaignProducts)
 
   return (
     <>
@@ -64,7 +67,10 @@ export default function Campaigns() {
               title="Kampanyalara dahil tatlılar"
               description="Kampanya menülerinde yer alan ve indirimli ürünler."
             />
-            <ProductGrid products={campaignProducts} />
+            <div {...campaignCards.preload}>
+              <ProductGrid products={campaignProducts} renderCard={campaignCards.renderCard} />
+            </div>
+            {campaignCards.stage}
           </div>
         </Section>
       )}
