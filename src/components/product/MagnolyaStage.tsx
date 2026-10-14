@@ -189,6 +189,7 @@ export function MagnolyaStage({
   products,
   activeId,
   fromRect,
+  returnTo,
   jar,
   onJarChange,
   onNavigate,
@@ -198,6 +199,8 @@ export function MagnolyaStage({
   activeId: string
   /** Tıklanan kart görselinin konumu — FLIP başlangıcı */
   fromRect: DOMRect | null
+  /** Sahneyi kart dışından açan öğe: o ürün hâlâ gösteriliyorsa kapanışta oraya döner */
+  returnTo?: { id: string; el: Element }
   jar: boolean
   onJarChange: (value: boolean) => void
   onNavigate: (id: string) => void
@@ -291,7 +294,11 @@ export function MagnolyaStage({
         onClose()
         return
       }
-      const card = document.querySelector(`[data-magnolya-card="${p.id}"] [data-imgbox]`)
+      // Açan öğeye dön (← / → ile başka ürüne geçildiyse o ürünün kartına)
+      const card =
+        returnTo && returnTo.id === p.id && returnTo.el.isConnected
+          ? returnTo.el
+          : document.querySelector(`[data-magnolya-card="${p.id}"] [data-imgbox]`)
       const t = card?.getBoundingClientRect()
       const f = st.getBoundingClientRect()
       let animation: Animation

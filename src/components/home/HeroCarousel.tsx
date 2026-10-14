@@ -48,7 +48,19 @@ const ZOOM = 1.03
 const LINE = 7
 const SPRING = 'cubic-bezier(.34,1.56,.64,1)'
 
-export function HeroCarousel() {
+/** Sol tık, değiştirici tuş yok: Ctrl/Cmd ile yeni sekmede açmak isteyene dokunma */
+const plainClick = (event: React.MouseEvent) =>
+  event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+
+export function HeroCarousel({
+  onOpen,
+  hold = false,
+}: {
+  /** Görsele tıklanınca ürün sayfası yerine Magnolya sahnesini aç */
+  onOpen?: (productId: string, opener: Element) => void
+  /** Sahne açıkken kare değişmesin: kapanınca görsel aynı ürüne dönsün */
+  hold?: boolean
+} = {}) {
   const { getProduct } = useCatalog()
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   /**
@@ -92,6 +104,7 @@ export function HeroCarousel() {
         if (!product) return []
         const image = jar ? (product.gallery?.[1] ?? product.image) : product.image
         return [{
+          id: product.id,
           slug,
           image,
           name: product.name,
@@ -116,7 +129,7 @@ export function HeroCarousel() {
 
   useEffect(() => {
     // Etiketler açıkken de dur: okunurken ürün değişmesin
-    if (paused || open || reducedMotion || slides.length < 2) return
+    if (paused || open || hold || reducedMotion || slides.length < 2) return
     const timer = window.setInterval(() => {
       if (hidden.current) return
       setFrame((frame) => ({
@@ -125,7 +138,7 @@ export function HeroCarousel() {
       }))
     }, INTERVAL)
     return () => window.clearInterval(timer)
-  }, [paused, open, reducedMotion, slides.length])
+  }, [paused, open, hold, reducedMotion, slides.length])
 
   if (slides.length === 0) return null
   const active = slides[current] ?? slides[0]
@@ -161,11 +174,19 @@ export function HeroCarousel() {
         setPaused(false)
         setOpen(false)
       }}
-      // Dokunmatikte ilk dokunuş katmanları açar, ikincisi ürüne gider
+      // Dokunmatikte ilk dokunuş katmanları açar, ikincisi sahneyi.
+      // Sahne açılamıyorsa (katman haritası yok) bağlantı ürün sayfasına gider
       onClick={(event) => {
+        if (!plainClick(event)) return
         if (!canHover && !open && shot) {
           event.preventDefault()
           setOpen(true)
+          return
+        }
+        if (onOpen && shot) {
+          event.preventDefault()
+          setOpen(false)
+          onOpen(active.id, event.currentTarget)
         }
       }}
     >

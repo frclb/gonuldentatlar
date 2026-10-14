@@ -4,19 +4,14 @@ import { Clock, Leaf, MessageCircle, ShoppingBag } from 'lucide-react'
 import { ButtonAnchor, ButtonLink } from '@/components/ui/Button'
 import { useCatalog } from '@/context/CatalogContext'
 import { useIntro } from '@/context/IntroContext'
+import { weeklyPick } from '@/data/weeklyPick'
+import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
 import { assetUrl } from '@/lib/assets'
 import { track } from '@/lib/analytics'
 import { buildContactUrl } from '@/lib/whatsapp'
 import { HeroCarousel } from './HeroCarousel'
 import { Link } from 'react-router-dom'
 import { fadeUp } from '@/lib/motion'
-
-/** Haftanın favorisi kartı — ürünü değiştirmek için tek yer burası. */
-const FAVOURITE = {
-  slug: 'lotuslu-magnolya',
-  name: 'Lotuslu Magnolya',
-  image: '/images/products/lotuslu-magnolya.webp',
-}
 
 const trustPoints = [
   { icon: Leaf, label: 'Günlük taze meyve' },
@@ -29,6 +24,13 @@ export function Hero() {
   const { heroIn } = useIntro()
   // Açılış oynarken Hero beklesin; logo uçmaya başladığı anda birlikte açılsın
   const reveal = heroIn ? 'show' : 'hidden'
+
+  // Haftanın favorisi her pazartesi değişir (bkz. data/weeklyPick.ts)
+  const pick = weeklyPick(activeProducts)
+  // Görsele ve favoriye tıklayınca ürün sayfası yerine Magnolya sahnesi;
+  // ← / → menünün tamamında gezer
+  const layered = activeProducts.filter((product) => product.serving)
+  const heroStage = useMagnolyaCards(layered)
 
   // "Tatlar" altındaki çizgi Hero açılınca kendini çizer
   const [drawn, setDrawn] = useState(false)
@@ -166,35 +168,46 @@ export function Hero() {
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              {...heroStage.preload}
             >
-              <HeroCarousel />
+              <HeroCarousel onOpen={heroStage.openStage} hold={heroStage.isOpen} />
             </motion.div>
 
             {/* yüzen mini kartlar */}
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="absolute -left-1 bottom-6 z-10 sm:left-2"
-            >
-              <Link
-                to={`/menu/${FAVOURITE.slug}`}
-                className="flex items-center gap-2.5 rounded-full bg-surface/90 py-2 pl-2 pr-4 shadow-card backdrop-blur transition-[transform,box-shadow] duration-300 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:shadow-lift"
+            {pick && (
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="absolute -left-1 bottom-6 z-10 sm:left-2"
               >
-                <img
-                  src={assetUrl(FAVOURITE.image)}
-                  alt=""
-                  width={120}
-                  height={120}
-                  loading="lazy"
-                  className="size-11 rounded-full object-cover"
-                />
-                <div className="leading-tight">
-                  <p className="text-[0.8rem] font-semibold text-cocoa-800">{FAVOURITE.name}</p>
-                  <p className="text-[0.7rem] text-muted">Bu haftanın favorisi</p>
-                </div>
-              </Link>
-            </motion.div>
+                <Link
+                  to={`/menu/${pick.slug}`}
+                  // Sol tıkta sahne açılır; Ctrl/Cmd ile yeni sekmede ürün sayfası
+                  onClick={(event) => {
+                    if (!pick.serving || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return
+                    event.preventDefault()
+                    const image = event.currentTarget.querySelector('img')
+                    heroStage.openStage(pick.id, image ?? event.currentTarget)
+                  }}
+                  className="flex items-center gap-2.5 rounded-full bg-surface/90 py-2 pl-2 pr-4 shadow-card backdrop-blur transition-[transform,box-shadow] duration-300 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:shadow-lift"
+                  {...heroStage.preload}
+                >
+                  <img
+                    src={assetUrl(pick.image)}
+                    alt=""
+                    width={120}
+                    height={120}
+                    loading="lazy"
+                    className="size-11 rounded-full object-cover"
+                  />
+                  <div className="leading-tight">
+                    <p className="text-[0.8rem] font-semibold text-cocoa-800">{pick.name}</p>
+                    <p className="text-[0.7rem] text-muted">Bu haftanın favorisi</p>
+                  </div>
+                </Link>
+              </motion.div>
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 18 }}
@@ -210,6 +223,7 @@ export function Hero() {
           </div>
         </div>
       </div>
+      {heroStage.stage}
     </section>
   )
 }

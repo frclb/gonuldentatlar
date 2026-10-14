@@ -18,7 +18,8 @@ export function useMagnolyaCards(
   { variant = 'grid', reveal = true }: { variant?: 'strip' | 'grid'; reveal?: boolean } = {},
 ) {
   const [hovered, setHovered] = useState<string | null>(null)
-  const [stage, setStage] = useState<{ id: string; from: DOMRect | null } | null>(null)
+  // opener: sahneyi kart dışından açan öğe (ör. Hero görseli); kapanınca oraya döner
+  const [stage, setStage] = useState<{ id: string; from: DOMRect | null; opener?: Element } | null>(null)
   const [jar, setJar] = useState(false)
   // Kavanoz görselleri sunum ilk değiştiğinde (ya da değiştirmeye niyetlenince) iner
   const [jarMounted, setJarMounted] = useState(false)
@@ -26,6 +27,15 @@ export function useMagnolyaCards(
   const changeServing = (value: boolean) => {
     setJarMounted(true)
     setJar(value)
+  }
+
+  const open = (id: string, from: DOMRect, opener?: Element) => {
+    // Kapanışta görsel karta döndüğünde kart düz hâlinde olsun
+    setHovered(null)
+    setStage({ id, from, opener })
+    // Geri tuşu sahneyi kapatsın, sayfadan çıkarmasın. Efekt değil
+    // tıklama anı: geliştirmede StrictMode efektleri iki kez çalıştırıyor
+    pushStageEntry()
   }
 
   const renderCard = (product: Product, index: number): ReactNode | undefined =>
@@ -40,14 +50,7 @@ export function useMagnolyaCards(
         mountJar={jarMounted}
         active={hovered === product.id}
         onActive={(value) => setHovered(value ? product.id : null)}
-        onOpen={(rect) => {
-          // Kapanışta görsel karta döndüğünde kart düz hâlinde olsun
-          setHovered(null)
-          setStage({ id: product.id, from: rect })
-          // Geri tuşu sahneyi kapatsın, sayfadan çıkarmasın. Efekt değil
-          // tıklama anı: geliştirmede StrictMode efektleri iki kez çalıştırıyor
-          pushStageEntry()
-        }}
+        onOpen={(rect) => open(product.id, rect)}
       />
     ) : undefined
 
@@ -58,6 +61,7 @@ export function useMagnolyaCards(
         products={products.filter((product) => product.serving)}
         activeId={stage.id}
         fromRect={stage.from}
+        returnTo={stage.opener ? { id: stage.id, el: stage.opener } : undefined}
         jar={jar}
         onJarChange={changeServing}
         onNavigate={(id) => setStage((current) => (current ? { ...current, id } : current))}
@@ -74,6 +78,9 @@ export function useMagnolyaCards(
   return {
     renderCard,
     stage: stageElement,
+    isOpen: stage !== null,
+    /** Kart dışındaki bir öğeden (Hero görseli, haftanın favorisi) sahneyi aç */
+    openStage: (productId: string, opener: Element) => open(productId, opener.getBoundingClientRect(), opener),
     jar,
     changeServing,
     /** Kavanoz'a niyetlenildi (fare üzerinde): görseller tıklamadan önce insin */
