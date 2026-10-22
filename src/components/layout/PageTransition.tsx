@@ -1,5 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { useLocation, useNavigationType, useOutlet } from 'react-router-dom'
+import { RouteFallback } from '@/components/ui/RouteFallback'
 
 const OUT = 200
 const IN = 380
@@ -128,7 +129,10 @@ export function PageTransition() {
     // key: yeni adreste sayfa sıfırdan kurulur — ürün → ürün geçişinde
     // seçili sunum, galeri vb. bir öncekinden taşınmaz
     <div key={view.key} style={styles[phase]}>
-      {content}
+      {/* Sayfa parçası inerken yalnızca sayfa alanı bekler; navbar ve footer
+          yerinde kalır. Eskiden uygulamanın en dışındaki bekleme ekranı her
+          şeyin yerine geçiyor, ekran bir an bomboş kalıyordu */}
+      <Suspense fallback={<RouteFallback />}>{content}</Suspense>
     </div>
   )
 }

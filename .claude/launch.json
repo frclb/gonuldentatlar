@@ -23,6 +23,19 @@
         "/gonuldentatlar/"
       ],
       "port": 4173
+    },
+    {
+      "name": "gonulden-tatlar-dist",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "vite",
+        "preview",
+        "--port",
+        "4180",
+        "--base",
+        "/"
+      ],
+      "port": 4180
     }
   ]
 }
