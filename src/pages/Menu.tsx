@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Search, X } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useSearchParams } from 'react-router-dom'
 import { assetUrl } from '@/lib/assets'
 import { LogoMark } from '@/components/brand/Logo'
@@ -12,6 +13,7 @@ import { useCatalog } from '@/context/CatalogContext'
 import { useFlipGrid } from '@/hooks/useFlipGrid'
 import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
 import { track } from '@/lib/analytics'
+import { cn } from '@/lib/cn'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
@@ -22,6 +24,20 @@ export default function Menu() {
   const { activeCategories, activeProducts, activeCampaigns } = useCatalog()
   const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState('')
+  // Mobilde arama kutusu yer kaplamasın diye butonla açılıyor; geniş ekranda hep açık
+  const [searchOpen, setSearchOpen] = useState(false)
+  const searchInput = useRef<HTMLInputElement>(null)
+
+  const openSearch = () => {
+    // Odak dokunuşla aynı anda olmalı: iPhone klavyeyi ancak böyle açıyor.
+    // flushSync kutuyu hemen görünür yapıyor, gizliyken odaklanılamıyor
+    flushSync(() => setSearchOpen(true))
+    searchInput.current?.focus()
+  }
+  const closeSearch = () => {
+    setQuery('')
+    setSearchOpen(false)
+  }
   // Tıklanan sekme, adres güncellenene kadar. Adres çıkış animasyonundan sonra
   // değişiyor; hap ona bağlı kalsaydı tıklamadan ~370 ms sonra kıpırdardı
   const [chosen, setChosen] = useState<string | null>(null)
@@ -146,32 +162,76 @@ export default function Menu() {
       <div className="sticky top-16 z-30 border-b border-line bg-background/90 backdrop-blur-xl lg:top-[4.5rem]">
         <div className="container-page">
           <div className="flex items-start gap-3 py-3 lg:items-center">
-            {/* Mobilde yatay kaydırma, geniş ekranda alt satıra sarma */}
+            {/* Mobilde yatay kaydırma, geniş ekranda alt satıra sarma.
+                Mobilde arama açıkken sekmeler yerini kutuya bırakır; seçili
+                sekme geçerli kalır, arama o tadın içinde yapılır */}
             <FilterChips
               filters={filters}
               active={chosen ?? activeFilter}
               onSelect={selectFilter}
-              className="no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1 lg:flex-wrap lg:overflow-visible"
+              className={cn(
+                'no-scrollbar edge-fade-x -mx-1 flex flex-1 gap-2 overflow-x-auto px-1 lg:flex-wrap lg:overflow-visible',
+                searchOpen && 'max-sm:hidden',
+              )}
             />
 
-            <div className="relative hidden w-56 shrink-0 sm:block lg:mt-0">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Tatlı ara…"
+            {!searchOpen && (
+              <button
+                type="button"
+                onClick={openSearch}
                 aria-label="Menüde ara"
-                className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-8 text-sm text-cocoa-800 placeholder:text-muted/70 focus:border-cocoa-400 focus:outline-none focus:ring-4 focus:ring-cocoa-100"
-              />
-              {query && (
+                className="grid size-10 shrink-0 place-items-center rounded-full border border-line bg-surface text-cocoa-700 transition-[background-color,transform] active:scale-95 hover:bg-cream-100 sm:hidden"
+              >
+                <Search className="size-[1.1rem]" />
+              </button>
+            )}
+
+            <div
+              className={cn(
+                'relative shrink-0 sm:block sm:w-56 lg:mt-0',
+                searchOpen ? 'max-sm:flex max-sm:flex-1 max-sm:items-center max-sm:gap-2' : 'max-sm:hidden',
+              )}
+            >
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+                <input
+                  ref={searchInput}
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape') {
+                      closeSearch()
+                      event.currentTarget.blur()
+                    }
+                  }}
+                  placeholder={activeFilter === ALL ? 'Tatlı ara…' : `${activeLabel ?? 'Bu tat'} içinde ara…`}
+                  aria-label="Menüde ara"
+                  enterKeyHint="search"
+                  className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-8 text-sm text-cocoa-800 placeholder:text-muted/70 focus:border-cocoa-400 focus:outline-none focus:ring-4 focus:ring-cocoa-100"
+                />
+                {query && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuery('')
+                      searchInput.current?.focus()
+                    }}
+                    aria-label="Aramayı temizle"
+                    className="absolute right-2.5 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted hover:bg-cream-200"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                )}
+              </div>
+              {/* Mobilde aramayı kapatıp sekmelere dön */}
+              {searchOpen && (
                 <button
                   type="button"
-                  onClick={() => setQuery('')}
-                  aria-label="Aramayı temizle"
-                  className="absolute right-2.5 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-muted hover:bg-cream-200"
+                  onClick={closeSearch}
+                  className="shrink-0 px-1 text-sm font-semibold text-cocoa-700 sm:hidden"
                 >
-                  <X className="size-3.5" />
+                  Vazgeç
                 </button>
               )}
             </div>
