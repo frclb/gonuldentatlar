@@ -1,4 +1,4 @@
-import { Clock, Instagram, MapPin, MessageCircle, Phone } from 'lucide-react'
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { LogoMark } from '@/components/brand/Logo'
 import { useCart } from '@/context/CartContext'
@@ -120,6 +120,12 @@ export function Footer() {
                 <Phone className="mt-0.5 size-4 shrink-0 text-olive-300" />
                 <a href={`tel:${settings.phone.replace(/\s/g, '')}`} className="hover:text-blush-200">
                   {formatPhone(settings.phone)}
+                </a>
+              </li>
+              <li className="flex gap-2.5">
+                <Mail className="mt-0.5 size-4 shrink-0 text-olive-300" />
+                <a href={`mailto:${settings.email}`} className="break-all hover:text-blush-200">
+                  {settings.email}
                 </a>
               </li>
               <li className="flex gap-2.5">

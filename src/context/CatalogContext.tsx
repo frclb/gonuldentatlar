@@ -15,7 +15,7 @@ const STORAGE_KEY = 'catalog'
  * Tohum veri her değiştiğinde artırılır. Sürüm uyuşmazsa tarayıcıda saklı
  * eski katalog atılır ve güncel menü yüklenir.
  */
-const VERSION = 11
+const VERSION = 12
 
 interface CatalogState {
   version: number

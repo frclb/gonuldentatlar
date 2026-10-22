@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Clock, Instagram, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
+import { Clock, Instagram, Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { LocationSection } from '@/components/home/LocationSection'
 import { Button, ButtonAnchor } from '@/components/ui/Button'
@@ -66,6 +66,13 @@ export default function Contact() {
       value: formatPhone(settings.phone),
       href: `tel:${settings.phone.replace(/\s/g, '')}`,
       cta: 'Ara',
+    },
+    {
+      icon: Mail,
+      title: 'E-posta',
+      value: settings.email,
+      href: `mailto:${settings.email}`,
+      cta: 'E-posta gönder',
     },
     {
       icon: Instagram,

@@ -44,6 +44,12 @@ export default function Kvkk() {
             <>
               <strong className="text-cocoa-700">WhatsApp:</strong> {formatPhone(settings.whatsapp)}
             </>,
+            <>
+              <strong className="text-cocoa-700">E-posta:</strong>{' '}
+              <a href={`mailto:${settings.email}`} className="underline underline-offset-2 hover:text-cocoa-700">
+                {settings.email}
+              </a>
+            </>,
           ]}
         />
       </LegalBlock>
@@ -156,8 +162,12 @@ export default function Kvkk() {
 
       <LegalBlock title="8. Başvuru">
         <p>
-          Taleplerini {formatPhone(settings.phone)} numaralı telefondan ya da WhatsApp hattımızdan
-          iletebilirsin. Başvurun en geç otuz gün içinde sonuçlandırılır.
+          Taleplerini yazılı olarak{' '}
+          <a href={`mailto:${settings.email}`} className="underline underline-offset-2 hover:text-cocoa-700">
+            {settings.email}
+          </a>{' '}
+          adresine e-postayla iletebilirsin; {formatPhone(settings.phone)} numaralı telefondan ya da WhatsApp
+          hattımızdan da ulaşabilirsin. Başvurun en geç otuz gün içinde sonuçlandırılır.
         </p>
       </LegalBlock>
     </LegalPage>

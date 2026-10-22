@@ -123,8 +123,11 @@ export default function Privacy() {
       <LegalBlock title="Değişiklikler ve iletişim">
         <p>
           Bu politika gerektiğinde güncellenir; sayfanın başındaki tarih son güncellemeyi gösterir.
-          Soruların için {formatPhone(settings.phone)} numarasından ya da WhatsApp hattımızdan bize
-          ulaşabilirsin.
+          Soruların için {formatPhone(settings.phone)} numarasından, WhatsApp hattımızdan ya da{' '}
+          <a href={`mailto:${settings.email}`} className="underline underline-offset-2 hover:text-cocoa-700">
+            {settings.email}
+          </a>{' '}
+          adresinden bize ulaşabilirsin.
         </p>
       </LegalBlock>
     </LegalPage>

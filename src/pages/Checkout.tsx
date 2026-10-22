@@ -30,7 +30,7 @@ type FormErrors = Partial<Record<keyof FormState, string>>
 const emptyForm: FormState = { fullName: '', phone: '', address: '', directions: '', note: '' }
 
 const deliveryOptions: { id: DeliveryType; label: string; description: string; icon: typeof Store }[] = [
-  { id: 'pickup', label: 'Gel Al', description: 'Mağazadan teslim al', icon: Store },
+  { id: 'pickup', label: 'Gel Al', description: 'Adresi WhatsApp’tan iletiriz', icon: Store },
   { id: 'delivery', label: 'Paket Servis', description: 'Adresine getirelim', icon: Truck },
 ]
 

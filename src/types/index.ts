@@ -208,6 +208,8 @@ export interface StoreSettings {
   slogan: string
   phone: string
   whatsapp: string
+  /** İletişim ve KVKK başvuruları için e-posta */
+  email: string
   instagram: string
   instagramHandle: string
   address: string

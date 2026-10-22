@@ -428,6 +428,7 @@ export const storeSettings: StoreSettings = {
   slogan: 'Tatlısı gönülden, lezzeti dilden dile.',
   phone: '+90 535 873 43 73',
   whatsapp: whatsappNumber(),
+  email: 'gonuldenntatlar@gmail.com',
   instagram: 'https://instagram.com/gonuldenntatlar',
   instagramHandle: '@gonuldenntatlar',
   // Açık adres bilinçli olarak yazılmıyor; yalnızca il/ilçe
