@@ -401,17 +401,17 @@ export const instagramPosts: SocialMediaPost[] = [
 /* ------------------------------------------------------------------ İşletme */
 
 /**
- * Sipariş hattı numarası.
+ * İşletmenin sipariş hattı (WhatsApp + telefon). Sitede herkese görünen bir
+ * numara olduğu için doğrudan kodda duruyor; GitHub ayarı gerekmiyor.
  *
- * GitHub Actions, tanımlı olmayan bir repo değişkenini boş metin olarak geçiriyor;
- * `??` boş metni yakalamadığı için numara sessizce boş kalıyor ve bütün WhatsApp
- * bağlantıları alıcısız bir wa.me adresine dönüşüyordu. Bu yüzden sadece rakamlara
+ * Eskiden numara yalnızca VITE_WHATSAPP_NUMBER repo değişkeninden geliyordu.
+ * Değişken hiç tanımlanmadığı için canlıdaki bütün siparişler ve iletişim
+ * mesajları yer tutucu bir numaraya (905000000000) gidiyordu. Değişken hâlâ
+ * tanımlanabilir (ör. denemede başka bir hat), o zaman bu değerin önüne geçer.
+ * GitHub Actions tanımsız değişkeni boş metin geçirdiği için rakamlara
  * indirip uzunluğu da kontrol ediyoruz.
- *
- * ⚠️ Yedek değer gerçek bir numara değildir. Canlıda repo değişkeni
- * VITE_WHATSAPP_NUMBER mutlaka tanımlı olmalı.
  */
-const FALLBACK_WHATSAPP = '905000000000'
+const BUSINESS_WHATSAPP = '905358734373'
 
 function whatsappNumber(): string {
   let digits = (import.meta.env.VITE_WHATSAPP_NUMBER ?? '').replace(/\D/g, '')
@@ -420,19 +420,13 @@ function whatsappNumber(): string {
   if (digits.length === 11 && digits.startsWith('0')) digits = `90${digits.slice(1)}`
   else if (digits.length === 10 && digits.startsWith('5')) digits = `90${digits}`
 
-  if (digits.length >= 10) return digits
-  if (import.meta.env.DEV) {
-    console.warn(
-      '[Gönülden Tatlar] VITE_WHATSAPP_NUMBER tanımlı değil; siparişler için geçici numara kullanılıyor.',
-    )
-  }
-  return FALLBACK_WHATSAPP
+  return digits.length >= 10 ? digits : BUSINESS_WHATSAPP
 }
 
 export const storeSettings: StoreSettings = {
   name: 'Gönülden Tatlar',
   slogan: 'Tatlısı gönülden, lezzeti dilden dile.',
-  phone: '+90 500 000 00 00',
+  phone: '+90 535 873 43 73',
   whatsapp: whatsappNumber(),
   instagram: 'https://instagram.com/gonuldenntatlar',
   instagramHandle: '@gonuldenntatlar',

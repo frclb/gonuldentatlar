@@ -66,6 +66,17 @@ const CatalogContext = createContext<CatalogContextValue | null>(null)
 
 function loadState(): CatalogState {
   const stored = readStorage<CatalogState | null>(STORAGE_KEY, null)
+
+  // Canlıda yönetim paneli yok; ürünler, kategoriler, ayarlar kodda ne
+  // yazıyorsa o. Saklı kopyadan okunsaydı her değişiklik (numara, fiyat,
+  // yeni ürün) siteyi önceden açmış ziyaretçilere ancak VERSION artırılınca
+  // ulaşırdı — katman verisinde unutulmuştu, yeni WhatsApp numarası da
+  // eski ziyaretçilerde yer tutucu kalacaktı. Tarayıcıda yalnızca o
+  // ziyaretçinin sipariş geçmişi korunur.
+  if (!import.meta.env.DEV) {
+    return { ...seedState(), orders: stored?.orders ?? [] }
+  }
+
   if (!stored || stored.version !== VERSION) return seedState()
   // Katman haritaları panelden düzenlenen veri değil; her açılışta kaynaktan
   // alınır. Saklı katalog bunları taşımıyordu (eklendiklerinde VERSION
