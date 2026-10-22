@@ -430,9 +430,13 @@ export const storeSettings: StoreSettings = {
   whatsapp: whatsappNumber(),
   instagram: 'https://instagram.com/gonuldenntatlar',
   instagramHandle: '@gonuldenntatlar',
-  address: 'Cumhuriyet Mah. Tatlı Sokak No: 12/A, Merkez',
-  addressShort: 'Cumhuriyet Mah. Tatlı Sk. No:12/A',
-  mapsUrl: 'https://maps.google.com/?q=G%C3%B6n%C3%BClden+Tatlar',
+  // Açık adres bilinçli olarak yazılmıyor; yalnızca il/ilçe
+  address: 'Merkez/Bursa',
+  addressShort: 'Merkez/Bursa',
+  // Açık adres olmadığı için harita işletmeyi adıyla Bursa'da arar: Google
+  // işletme profili varsa onu, yoksa Bursa'yı gösterir. Yalnızca "Gönülden
+  // Tatlar" araması Türkiye'deki başka bir işletmeye çıkabiliyordu
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=G%C3%B6n%C3%BClden+Tatlar+Bursa',
   isOpen: true,
   showPrices: false,
   minOrderTotal: 250,

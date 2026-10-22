@@ -156,9 +156,8 @@ export default function Kvkk() {
 
       <LegalBlock title="8. Başvuru">
         <p>
-          Taleplerini {formatPhone(settings.phone)} numaralı telefondan, WhatsApp hattımızdan ya da{' '}
-          {settings.address} adresine yazılı olarak iletebilirsin. Başvurun en geç otuz gün içinde
-          sonuçlandırılır.
+          Taleplerini {formatPhone(settings.phone)} numaralı telefondan ya da WhatsApp hattımızdan
+          iletebilirsin. Başvurun en geç otuz gün içinde sonuçlandırılır.
         </p>
       </LegalBlock>
     </LegalPage>
