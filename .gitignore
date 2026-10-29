@@ -6,3 +6,8 @@ dist-ssr
 *.local
 .DS_Store
 *.tsbuildinfo
+
+# Gemini ham görselleri (işlenmiş hâlleri public/images altına girer)
+yeni-gorseller/
+instagram/hikayeler/
+instagram/sablon/zemin.png

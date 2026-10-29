@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=block" rel="stylesheet">
+<style>
+  :root {
+    --cocoa-900: #2b1811; --cocoa-800: #40251a; --cocoa-600: #764a34; --cocoa-400: #ac7d60;
+    --cream-50: #fdfaf5; --blush: #cf7367;
+    --K: #d9a86a; --C: #f6ecd2; --S: #d93a35;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body { position: relative; font-family: 'DM Sans', sans-serif; color: var(--cocoa-800); background: #e9dcc8; }
+  .bg { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+  .glow { position: absolute; inset: 0; background: radial-gradient(70% 26% at 30% 20%, rgba(253, 250, 245, .55), transparent 72%); }
+
+  .head { position: absolute; left: 72px; right: 72px; top: 236px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 25px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--cocoa-600); }
+  .eyebrow img { width: 52px; height: 52px; }
+  h1 { margin-top: 22px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 132px; line-height: .94; letter-spacing: -.02em; color: var(--cocoa-900); }
+  h1 em { font-style: italic; font-weight: 500; color: var(--blush); }
+  .sub { margin-top: 26px; font-size: 34px; line-height: 1.35; color: #5c4537; max-width: 820px; }
+
+  .dot { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%;
+         background: var(--cream-50); box-shadow: 0 0 0 5px rgba(253,250,245,.45), 0 2px 8px rgba(64,37,26,.35); }
+  .dot::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--c); }
+  .line { position: absolute; height: 2px; background: rgba(253, 250, 245, .85); box-shadow: 0 1px 3px rgba(64,37,26,.35); transform-origin: 0 50%; }
+  .tag { position: absolute; transform: translateY(-50%); display: flex; align-items: center; gap: 12px;
+         padding: 13px 20px 13px 16px; border-radius: 999px; background: rgba(253, 250, 245, .94);
+         box-shadow: 0 6px 20px rgba(64, 37, 26, .22); font-size: 25px; font-weight: 600; color: var(--cocoa-800); white-space: nowrap; }
+  .tag i { width: 16px; height: 16px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(64,37,26,.2); }
+
+  .sheet { position: absolute; left: 0; right: 0; top: 1452px; bottom: 0; background: var(--cream-50);
+           border-radius: 56px 56px 0 0; box-shadow: 0 -12px 40px rgba(43, 24, 17, .16); }
+  .cta { position: absolute; left: 72px; right: 72px; top: 1506px; text-align: center; }
+  .cta .btn { display: inline-flex; align-items: center; gap: 16px; padding: 26px 46px; border-radius: 999px;
+              background: var(--cocoa-600); color: var(--cream-50); font-size: 36px; font-weight: 600; box-shadow: 0 12px 30px rgba(64, 37, 26, .24); }
+  .cta .meta { margin-top: 26px; font-size: 29px; font-weight: 500; color: #4d3529; }
+  .cta .meta b { font-weight: 700; color: var(--cocoa-900); }
+  .cta .sep { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--cocoa-400); margin: 0 18px 6px; }
+</style>
+</head>
+<body>
+  <img class="bg" src="zemin.png" alt="">
+  <div class="glow"></div>
+
+  <header class="head">
+    <div class="eyebrow"><img src="marka-isareti-kakao.svg" alt="">Gönülden Tatlar · Bursa</div>
+    <h1>Çilekli<br><em>Magnolya</em></h1>
+    <p class="sub">Süt kreması, bisküvi kırıkları ve dilimlenmiş taze çilek.</p>
+  </header>
+
+  <div id="layers"></div>
+
+  <div class="sheet"></div>
+  <section class="cta">
+    <div class="btn">Sipariş için DM’den yaz</div>
+    <p class="meta">WhatsApp <b>0535 873 43 73</b><span class="sep"></span>gonuldentatlar.com</p>
+  </section>
+
+<script>
+  // Katman noktaları kare görsel koordinatında (1024 px); zemin-uzat.py ile aynı ölçek ve kayma
+  const scale = 0.95, ox = -130, oy = 500, tagX = 712
+  const layers = [
+    { name: 'Bisküvi kırığı', c: 'var(--K)', x: 780, y: 480, ty: 930 },
+    { name: 'Magnolya kreması', c: 'var(--C)', x: 790, y: 535, ty: 1045 },
+    { name: 'Taze çilek', c: 'var(--S)', x: 760, y: 680, ty: 1160 },
+    { name: 'Bisküvi tabanı', c: 'var(--K)', x: 765, y: 815, ty: 1275 },
+  ]
+  const host = document.getElementById('layers')
+  for (const l of layers) {
+    const x = ox + l.x * scale, y = oy + l.y * scale
+    const dx = tagX - x, dy = l.ty - y
+    host.insertAdjacentHTML('beforeend', `
+      <div class="line" style="left:${x}px;top:${y}px;width:${Math.hypot(dx, dy)}px;transform:rotate(${Math.atan2(dy, dx)}rad)"></div>
+      <div class="dot" style="left:${x}px;top:${y}px;--c:${l.c}"></div>
+      <div class="tag" style="left:${tagX}px;top:${l.ty}px;--c:${l.c}"><i></i>${l.name}</div>`)
+  }
+</script>
+</body>
+</html>
