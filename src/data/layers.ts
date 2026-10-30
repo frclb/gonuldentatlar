@@ -118,8 +118,8 @@ const seeds: Seed[] = [
     slug: 'kakaolu-biskuvili-cilekli-magnolya',
     names: ['Kakaolu bisküvi', 'Magnolya kreması', 'Taze çilek', 'Kakaolu taban'],
     colors: [KB, C, S, KB],
-    cup: { x: 72, y: [40, 49, 60, 68] },
-    jar: { x: 74, y: [44, 52, 66, 77] },
+    cup: { x: 71, y: [45, 50.5, 61, 71] },
+    jar: { x: 71, y: [50, 56, 67, 76] },
   },
   {
     slug: 'kakaolu-biskuvili-muzlu-magnolya',
