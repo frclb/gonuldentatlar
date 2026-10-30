@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&display=block');
+
+/* Instagram hikâyesi (1080x1920). Üstteki ~250 ve alttaki ~270 piksel Instagram arayüzünün altında kalır;
+   önemli içerik 250-1650 arasında tutulur. */
+:root {
+  --cocoa-900: #2b1811; --cocoa-800: #40251a; --cocoa-600: #764a34; --cocoa-400: #ac7d60;
+  --paper: #f8f1e7; --cream-50: #fdfaf5; --cream-200: #eadcc8; --line: rgba(64, 37, 26, .16);
+  --blush: #cf7367; --blush-soft: #f1d4cc;
+  --K: #d9a86a; --C: #f6ecd2; --S: #d93a35; --B: #f3dc8f; --RV: #8e2433;
+}
+* { margin: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; }
+body { position: relative; font-family: 'DM Sans', sans-serif; color: var(--cocoa-800); background: var(--paper); }
+/* İnce kâğıt dokusu */
+body::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 5; opacity: .5;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .14 0 0 0 .09 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+body::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(70% 35% at 80% 8%, rgba(253, 250, 245, .9), transparent 70%),
+              radial-gradient(60% 30% at 0% 100%, rgba(241, 212, 204, .45), transparent 70%); }
+.z { position: relative; z-index: 2; }
+
+.eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--cocoa-600); }
+.eyebrow img { width: 48px; height: 48px; }
+.script { font-family: 'Caveat', cursive; font-weight: 600; color: var(--blush); line-height: 1; }
+.serif { font-family: 'Fraunces', serif; }
+h1 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -.015em; color: var(--cocoa-900); }
+h1 em { font-style: italic; font-weight: 400; color: var(--blush); }
+
+/* Kemer biçimli fotoğraf: sitedeki kare görselden (1100 px) kesit; --s ölçek, --x/--y kayma */
+.arch { position: absolute; overflow: hidden; border-radius: 999px 999px 36px 36px; background-repeat: no-repeat;
+  background-size: calc(1100px * var(--s)) auto; background-position: calc(var(--x) * -1px * var(--s)) calc(var(--y) * -1px * var(--s));
+  box-shadow: 0 24px 60px rgba(64, 37, 26, .18); outline: 2px solid rgba(253, 250, 245, .9); outline-offset: -14px; }
+
+.pill { display: inline-flex; align-items: center; gap: 14px; padding: 24px 44px; border-radius: 999px;
+  background: var(--cocoa-800); color: var(--cream-50); font-size: 34px; font-weight: 600; box-shadow: 0 14px 30px rgba(64, 37, 26, .22); }
+.meta { font-size: 28px; font-weight: 500; color: #5c4537; }
+.meta b { font-weight: 700; color: var(--cocoa-900); }
+.dotsep { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--cocoa-400); margin: 0 16px 6px; }

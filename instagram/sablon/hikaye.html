@@ -60,13 +60,14 @@
   </section>
 
 <script>
-  // Katman noktaları kare görsel koordinatında (1024 px); zemin-uzat.py ile aynı ölçek ve kayma
-  const scale = 0.95, ox = -130, oy = 500, tagX = 712
+  // Katman noktaları sitedeki kare görselin koordinatında (1100 px, layers.ts'teki yüzdeler × 11);
+  // zemin-uzat.py ile aynı ölçek ve kayma: python3 zemin-uzat.py <site.webp> zemin.png 1.167 -276 378
+  const scale = 1.167, ox = -276, oy = 378, tagX = 712
   const layers = [
-    { name: 'Bisküvi kırığı', c: 'var(--K)', x: 780, y: 480, ty: 930 },
-    { name: 'Magnolya kreması', c: 'var(--C)', x: 790, y: 535, ty: 1045 },
-    { name: 'Taze çilek', c: 'var(--S)', x: 760, y: 680, ty: 1160 },
-    { name: 'Bisküvi tabanı', c: 'var(--K)', x: 765, y: 815, ty: 1275 },
+    { name: 'Bisküvi kırığı', c: 'var(--K)', x: 781, y: 495, ty: 930 },
+    { name: 'Magnolya kreması', c: 'var(--C)', x: 781, y: 555, ty: 1045 },
+    { name: 'Taze çilek', c: 'var(--S)', x: 781, y: 671, ty: 1160 },
+    { name: 'Bisküvi tabanı', c: 'var(--K)', x: 781, y: 781, ty: 1275 },
   ]
   const host = document.getElementById('layers')
   for (const l of layers) {

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="hikaye-ortak.css">
+<style>
+  .head { position: absolute; left: 88px; right: 88px; top: 250px; }
+  .hello { margin-top: 44px; font-size: 104px; transform: rotate(-4deg); transform-origin: left; }
+  h1 { margin-top: 10px; font-size: 98px; line-height: 1.02; }
+  .lead { margin-top: 30px; font-size: 33px; line-height: 1.45; color: #5c4537; max-width: 820px; }
+
+  .arch.main { left: 430px; top: 880px; width: 560px; height: 720px; --s: .8; --x: 200; --y: 150;
+    background-image: url('../../public/images/products/cilekli-magnolya.webp'); }
+  .polaroid { position: absolute; left: 92px; top: 1180px; width: 330px; padding: 18px 18px 64px; background: var(--cream-50);
+    transform: rotate(-6deg); box-shadow: 0 18px 40px rgba(64, 37, 26, .2); }
+  .polaroid .ph { height: 330px; background: url('../../public/images/products/cilekli-red-velvet-magnolya-kavanoz.webp') no-repeat;
+    background-size: 471px auto; background-position: -73px -94px; }
+  .polaroid p { position: absolute; left: 0; right: 0; bottom: 12px; text-align: center; font-size: 42px; color: var(--cocoa-600); }
+  .note { position: absolute; left: 150px; top: 990px; width: 260px; font-size: 44px; color: var(--cocoa-600); transform: rotate(-3deg); }
+  .note svg { display: block; margin: 6px 0 0 120px; }
+
+  .foot { position: absolute; left: 88px; right: 88px; top: 1650px; display: flex; align-items: baseline; justify-content: space-between; }
+  .sign { font-size: 50px; color: var(--cocoa-800); }
+  .foot .meta { font-size: 27px; }
+</style>
+</head>
+<body>
+  <header class="head z">
+    <div class="eyebrow"><img src="marka-isareti-kakao.svg" alt="">Gönülden Tatlar · Bursa</div>
+    <p class="script hello">merhaba,</p>
+    <h1>Her lokmada<br><em>gönülden</em> bir dokunuş.</h1>
+    <p class="lead">İlk magnolyamızı komşularımıza ikram ettik. Bugün de aynı özenle, her gün taze hazırlıyoruz.</p>
+  </header>
+
+  <p class="script note z">taze çilekle,<br>katman katman
+    <svg width="120" height="70" viewBox="0 0 120 70" fill="none" stroke="#ac7d60" stroke-width="3" stroke-linecap="round">
+      <path d="M6 8c20 30 52 46 98 46"/><path d="M90 40l15 14-18 8"/>
+    </svg>
+  </p>
+  <div class="arch main z"></div>
+  <figure class="polaroid z"><div class="ph"></div><p class="script">red velvet ♡</p></figure>
+
+  <footer class="foot z">
+    <span class="script sign">— Gönülden Tatlar</span>
+    <span class="meta">gonuldentatlar.com</span>
+  </footer>
+</body>
+</html>

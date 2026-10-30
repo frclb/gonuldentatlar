@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&display=block" rel="stylesheet">
+<style>
+  :root {
+    --cocoa-900: #2b1811; --cocoa-800: #40251a; --cocoa-600: #764a34; --cocoa-400: #ac7d60;
+    --cream-50: #fdfaf5; --cream-100: #f6eee2; --blush: #cf7367;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body { position: relative; font-family: 'DM Sans', sans-serif; color: var(--cocoa-800);
+         background: radial-gradient(80% 40% at 50% 0%, #fffdf9, transparent 70%), var(--cream-100); }
+
+  .head { position: absolute; left: 72px; right: 72px; top: 210px; text-align: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 25px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--cocoa-600); }
+  .eyebrow img { width: 52px; height: 52px; }
+  h1 { margin-top: 22px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 118px; line-height: .96; letter-spacing: -.02em; color: var(--cocoa-900); }
+  h1 em { font-style: italic; font-weight: 500; color: var(--blush); }
+  .sub { margin-top: 26px; font-size: 33px; line-height: 1.35; color: #5c4537; }
+  .sub b { font-weight: 700; color: var(--cocoa-800); }
+
+  /* Kartlar: sitedeki kare görselden (1100 px) kabı içine alan dikey kesit */
+  .cards { position: absolute; left: 60px; right: 60px; top: 610px; display: flex; gap: 40px; }
+  .card { flex: 1; }
+  .ph { height: 600px; border-radius: 40px; background-repeat: no-repeat; background-size: 740px auto; background-position: -140px -101px;
+        box-shadow: 0 18px 44px rgba(64, 37, 26, .18), 0 0 0 1px rgba(64, 37, 26, .06); }
+  .label { margin-top: 26px; text-align: center; font-family: 'Fraunces', serif; font-size: 52px; font-weight: 600; color: var(--cocoa-900); }
+  .label small { display: block; margin-top: 6px; font-family: 'DM Sans', sans-serif; font-size: 25px; font-weight: 500; color: #6b5243; }
+  .vs { position: absolute; left: 50%; top: 862px; width: 96px; height: 96px; margin-left: -48px; border-radius: 50%;
+        display: grid; place-items: center; background: var(--cream-50); color: var(--blush);
+        font-family: 'Fraunces', serif; font-style: italic; font-size: 40px; font-weight: 500;
+        box-shadow: 0 10px 26px rgba(64, 37, 26, .22); }
+
+  .sheet { position: absolute; left: 0; right: 0; top: 1452px; bottom: 0; background: var(--cream-50);
+           border-radius: 56px 56px 0 0; box-shadow: 0 -12px 40px rgba(43, 24, 17, .10); }
+  .cta { position: absolute; left: 72px; right: 72px; top: 1506px; text-align: center; }
+  .cta .btn { display: inline-flex; align-items: center; gap: 16px; padding: 26px 46px; border-radius: 999px;
+              background: var(--cocoa-600); color: var(--cream-50); font-size: 36px; font-weight: 600; box-shadow: 0 12px 30px rgba(64, 37, 26, .24); }
+  .cta .meta { margin-top: 26px; font-size: 29px; font-weight: 500; color: #4d3529; }
+  .cta .meta b { font-weight: 700; color: var(--cocoa-900); }
+  .cta .sep { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--cocoa-400); margin: 0 18px 6px; }
+</style>
+</head>
+<body>
+  <header class="head">
+    <div class="eyebrow"><img src="marka-isareti-kakao.svg" alt="">Gönülden Tatlar · Bursa</div>
+    <h1>Cup mu,<br><em>kavanoz mu?</em></h1>
+    <p class="sub"><b>Çilekli Muzlu Magnolya</b> · tarif aynı, sunum senin seçimin.</p>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="ph" style="background-image:url('../../public/images/products/cilekli-muzlu-magnolya.webp')"></div>
+      <p class="label">Cup<small>Kapaklı şeffaf kap</small></p>
+    </div>
+    <div class="card">
+      <div class="ph" style="background-image:url('../../public/images/products/cilekli-muzlu-magnolya-kavanoz.webp')"></div>
+      <p class="label">Kavanoz<small>Cam kavanoz</small></p>
+    </div>
+  </div>
+  <div class="vs">ya da</div>
+
+  <div class="sheet"></div>
+  <section class="cta">
+    <div class="btn">Sipariş için DM’den yaz</div>
+    <p class="meta">WhatsApp <b>0535 873 43 73</b><span class="sep"></span>gonuldentatlar.com</p>
+  </section>
+</body>
+</html>

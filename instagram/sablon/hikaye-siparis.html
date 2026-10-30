@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="hikaye-ortak.css">
+<style>
+  .head { position: absolute; left: 88px; right: 88px; top: 250px; }
+  .hi { margin-top: 40px; font-size: 80px; transform: rotate(-3deg); transform-origin: left; }
+  h1 { margin-top: 8px; font-size: 104px; line-height: 1; }
+
+  .steps { position: absolute; left: 88px; right: 88px; top: 690px; list-style: none; padding: 0; }
+  .steps li { position: relative; display: grid; grid-template-columns: 88px 1fr; column-gap: 28px; padding-bottom: 54px; }
+  .steps li::before { content: ''; position: absolute; left: 43px; top: 92px; bottom: 6px; border-left: 2px dashed rgba(118, 74, 52, .35); }
+  .steps li:last-child::before { display: none; }
+  .num { width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: var(--cream-50);
+         box-shadow: 0 8px 20px rgba(64, 37, 26, .12), inset 0 0 0 2px var(--blush-soft);
+         font-family: 'Fraunces', serif; font-size: 40px; color: var(--blush); }
+  .steps h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 48px; color: var(--cocoa-900); margin-top: 6px; }
+  .steps p { margin-top: 8px; font-size: 29px; line-height: 1.4; color: #5c4537; }
+  .steps p b { color: var(--cocoa-900); }
+  .thumbs { display: flex; gap: 28px; margin-top: 20px; }
+  .thumbs figure { text-align: center; }
+  .thumbs .arch { position: relative; width: 260px; height: 340px; --s: .371; --x: 200; --y: 140; outline-offset: -8px; box-shadow: 0 12px 26px rgba(64, 37, 26, .16); }
+  .thumbs figcaption { margin-top: 8px; font-size: 38px; color: var(--cocoa-600); }
+
+  .bye { position: absolute; right: 96px; top: 1610px; font-size: 64px; transform: rotate(-5deg); }
+</style>
+</head>
+<body>
+  <header class="head z">
+    <div class="eyebrow"><img src="marka-isareti-kakao.svg" alt="">Gönülden Tatlar · Bursa</div>
+    <p class="script hi">çok kolay!</p>
+    <h1>Nasıl <em>sipariş</em><br>verilir?</h1>
+  </header>
+
+  <ol class="steps z">
+    <li><span class="num">1</span><div><h3>Tatlını seç</h3><p>Çilekli, muzlu, çikolatalı, bisküvili… Menünün tamamı <b>gonuldentatlar.com</b>’da.</p></div></li>
+    <li><span class="num">2</span><div><h3>Sunumunu seç</h3>
+      <div class="thumbs">
+        <figure><div class="arch" style="background-image:url('../../public/images/products/cilekli-muzlu-magnolya.webp')"></div><figcaption class="script">cup</figcaption></figure>
+        <figure><div class="arch" style="background-image:url('../../public/images/products/cilekli-muzlu-magnolya-kavanoz.webp')"></div><figcaption class="script">kavanoz</figcaption></figure>
+      </div></div></li>
+    <li><span class="num">3</span><div><h3>Bize yaz</h3><p>DM’den ya da WhatsApp’tan: <b>0535 873 43 73</b><br>Gel al ya da paket servis.</p></div></li>
+  </ol>
+
+  <p class="script bye z">afiyet olsun ♡</p>
+</body>
+</html>
