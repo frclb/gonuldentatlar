@@ -88,8 +88,8 @@ const seeds: Seed[] = [
     slug: 'cilekli-red-velvet-magnolya',
     names: ['Red velvet kırığı', 'Magnolya kreması', 'Taze çilek', 'Red velvet taban'],
     colors: [RV, C, S, RV],
-    cup: { x: 72, y: [40, 47, 58, 69] },
-    jar: { x: 71, y: [46, 54, 64, 75] },
+    cup: { x: 71, y: [45, 50.5, 61, 71] },
+    jar: { x: 71, y: [50, 56, 67, 76] },
   },
   /* --- 2. grup: menünün geri kalanı. Aynı yöntemle ölçüldü; cup kenarı 72,
          kavanoz kenarı fotoğraftan (çoğunlukla 74) --- */
