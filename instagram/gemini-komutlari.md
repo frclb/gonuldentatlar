@@ -34,6 +34,28 @@ Muzlu'da öğrendiklerimiz:
 - Kavanozda tek görselle iki denemede de meyvelerin üstündeki bisküvi bandı silindi ve dilimler birbirine değdi. Net kupayı ikinci görsel olarak verince Gemini düzeni oradan aldı.
 - Kupada muzun görünüşü için ikinci görsel vermek işe yaramadı: Gemini o görseldeki dizilimi de kopyaladı. Dilimleri Çilekli'deki gibi ayrık ve araları krema dolu yapmak için tek görselle "yalnızca çilekleri değiştir" diye yazmak, dilimi çilekten biraz dar istemek ve aradaki dikey krema şeritlerini açıkça tarif etmek gerekti.
 
+- Ürün sitedeki orijinalle aynı olmalı. En sadık sonuç için ikinci görsel olarak orijinal verilir (`git show f36d10b^:public/images/products/<slug>.webp`). Yalnızca metinle Gemini kremayı, kırıkları ve süsü kendine göre değiştiriyor. Çilekli Çikolatalı böyle yapıldı:
+
+```text
+Edit the first photo. Keep from it only the container, its size, position and camera angle, the marble countertop, background and light. Same image size as the first photo, no text. Change the dessert inside so it is the same dessert as in the second photo, with the same layers from top to bottom and the same topping. Crisp, in perfect focus, photorealistic.
+```
+
+- Kırıklar tek tip tane olmamalı: olabildiğince ince, karışık boyutlu. "Ezilmiş bisküvi" yazınca Gemini iri parça ekliyor. İşe yarayan tarif, görselin üstünden ayrı bir turda:
+
+```text
+Edit this photo. Change only the texture of the biscuit crumbs; do not change anything else. Each crumb layer keeps exactly the same shape, height and position and stays completely full and dense. Replace them with very finely ground tea biscuit crumbs in a warm pale golden beige, like coarse sand: most of the layer is very fine sandy crumbs and biscuit powder, naturally mixed with tiny irregular bits of slightly different sizes. The largest bit is only about the size of a strawberry seed; no big chunks, no flakes, no sticks, no round beads, no pattern. Dense, matte, dry and natural.
+```
+
+- Oreo'da aynı tarif parlak siyah çakıl gibi tek tip çıktı. Üç ek tur gerekti: önce "real crushed Oreo: soft, matte, fine cocoa cookie powder, mixed with irregular bits", sonra iri parçaları küçült ("about three quarters is very fine powder and sandy crumbs, none bigger than a strawberry seed"), en son yalnızca rengi koyulaştır ("deep, almost black, matte, a few very tiny specks of white cream"). İnceltme turu rengi kahverengiye çekiyor, son tur bunun için.
+
+- 2026-11-07'den beri krema beyaz, kırıklar ince ve karışık (temel görseller de öyle; sarı kremalılar `yeni-gorseller/eski/*-sari-krema.*`). Referans görsel vermek bu değişikliği yaptırmıyor: Gemini neredeyse hiçbir şeyi değiştirmedi. Tek görsel ve açık tarif işe yarıyor, kaynak olarak en net görsel verilmeli:
+
+```text
+Edit this photo. Change only the crumb texture and the cream color; do not change anything else. The container, lid, clear foot, size, position, camera angle, marble countertop, background, light and the fruit stay exactly as they are, sharp and detailed. Every layer keeps exactly the same shape, height and position. Important: the crumb patches between the fruit at the top of the fruit row stay exactly where they are and stay crumbs, and below them the same cream strips remain; do not replace crumbs with cream. Same image size, no text. (1) The cream now looks yellow, which is wrong. Make all the cream a clean, soft, pure white milk cream, with no yellow tint. (2) The crumbs now look like coarse granules, which is wrong. Crush them much finer: very finely ground tea biscuit crumbs in a warm pale golden beige, like coarse sand: most of it is very fine sandy crumbs and biscuit powder, naturally mixed with tiny irregular bits of slightly different sizes. No big chunks, no granules, no flakes, no round beads, no pattern. Each crumb layer stays full and dense, matte, dry and natural. Crisp, in perfect focus, photorealistic.
+```
+
+Kırık türü için ikinci maddedeki tanım değişir. Oreo'da hazır beyaz kremalı görselden tek turda şu tarif tuttu: "real crushed Oreo cookies, crushed very fine, in a deep, almost black dark cocoa color, matte and not glossy: about three quarters of each layer is very fine cookie powder and sandy crumbs, mixed with small irregular bits of different sizes, none bigger than a strawberry seed, and a few very tiny specks of white cream filling. No gravel, no beads, no big chunks." Muz yuvarlak dilim kalır. Gemini kısa süreli kullanım sınırı koyabiliyor; birkaç dakika beklemek yetiyor.
+
 ### Netleştirme metni
 ```text
 Edit this photo. Keep everything exactly the same: the same container and lid, size, position, camera angle, marble countertop, background, light, the same layers and the same size, shape, position and color of every fruit piece, crumb band and cream. Only make the photo sharper and more detailed, like a crisp high-resolution food photo taken with a macro lens in perfect focus: the fruit gets crisp clean edges, fine natural texture and a slightly moist sheen; every biscuit crumb is sharp and distinct; the cream looks smooth but in focus; the background wall is smooth and clean. Keep it subtle and photorealistic, no oversharpening, no new objects. Same image size, no text.
