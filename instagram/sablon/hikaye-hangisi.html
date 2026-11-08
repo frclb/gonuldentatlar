@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="hikaye-ortak.css">
+<style>
+  body { color: var(--cream-50); background: radial-gradient(85% 42% at 50% 42%, #4b2c1e, transparent 78%), linear-gradient(#2e1a12, #21120c); }
+  body::before { opacity: .35; }
+  body::after { display: none; }
+
+  .head { position: absolute; left: 72px; right: 72px; top: 250px; }
+  .eyebrow { color: var(--cream-200); }
+  .hi { margin-top: 24px; font-size: 80px; color: #eba79c; transform: rotate(-3deg); transform-origin: left; }
+  h1 { margin-top: 2px; font-size: 96px; line-height: 1; color: var(--cream-50); white-space: nowrap; }
+  h1 em { color: #eba79c; }
+
+  .izgara { position: absolute; left: 72px; right: 72px; top: 566px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; row-gap: 26px; }
+  .izgara .arch { position: relative; height: 356px; box-shadow: 0 18px 44px rgba(0, 0, 0, .38); outline-color: rgba(253, 250, 245, .75); outline-offset: -10px; }
+  .kupa { --s: .58; --x: 151; --y: 228; }
+  .kavanoz { --s: .56; --x: 137; --y: 285; }
+  .izgara h2 { margin-top: 14px; text-align: center; font-family: 'Fraunces', serif; font-weight: 500; font-size: 38px; color: var(--cream-50); }
+  .izgara p { margin-top: 2px; text-align: center; font-size: 25px; color: var(--cream-200); }
+
+  .son { position: absolute; left: 72px; right: 72px; top: 1524px; text-align: center; }
+  .son .script { font-size: 62px; color: #eba79c; }
+  .son .meta { margin-top: 12px; font-size: 27px; color: var(--cream-200); }
+  .son .meta b { color: var(--cream-50); }
+</style>
+</head>
+<body>
+  <header class="head z">
+    <div class="eyebrow"><img src="marka-isareti-krem.svg" alt="">Gönülden Tatlar · Bursa</div>
+    <p class="script hi">bugün canın</p>
+    <h1>hangisini <em>çekiyor?</em></h1>
+  </header>
+
+  <section class="izgara z">
+    <figure><div class="arch kupa" style="background-image:url('../../public/images/products/cilekli-magnolya.webp')"></div><h2>Çilekli</h2><p>Taze çilekle</p></figure>
+    <figure><div class="arch kavanoz" style="background-image:url('../../public/images/products/muzlu-magnolya-kavanoz.webp')"></div><h2>Muzlu</h2><p>Dilim muzla</p></figure>
+    <figure><div class="arch kavanoz" style="background-image:url('../../public/images/products/cilekli-red-velvet-magnolya-kavanoz.webp')"></div><h2>Red Velvet</h2><p>Çilekli ve kadifemsi</p></figure>
+    <figure><div class="arch kupa" style="background-image:url('../../public/images/products/oreolu-cilekli-magnolya.webp')"></div><h2>Oreolu</h2><p>Bol Oreo kırığı</p></figure>
+  </section>
+
+  <section class="son z">
+    <p class="script">cevabını DM’den yaz, hazırlayalım ♡</p>
+    <p class="meta">Menünün tamamı <b>gonuldentatlar.com</b>’da</p>
+  </section>
+</body>
+</html>
