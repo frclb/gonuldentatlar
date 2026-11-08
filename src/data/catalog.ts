@@ -411,7 +411,7 @@ export const instagramPosts: SocialMediaPost[] = [
  * GitHub Actions tanımsız değişkeni boş metin geçirdiği için rakamlara
  * indirip uzunluğu da kontrol ediyoruz.
  */
-const BUSINESS_WHATSAPP = '905358734373'
+const BUSINESS_WHATSAPP = '905369948517'
 
 function whatsappNumber(): string {
   let digits = (import.meta.env.VITE_WHATSAPP_NUMBER ?? '').replace(/\D/g, '')
@@ -426,7 +426,7 @@ function whatsappNumber(): string {
 export const storeSettings: StoreSettings = {
   name: 'Gönülden Tatlar',
   slogan: 'Tatlısı gönülden, lezzeti dilden dile.',
-  phone: '+90 535 873 43 73',
+  phone: '+90 536 994 85 17',
   whatsapp: whatsappNumber(),
   email: 'gonuldenntatlar@gmail.com',
   instagram: 'https://instagram.com/gonuldenntatlar',

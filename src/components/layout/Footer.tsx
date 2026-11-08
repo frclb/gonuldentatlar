@@ -5,7 +5,7 @@ import { useCart } from '@/context/CartContext'
 import { useCatalog } from '@/context/CatalogContext'
 import { formatPhone } from '@/lib/format'
 import { buildContactUrl } from '@/lib/whatsapp'
-import { track } from '@/lib/analytics'
+import { analyticsEnabled, openConsentSettings, track } from '@/lib/analytics'
 import { cn } from '@/lib/cn'
 
 const categoryColumn = {
@@ -149,6 +149,11 @@ export function Footer() {
             <Link to="/gizlilik" className="transition-colors hover:text-blush-200">
               Gizlilik ve Çerez Politikası
             </Link>
+            {analyticsEnabled && (
+              <button type="button" onClick={openConsentSettings} className="transition-colors hover:text-blush-200">
+                Çerez Tercihleri
+              </button>
+            )}
           </nav>
         </div>
       </div>

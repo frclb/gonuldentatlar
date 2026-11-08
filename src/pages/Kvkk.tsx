@@ -1,5 +1,6 @@
 import { LegalBlock, LegalList, LegalPage } from '@/components/layout/LegalPage'
 import { useCatalog } from '@/context/CatalogContext'
+import { analyticsEnabled } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
 import { useSeo } from '@/lib/seo'
 
@@ -26,7 +27,7 @@ export default function Kvkk() {
       eyebrow="KVKK"
       title="Kişisel Verilerin Korunması Aydınlatma Metni"
       intro="6698 sayılı Kişisel Verilerin Korunması Kanunu'nun 10. maddesi uyarınca, sipariş ve iletişim sırasında verdiğin bilgilerin nasıl işlendiğini burada açıklıyoruz."
-      updatedAt="3 Eylül 2026"
+      updatedAt={analyticsEnabled ? '9 Kasım 2026' : '3 Eylül 2026'}
     >
       <LegalBlock title="1. Veri sorumlusu">
         <p>
@@ -127,11 +128,22 @@ export default function Kvkk() {
               <strong className="text-cocoa-700">Google Fonts:</strong> sitedeki yazı tipleri Google
               sunucularından yüklenir; bu sırada IP adresin Google'a iletilir.
             </>,
+            ...(analyticsEnabled
+              ? [
+                  <>
+                    <strong className="text-cocoa-700">Google Analytics (Google):</strong> yalnızca sitedeki
+                    çerez bandında açık rıza verirsen (KVKK m.5/1); hangi sayfaları gezdiğin ve hangi
+                    butonlara tıkladığın, siteyi geliştirmek amacıyla ölçülür. Rızanı Gizlilik ve Çerez
+                    Politikası sayfasından istediğin an geri alabilirsin.
+                  </>,
+                ]
+              : []),
           ]}
         />
         <p>
           Bu hizmetlerin tamamı yurt dışında bulunduğundan aktarım KVKK m.9 kapsamındadır. Siteyi
-          kullanman bu aktarımların gerçekleşmesi anlamına gelir.
+          kullanman bu aktarımların gerçekleşmesi anlamına gelir
+          {analyticsEnabled ? '; Google Analytics aktarımı ise yalnızca rıza verdiğinde gerçekleşir.' : '.'}
         </p>
       </LegalBlock>
 

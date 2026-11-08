@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { IntroSplash } from '@/components/brand/IntroSplash'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { useIntro } from '@/context/IntroContext'
+import { ConsentBanner } from './ConsentBanner'
 import { Footer } from './Footer'
 import { MobileStickyBar } from './MobileStickyBar'
 import { Navbar } from './Navbar'
@@ -39,6 +40,7 @@ export function SiteLayout() {
       <Footer />
       <CartDrawer />
       <MobileStickyBar />
+      <ConsentBanner />
     </div>
   )
 }

@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom'
 import { LegalBlock, LegalList, LegalPage } from '@/components/layout/LegalPage'
 import { useCatalog } from '@/context/CatalogContext'
+import { analyticsEnabled, openConsentSettings } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
 import { useSeo } from '@/lib/seo'
 
 /**
  * Gizlilik ve çerez politikası.
  *
- * Site çerez kullanmıyor ama tarayıcı deposunu (localStorage) kullanıyor;
- * metin bunu olduğu gibi anlatır. Yeni bir anahtar eklenirse buradaki liste
- * de güncellenmelidir.
+ * Site tarayıcı deposunu (localStorage) kullanır; Google Analytics ölçüm kimliği
+ * tanımlıysa ziyaretçi onay verdiğinde Analytics çerezleri de yazılır. Metin bu iki
+ * durumu ayrı ayrı anlatır. Yeni bir anahtar eklenirse buradaki liste de güncellenmelidir.
  */
 export default function Privacy() {
   const { settings } = useCatalog()
@@ -26,7 +27,7 @@ export default function Privacy() {
       eyebrow="Gizlilik"
       title="Gizlilik ve Çerez Politikası"
       intro="Bu sitede hangi bilgilerin saklandığını, nerede durduğunu ve nasıl silebileceğini sade bir dille anlatıyoruz."
-      updatedAt="3 Eylül 2026"
+      updatedAt={analyticsEnabled ? '9 Kasım 2026' : '3 Eylül 2026'}
     >
       <LegalBlock title="Kısaca">
         <p>
@@ -34,17 +35,56 @@ export default function Privacy() {
           yoktur. Sepetin, favorilerin ve sipariş formuna yazdıkların{' '}
           <strong className="text-cocoa-700">yalnızca kendi tarayıcında</strong> durur. Bize ulaşan tek
           şey, sen gönder tuşuna bastığında WhatsApp'a düşen sipariş mesajıdır.
+          {analyticsEnabled &&
+            ' Onay verirsen, siteyi nasıl kullandığın Google Analytics ile isimsiz olarak sayılır.'}
         </p>
       </LegalBlock>
 
-      <LegalBlock title="Çerez kullanıyor muyuz?">
-        <p>
-          Hayır. Site reklam, ölçümleme ya da takip çerezi kullanmaz; üçüncü taraf bir analiz aracı
-          bağlı değildir. Bunun yerine tarayıcının kendi deposu (localStorage) kullanılır. Buradaki
-          bilgiler bize gönderilmez, başka sitelerden okunamaz ve seni siteler arasında izlemek için
-          kullanılmaz.
-        </p>
-      </LegalBlock>
+      {analyticsEnabled ? (
+        <LegalBlock title="Çerez kullanıyor muyuz?">
+          <p>
+            Yalnızca sen izin verirsen. Siteye ilk girdiğinde çıkan bantta{' '}
+            <strong className="text-cocoa-700">Kabul et</strong> dersen Google Analytics yüklenir ve
+            ziyaretini ölçmek için şu çerezleri yazar:
+          </p>
+          <LegalList
+            items={[
+              <>
+                <strong className="text-cocoa-700">_ga</strong> ve{' '}
+                <strong className="text-cocoa-700">_ga_&lt;kimlik&gt;</strong> — aynı tarayıcıdan gelen
+                ziyaretleri birbirinden ayırmak için rastgele bir numara; en fazla 2 yıl saklanır.
+              </>,
+            ]}
+          />
+          <p>
+            Ölçülenler: hangi sayfaları gezdiğin, ne kadar kaldığın, hangi butonlara (WhatsApp, Instagram,
+            konum) tıkladığın, sepete ekleme ve sipariş adımları, yaklaşık konum (şehir düzeyinde) ve cihaz
+            türü. Adın, telefonun, adresin ya da sipariş notun Analytics'e gönderilmez. Bu veriler yalnızca
+            siteyi ve menüyü geliştirmek için kullanılır; reklam amaçlı kullanılmaz.
+          </p>
+          <p>
+            <strong className="text-cocoa-700">Reddet</strong> dersen Google'a hiçbir istek gitmez ve
+            site aynı şekilde çalışır. Kararını istediğin zaman değiştirebilirsin:{' '}
+            <button
+              type="button"
+              onClick={openConsentSettings}
+              className="font-semibold text-cocoa-700 underline underline-offset-4 hover:text-cocoa-800"
+            >
+              Çerez tercihini değiştir
+            </button>
+            . Onayını geri çektiğinde Analytics çerezleri silinir.
+          </p>
+        </LegalBlock>
+      ) : (
+        <LegalBlock title="Çerez kullanıyor muyuz?">
+          <p>
+            Hayır. Site reklam, ölçümleme ya da takip çerezi kullanmaz; üçüncü taraf bir analiz aracı
+            bağlı değildir. Bunun yerine tarayıcının kendi deposu (localStorage) kullanılır. Buradaki
+            bilgiler bize gönderilmez, başka sitelerden okunamaz ve seni siteler arasında izlemek için
+            kullanılmaz.
+          </p>
+        </LegalBlock>
+      )}
 
       <LegalBlock title="Tarayıcında neler saklanıyor?">
         <LegalList
@@ -61,6 +101,14 @@ export default function Privacy() {
               <strong className="text-cocoa-700">gt:catalog</strong> — menü, kategoriler, işletme
               ayarları ve bu tarayıcıda oluşturduğun sipariş kayıtları
             </>,
+            ...(analyticsEnabled
+              ? [
+                  <>
+                    <strong className="text-cocoa-700">gt:analytics-consent</strong> — çerez bandında
+                    verdiğin karar (kabul ya da ret) ve tarihi
+                  </>,
+                ]
+              : []),
           ]}
         />
         <p>
@@ -91,6 +139,15 @@ export default function Privacy() {
               <strong className="text-cocoa-700">Instagram (Meta):</strong> yalnızca Instagram bağlantısına
               tıkladığında açılır. Sayfaya gömülü bir Instagram içeriği yoktur.
             </>,
+            ...(analyticsEnabled
+              ? [
+                  <>
+                    <strong className="text-cocoa-700">Google Analytics:</strong> yalnızca çerez bandında
+                    onay verdiysen yüklenir; gezinme ve tıklama bilgileri Google'a gönderilir. Google, IP
+                    adresini yaklaşık konumu bulmak için kullanır, Analytics'te saklamaz.
+                  </>,
+                ]
+              : []),
           ]}
         />
       </LegalBlock>
