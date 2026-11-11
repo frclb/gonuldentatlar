@@ -243,6 +243,17 @@ Ek bulgular:
 
 Bu yolla 2026-11-11'de yenilenenler (ara görseller `yeni-gorseller/deneme/yeni3-*`): Çilekli Muzlu Çikolatalı, Muzlu Çikolatalı, Kakaolu Bisküvili Çilekli Çikolatalı, Kakaolu Bisküvili Muzlu Çikolatalı, Kakaolu Bisküvili Çilekli Muzlu Çikolatalı, Çikolatalı, Oreolu, Lotuslu, Cevizli, Kakaolu Bisküvili Çikolatalı, Cevizli Çikolatalı, Balkabaklı, Çilekli Çikolatalı Cup.
 
+## Set görselleri (`public/images/genel`, 2026-11-11)
+
+Çoklu ürün fotoğrafları tek turda yenilendi: 1. görsel eski set (sayı, diziliş, kap türü ondan), 2. görsel bitmiş, aynı oranlı bir set ya da aynı kırık türünden bir ürün görseli (zemin, ışık, doku ondan). Komut: "Keep the desserts exactly as they are arranged ... do not zoom in. Change only the setting and the style to match the second photo: the same soft, warm cream wall with gentle window light from the left, with no diagonal shadow stripes; the same light white marble countertop ...", ardından kırık türü (çay bisküvisi / kakaolu / Oreo) ve "Same image size and aspect ratio as the first photo (3:2 landscape)".
+
+- 2. görsel temel kupa (dikey) olunca çıktı 16:9 geldi ve kaplar büyüdü; aynı oranlı bitmiş bir set verince oran korundu.
+- Stil örneğindeki tatlılar kopyalanabiliyor: Klasik Üçlü'yü örnek verince Karışık Dörtlü'nün bir kabı çikolata katmanlı oldu, Beyaz Çikolatalı'da küp muz dilime döndü. Çözüm: kapları soldan sağa tek tek tarif etmek ya da içeriği aynı olan bir örnek seçmek.
+- Kırık rengi için seçenek yazmak ("tea biscuit, cocoa or Oreo") çay bisküvili kaplarda kakaolu kırık ve çikolata katmanı yerine kırık üretti; her sete tek bir kırık türü yazılmalı.
+- Tek bir süs yanlışsa (Vitrin'de cevizin çileğe dönmesi) yalnızca o süsü değiştiren hedefli bir tur yetiyor.
+- Kareler (`*-kare.webp`, 1000×1000) Gemini'siz türetilir: `scratchpad/kare-yap.py` mantığı — geniş görsel 1000 genişliğe küçültülüp dikeyde ortalanır, üst boşluk duvar şeridi uzatılıp yumuşatılarak, alt boşluk mermerin en alt 70 satırı ileri-geri yansıtılıp bulanıklaştırılarak doldurulur.
+- `og-cover.jpg` 1200×630 JPEG olarak yazılır.
+
 ## B ve C grupları (sonra)
 
 Bu grupların düzeni Çilekli'den farklı. Önce her grubun ilk ürünü (B için Çikolatalı Magnolya, C için Çilekli Çikolatalı Cup) Çilekli'deki gibi tur tur yapılacak; o görsel beğenilince grubun geri kalanı A grubundaki gibi ondan türetilecek. Aşağıdaki tarifler o zaman komuta dönüştürülecek ham malzeme; katman sırası sitedeki görsellerden.
