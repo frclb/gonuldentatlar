@@ -198,6 +198,51 @@ Change only this:
 - On top, replace the whole strawberry with two round banana slices lying flat on the crumbs, slightly overlapping.
 ```
 
+## Kalan ürünler: sitedeki orijinalden türetme (2026-11-11)
+
+Eski görseli duran ürünlerde tarif zaten sitedeki görselde; tatlı oradan alınır, kap, zemin ve ışık temel görselden. Her tur **yeni sohbette** ve + menüsünden **Görüntü oluştur** seçilerek yapılır. Bu seçilmezse Gemini bazen "yalnızca bir dil modeliyim" deyip görsel üretmiyor. Ücretsiz hesapta yaklaşık 15 görselden sonra birkaç saatlik sınır geliyor.
+
+1. **Kupa:** 1. görsel `yeni-gorseller/temel-kupa.jpg`, 2. görsel sitedeki orijinal kupa (webp, png'ye çevrilerek) + kupa metni.
+2. **İnce kırık:** 1. turun sonucu + kırık metni. Gemini kırıkları orijinaldeki gibi boncuk taneli kopyalıyor; bu tur onları kumsu yapıyor.
+3. **Yuvarlak muz (muzlularda):** 2. turun sonucu + muz metni. Orijinallerde muz uzun oval; yenilenen ürünlerde yuvarlak dilim.
+4. **Kavanoz:** 1. görsel `yeni-gorseller/temel-kavanoz.png`, 2. görsel son kupa + kavanoz metni.
+
+Site karesi: kupa `python3 instagram/sablon/site-kare.py <kupa.jpg> <slug>.webp 0.94559 -126.54 219.32`, kavanoz `... <slug>-kavanoz.webp 0.930909 0 0`.
+
+Kupa metni (kakaolularda `The biscuit crumbs` yerine `The cocoa biscuit crumbs`):
+```text
+Edit the first photo. Keep from it only the container and its lid, its size, position and camera angle, the marble countertop, background and light. Same image size as the first photo, no text. Change the dessert inside so it is the same dessert as in the second photo, with the same layers from top to bottom, the same fruit pieces in the same arrangement and the same topping. The cream is a clean, soft, pure white milk cream with no yellow tint. The biscuit crumbs are very finely ground, like coarse sand: mostly fine sandy crumbs and biscuit powder with tiny irregular bits of slightly different sizes, none bigger than a strawberry seed; each crumb layer stays full and dense. Crisp, in perfect focus, photorealistic.
+```
+
+Kırık metni (kakaolularda renk `in a rich medium-dark cocoa brown`, malzeme `cocoa biscuit crumbs ... cocoa biscuit powder`):
+```text
+Edit this photo. Change only the crumb texture; do not change anything else. The container, lid, clear foot, size, position, camera angle, marble countertop, background, light, the white cream, the chocolate sauce, the fruit and the topping stay exactly as they are, sharp and detailed. Every layer keeps exactly the same shape, height and position. Same image size, no text. The crumbs now look like round granules or beads, which is wrong. Crush them much finer: very finely ground tea biscuit crumbs in a warm pale golden beige, like coarse sand: most of it is very fine sandy crumbs and biscuit powder, naturally mixed with tiny irregular bits of slightly different sizes. The largest bit is only about the size of a strawberry seed. No big chunks, no granules, no flakes, no round beads, no pattern. Each crumb layer stays full and dense, matte, dry and natural. Crisp, in perfect focus, photorealistic.
+```
+
+Muz metni (çilekli muzlularda "the strawberry halves" korunanlara eklenir, sona "so strawberry and banana still alternate"). İlk denemede "about as wide as the oval piece" yazınca dilimler birbirine değdi; "a little narrower" ve krema şeridi tarifiyle düzeldi:
+```text
+Edit this photo. Change only the banana pieces on the front wall; do not change anything else. The container, lid, clear foot, size, position, camera angle, marble countertop, background, light, the crumbs, the white cream above the fruit row, the chocolate sauce and the topping stay exactly as they are, sharp and detailed. Same image size, no text. Each tall oval banana piece on the wall becomes one fresh round banana slice, about 1 cm thick, pressed flat against the wall so its cut face shows: a natural, slightly irregular circle, pale creamy ivory-yellow, slightly translucent and moist, with a faint darker ring just inside its edge and a small soft star of tiny dark brown seeds in the very center, crisp edges, sharp focus. Each round slice is a little narrower than the oval piece it replaces and stands in its place with its bottom edge on the crumb base. The slices must not touch each other: between every two neighbouring slices there is a wide vertical strip of smooth white cream running from the crumb base up to the cream above the fruit row, with a small patch of fine crumbs at the top of each gap, like between the oval pieces now. The cream is one smooth continuous filling, not separate lumps, balls or drops. Crisp, in perfect focus, photorealistic.
+```
+
+Kavanoz metni:
+```text
+Edit the first photo (the glass jar). Keep everything in it exactly the same: the same glass jar with no lid, size, position and camera angle, the same marble countertop, background and light. Same image size as the first photo, no text. Change only the dessert inside, so it is the same dessert as in the second photo: the same layers from top to bottom in the same order and proportions, the same very fine sandy biscuit crumbs, pure white cream, glossy chocolate sauce and fruit, looking exactly like in the second photo, and the same topping. The fruit pieces against the glass are arranged like in the second photo: they stand clearly apart with their bottom edges on the crumb base, and between every two neighbouring pieces there is a vertical strip of smooth white cream with a small crumb patch at its top. The cream is one smooth continuous filling, not separate lumps or drops. Crisp, in perfect focus, photorealistic.
+```
+
+Ek bulgular:
+
+- Muzlularda kırık ve yuvarlak muz tek turda istenebilir: "Change only two things: the crumb texture and the banana pieces on the front wall", ardından (1) kırık, (2) muz maddeleri. İlk tura (kupa) eklenen muz/kırık istekleri ise dikkate alınmıyor.
+- Gemini bazen görsel modunda bile "yalnızca bir dil modeliyim" diyor. "Yeniden yap" düğmesi bir menü açar; oradaki **Tekrar dene** genelde görseli üretir.
+- Kakaolu kavanozda üst katman çikolata talaşına dönebiliyor ve süs ikiye katlanabiliyor. Kavanoz metninde üst katmanı ("the same very fine sandy cocoa biscuit crumbs ..., not chocolate shavings or curls") ve süsü ("only one small square piece of dark chocolate and ...") açıkça yazmak düzeltti.
+- Yatay katmanlılarda (B) kavanoz metni katmanları sırayla sayar ve "There is no fruit." der. Çikolatalı'da ilk turun kırıkları zaten ince çıktı, kırık turu gerekmedi. Oreolu'da kırık turu Oreo tarifiyle yapıldı.
+- Kırık turu kupa görselini de netleştiriyor.
+
+- Yatay katmanlılarda ve Cup serisinde en güvenli yol katmanları komutta numaralayarak saymak: "with exactly these horizontal layers from top to bottom, in the same heights as in the second photo: (1) ..., (2) ...". Saymayınca Kakaolu Bisküvili Çikolatalı'da iki çikolata sosu katmanı kırığa döndü, Balkabaklı kavanozda üst kırığın altına balkabağı yerine krema geldi ("directly under the crumbs ..., there is no white cream directly under the top crumbs" yazınca düzeldi).
+- Kavanozda süs (Lotus bisküvisi, ceviz) büyüyüp yatabiliyor: "in the same size as in the second photo relative to the container, perfectly straight and upright, rises only a little above the rim, not tilted and not oversized".
+- Cup serisi katmanları: (1) üst yüzeyi oluşturan kalın parlak çikolata sosu, üstünde küp meyve yığını, üstte kırık yok, (2) beyaz krema, (3) duvara dayalı küp meyve şeridi, (4) beyaz krema, (5) ince kırık taban.
+
+Bu yolla 2026-11-11'de yenilenenler (ara görseller `yeni-gorseller/deneme/yeni3-*`): Çilekli Muzlu Çikolatalı, Muzlu Çikolatalı, Kakaolu Bisküvili Çilekli Çikolatalı, Kakaolu Bisküvili Muzlu Çikolatalı, Kakaolu Bisküvili Çilekli Muzlu Çikolatalı, Çikolatalı, Oreolu, Lotuslu, Cevizli, Kakaolu Bisküvili Çikolatalı, Cevizli Çikolatalı, Balkabaklı, Çilekli Çikolatalı Cup.
+
 ## B ve C grupları (sonra)
 
 Bu grupların düzeni Çilekli'den farklı. Önce her grubun ilk ürünü (B için Çikolatalı Magnolya, C için Çilekli Çikolatalı Cup) Çilekli'deki gibi tur tur yapılacak; o görsel beğenilince grubun geri kalanı A grubundaki gibi ondan türetilecek. Aşağıdaki tarifler o zaman komuta dönüştürülecek ham malzeme; katman sırası sitedeki görsellerden.
