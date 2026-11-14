@@ -251,8 +251,26 @@ Bu yolla 2026-11-11'de yenilenenler (ara görseller `yeni-gorseller/deneme/yeni3
 - Stil örneğindeki tatlılar kopyalanabiliyor: Klasik Üçlü'yü örnek verince Karışık Dörtlü'nün bir kabı çikolata katmanlı oldu, Beyaz Çikolatalı'da küp muz dilime döndü. Çözüm: kapları soldan sağa tek tek tarif etmek ya da içeriği aynı olan bir örnek seçmek.
 - Kırık rengi için seçenek yazmak ("tea biscuit, cocoa or Oreo") çay bisküvili kaplarda kakaolu kırık ve çikolata katmanı yerine kırık üretti; her sete tek bir kırık türü yazılmalı.
 - Tek bir süs yanlışsa (Vitrin'de cevizin çileğe dönmesi) yalnızca o süsü değiştiren hedefli bir tur yetiyor.
-- Kareler (`*-kare.webp`, 1000×1000) Gemini'siz türetilir: `scratchpad/kare-yap.py` mantığı — geniş görsel 1000 genişliğe küçültülüp dikeyde ortalanır, üst boşluk duvar şeridi uzatılıp yumuşatılarak, alt boşluk mermerin en alt 70 satırı ileri-geri yansıtılıp bulanıklaştırılarak doldurulur.
+- Kareler (`*-kare.webp`, 1000×1000) Gemini'siz türetilir: `python3 instagram/sablon/set-kare.py <ad>` — geniş görsel 1000 genişliğe küçültülüp dikeyde ortalanır, üst boşluk duvar şeridi uzatılıp yumuşatılarak, alt boşluk mermerin en alt 70 satırı ileri-geri yansıtılıp bulanıklaştırılarak doldurulur.
 - `og-cover.jpg` 1200×630 JPEG olarak yazılır.
+- 2026-11-14 kırık inceltme turu: ilk turda kırıklar birçok sette boncuk kaldı (Beyaz Çikolatalı, Kakaolu Üçlü/Dörtlü cup, Karışık Dörtlü kavanoz, Vitrin, og-cover). Mevcut set görseli tek başına verilip ürünlerdeki kırık metniyle ("Change only the texture of the ... crumbs; All N jars ... stay exactly as they are ... do not zoom in ... Same image size and aspect ratio (3:2 landscape)") tek turda düzeldi. `python3 instagram/sablon/set-yerlestir.py <ad>:<deneme>` yerine koyar.
+- Vitrin'de "walnut crumbs" da yazınca öndeki cevizli kavanoz baştan sona kırıkla doldu. "Inside every jar the layers stay exactly as they are ... Do not add crumbs where there is cream" ile düzgün çıktı.
+
+## Yeni ürünler (2026-11-14)
+
+Kullanıcının çekimi (`menuresimler/plastik 7`, `kavanoz 7`: bej zemin, çapraz gölge, sarımsı krema, boncuk kırık) bizim standarda çevrildi. Kopyalar `yeni-gorseller/yeni7/<slug>-cup|kavanoz.jpg`.
+
+1. **Kupa:** 1. görsel `temel-kupa.jpg`, 2. görsel ürünün kendi cup fotoğrafı + numaralı katman listesi ("with exactly these horizontal layers from top to bottom, in the same proportions as in the second photo: (1) ... (5) ...") + beyaz krema ve ince kırık tarifi.
+2. Gerekirse düzeltme turu (aşağıda).
+3. **Kavanoz:** 1. görsel `temel-kavanoz.png`, 2. görsel son kupa + aynı numaralı katman listesi.
+4. `site-kare.py` ile 1100×1100 webp (kupa `0.94559 -126.54 219.32`, kavanoz `0.930909 0 0`).
+
+Bulgular:
+- Orijinalden gelen krema sarımsı/vanilya benekli ve kırıklar boncuk kopyalanabiliyor (Orman Meyveli, Lotus Soslu, Kadayıflı Çikolatalı). Tek görselli "Change only the crumb texture and the cream color" turu düzeltti.
+- Kadayıflı'da taban da kadayıf; Gemini tabanı bisküvi kırığı yaptı. "Change only the beige crumb base ... it becomes the same toasted kadayif as the layer on top" ile düzeldi. Kadayıflılarda komuta "There are no biscuit crumbs" eklenmeli.
+- Spoonful'da oranlar kaydı (ince çikolata, kalın taban). "Twice as thick" aşırı geldi; oranı kesirle yazmak ("top quarter / middle half / bottom fifth") daha iyi oldu.
+- Portakal dilimi ve Lotus bisküvisi kavanozda büyüyebilir: "the same size as in the second photo relative to the container, not oversized".
+- Gemini'de f.celebi402 hesabı yaklaşık 15 görselden sonra "Kullanım kotanız azalıyor" uyarısı veriyor.
 
 ## B ve C grupları (sonra)
 

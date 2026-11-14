@@ -23,6 +23,11 @@ const RV = '#cf7367' // blush-500  red velvet
 const KB = '#764a34' // cocoa-600  kakaolu bisküvi
 // Balkabağı: token'larda turuncu yok; nokta katmanı tanıtsın diye gerçek renk
 const PK = '#e3893f'
+// Yeni ürünlerin sos ve kırıkları da token'larda yok; aynı gerekçeyle gerçek renk
+const OM = '#5b2346' // orman meyvesi sosu
+const LM = '#efc94c' // limon sosu
+const PT = '#ee9a2e' // portakallı kırık
+const KD = '#c98a4b' // kavrulmuş kadayıf
 
 interface Seed {
   slug: string
@@ -211,6 +216,57 @@ const seeds: Seed[] = [
     colors: [S, CH, S, K],
     cup: { x: 72, y: [41, 49, 61, 73] },
     jar: { x: 75, y: [39, 49, 66, 81] },
+  },
+  /* --- 3. grup: 2026-11'de eklenen ürünler. Üç katmanlı olanlarda (Kadayıflı,
+         Spoonful) üstteki katman ikiye bölündü: süs ve katmanın kendisi --- */
+  {
+    slug: 'orman-meyveli-magnolya',
+    names: ['Orman meyvesi sosu', 'Magnolya kreması', 'Bisküvi kırığı', 'Bisküvi tabanı'],
+    colors: [OM, C, K, K],
+    cup: { x: 72, y: [43, 52.5, 57.5, 68] },
+    jar: { x: 74, y: [43, 52, 60, 75] },
+  },
+  {
+    slug: 'limonlu-magnolya',
+    names: ['Limon sosu', 'Magnolya kreması', 'Bisküvi kırığı', 'Bisküvi tabanı'],
+    colors: [LM, C, K, K],
+    cup: { x: 72, y: [44, 52, 57.5, 68] },
+    jar: { x: 74, y: [43, 52, 60, 75] },
+  },
+  {
+    slug: 'portakalli-magnolya',
+    names: ['Portakal dilimi', 'Magnolya kreması', 'Portakallı kırık', 'Portakallı taban'],
+    colors: [PT, C, PT, PT],
+    cup: { x: 72, y: [43, 50, 56, 69] },
+    jar: { x: 74, y: [46, 54, 61.5, 75] },
+  },
+  {
+    slug: 'kadayifli-magnolya',
+    names: ['Çıtır kadayıf', 'Kavrulmuş kadayıf', 'Magnolya kreması', 'Kadayıf tabanı'],
+    colors: [KD, KD, C, KD],
+    cup: { x: 72, y: [40, 46, 56, 68] },
+    jar: { x: 74, y: [40, 47, 60, 75] },
+  },
+  {
+    slug: 'kadayifli-cikolatali-magnolya',
+    names: ['Çikolata sosu', 'Magnolya kreması', 'Kavrulmuş kadayıf', 'Kadayıf tabanı'],
+    colors: [CH, C, KD, KD],
+    cup: { x: 72, y: [45, 52, 58, 68] },
+    jar: { x: 74, y: [47, 55, 61, 75] },
+  },
+  {
+    slug: 'lotus-soslu-magnolya',
+    names: ['Lotus sosu', 'Magnolya kreması', 'Lotus kırığı', 'Lotus tabanı'],
+    colors: [LO, C, LO, LO],
+    cup: { x: 72, y: [45, 52, 57, 68] },
+    jar: { x: 74, y: [47, 54, 61.5, 75] },
+  },
+  {
+    slug: 'spoonful',
+    names: ['Çikolata kıvrımı', 'Çikolatalı puding', 'Magnolya kreması', 'Kakaolu taban'],
+    colors: [CH, CH, C, KB],
+    cup: { x: 72, y: [40, 46, 57, 68] },
+    jar: { x: 74, y: [38, 46, 60, 73] },
   },
 ]
 

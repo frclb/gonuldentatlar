@@ -25,6 +25,10 @@ const TONES: Record<string, [string, string]> = {
   'cikolatali-magnolya': ['#faf4f0', '#f0e3d9'],
   'lotuslu-magnolya': ['#faf4f0', '#f0e3d9'],
   'oreolu-magnolya': ['#faf5ec', '#ece0cd'],
+  'orman-meyveli-magnolya': ['#fdf3f1', '#fbe5e1'],
+  'lotus-soslu-magnolya': ['#faf4f0', '#f0e3d9'],
+  'kadayifli-cikolatali-magnolya': ['#faf4f0', '#f0e3d9'],
+  spoonful: ['#faf4f0', '#f0e3d9'],
 }
 const DEFAULT_TONE: [string, string] = ['#faf5ec', '#f4ecdf']
 
