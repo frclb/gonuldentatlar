@@ -41,7 +41,7 @@ export function ServingCompare() {
         <SectionHeader
           align="center"
           eyebrow="Sunum"
-          title="Cup mu, Kavanoz mu?"
+          title="Cup mı, Kavanoz mu?"
           description="Tarif aynı, sunum sana kalmış. Aşağıdan bir çeşit seç, ikisini yan yana gör."
         />
 
