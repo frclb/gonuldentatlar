@@ -7,6 +7,7 @@ import { useCart } from '@/context/CartContext'
 import { useCatalog } from '@/context/CatalogContext'
 import { track } from '@/lib/analytics'
 import { formatPrice } from '@/lib/format'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { buildOrderMessage, buildWhatsAppUrl } from '@/lib/whatsapp'
 import { useNavigate } from 'react-router-dom'
@@ -16,11 +17,7 @@ export default function Cart() {
   const { settings } = useCatalog()
   const navigate = useNavigate()
 
-  useSeo({
-    title: 'Sepetim | Gönülden Tatlar',
-    description: 'Sepetindeki tatlıları gözden geçir ve siparişini tamamla.',
-    path: '/sepet',
-  })
+  useSeo(PAGE_SEO.cart)
 
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp,

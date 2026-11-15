@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { HandHeart, Sparkles, Sprout, Sun } from 'lucide-react'
 import { ButtonLink } from '@/components/ui/Button'
 import { Section, SectionHeader } from '@/components/ui/Section'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { assetUrl } from '@/lib/assets'
 import { rise } from '@/lib/motion'
@@ -30,12 +31,7 @@ const values = [
 ]
 
 export default function About() {
-  useSeo({
-    title: 'Hakkımızda | Gönülden Tatlar',
-    description:
-      'Gönülden Tatlar; taze malzeme, günlük hazırlık ve özenli sunumla hazırlanan magnolya ve cup tatlılar.',
-    path: '/hakkimizda',
-  })
+  useSeo(PAGE_SEO.about)
 
   return (
     <>

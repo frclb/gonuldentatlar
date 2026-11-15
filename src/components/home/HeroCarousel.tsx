@@ -32,12 +32,14 @@ const TRANSITION: 'fade' | 'slide' = 'fade'
 const SLIDES: { slug: string; jar: boolean }[] = [
   { slug: 'cilekli-red-velvet-magnolya', jar: false },
   { slug: 'lotuslu-magnolya', jar: true },
-  { slug: 'cilekli-cikolatali-cup', jar: false },
+  { slug: 'orman-meyveli-magnolya', jar: false },
   { slug: 'balkabakli-magnolya', jar: true },
+  { slug: 'cilekli-cikolatali-cup', jar: false },
+  { slug: 'kadayifli-cikolatali-magnolya', jar: true },
   { slug: 'kakaolu-biskuvili-cilekli-cikolatali-magnolya', jar: false },
-  { slug: 'cevizli-cikolatali-magnolya', jar: true },
+  { slug: 'lotus-soslu-magnolya', jar: true },
   { slug: 'oreolu-magnolya', jar: false },
-  { slug: 'cilekli-red-velvet-magnolya', jar: true },
+  { slug: 'cevizli-cikolatali-magnolya', jar: true },
 ]
 
 const BLOB = 'rounded-[38%_62%_55%_45%/45%_38%_62%_55%]'

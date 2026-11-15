@@ -10,6 +10,7 @@ import { useToast } from '@/context/ToastContext'
 import { track } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
 import { buildWhatsAppUrl } from '@/lib/whatsapp'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
@@ -25,12 +26,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', phone: '', message: '' })
   const [errors, setErrors] = useState<FormErrors>({})
 
-  useSeo({
-    title: 'İletişim | Gönülden Tatlar',
-    description:
-      'Gönülden Tatlar adres, telefon, WhatsApp ve çalışma saatleri. Sorularını bize buradan iletebilirsin.',
-    path: '/iletisim',
-  })
+  useSeo(PAGE_SEO.contact)
 
   const validate = (): boolean => {
     const next: FormErrors = {}

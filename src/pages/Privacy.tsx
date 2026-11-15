@@ -3,6 +3,7 @@ import { LegalBlock, LegalList, LegalPage } from '@/components/layout/LegalPage'
 import { useCatalog } from '@/context/CatalogContext'
 import { analyticsEnabled, openConsentSettings } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 
 /**
@@ -15,12 +16,7 @@ import { useSeo } from '@/lib/seo'
 export default function Privacy() {
   const { settings } = useCatalog()
 
-  useSeo({
-    title: 'Gizlilik ve Çerez Politikası | Gönülden Tatlar',
-    description:
-      'Gönülden Tatlar sitesinde hangi bilgiler tarayıcında saklanır, hangi dış hizmetler kullanılır ve bunları nasıl silersin.',
-    path: '/gizlilik',
-  })
+  useSeo(PAGE_SEO.privacy)
 
   return (
     <LegalPage

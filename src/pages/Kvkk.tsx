@@ -2,6 +2,7 @@ import { LegalBlock, LegalList, LegalPage } from '@/components/layout/LegalPage'
 import { useCatalog } from '@/context/CatalogContext'
 import { analyticsEnabled } from '@/lib/analytics'
 import { formatPhone } from '@/lib/format'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 
 /**
@@ -15,12 +16,7 @@ import { useSeo } from '@/lib/seo'
 export default function Kvkk() {
   const { settings } = useCatalog()
 
-  useSeo({
-    title: 'KVKK Aydınlatma Metni | Gönülden Tatlar',
-    description:
-      'Gönülden Tatlar kişisel verilerin işlenmesine ilişkin aydınlatma metni: hangi veriler, hangi amaçla işlenir ve haklarınız.',
-    path: '/kvkk',
-  })
+  useSeo(PAGE_SEO.kvkk)
 
   return (
     <LegalPage

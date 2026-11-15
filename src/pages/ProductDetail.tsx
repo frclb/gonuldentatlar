@@ -93,7 +93,8 @@ export default function ProductDetail() {
     title: product ? `${product.name} | Gönülden Tatlar` : 'Ürün bulunamadı',
     description: product?.description ?? 'Gönülden Tatlar menüsü',
     path: `/menu/${slug}`,
-    image: product?.image,
+    // Paylaşım görseli 1200x630 JPEG (scripts/og-gorselleri.py); önizleme botları webp göstermeyebiliyor
+    image: product ? `/images/og/${product.slug}.jpg` : undefined,
   })
 
   if (!product) return <NotFound />

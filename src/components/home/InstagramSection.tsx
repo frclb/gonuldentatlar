@@ -1,4 +1,4 @@
-import { Heart, Instagram } from 'lucide-react'
+import { Instagram } from 'lucide-react'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { instagramPosts } from '@/data/catalog'
 import { useCatalog } from '@/context/CatalogContext'
@@ -48,12 +48,6 @@ export function InstagramSection() {
                   decoding="async"
                   className="aspect-square w-full object-cover transition-transform duration-500 ease-[var(--ease-soft)] group-hover:scale-105"
                 />
-                <div className="absolute inset-0 flex items-end bg-gradient-to-t from-cocoa-900/60 via-cocoa-900/0 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="flex items-center gap-1.5 text-xs font-semibold text-cream-100">
-                    <Heart className="size-3.5 fill-current" />
-                    {post.likes}
-                  </span>
-                </div>
               </a>
             </li>
           ))}

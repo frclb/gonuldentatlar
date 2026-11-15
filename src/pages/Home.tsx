@@ -10,15 +10,11 @@ import { MagnolyaShowcase } from '@/components/home/MagnolyaShowcase'
 import { PopularProducts } from '@/components/home/PopularProducts'
 import { ServingCompare } from '@/components/home/ServingCompare'
 import { track } from '@/lib/analytics'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 
 export default function Home() {
-  useSeo({
-    title: 'Gönülden Tatlar | Magnolya ve Cup Tatlılar',
-    description:
-      "Gönülden Tatlar'ın taze meyveli, bisküvili ve çikolatalı magnolya ile cup tatlılarını keşfet. Favorini seç, WhatsApp'tan kolayca sipariş ver.",
-    path: '/',
-  })
+  useSeo(PAGE_SEO.home)
 
   useEffect(() => track('view_home'), [])
 

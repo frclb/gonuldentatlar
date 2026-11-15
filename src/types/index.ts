@@ -228,6 +228,5 @@ export interface SocialMediaPost {
   id: string
   image: string
   caption: string
-  likes: number
   url: string
 }

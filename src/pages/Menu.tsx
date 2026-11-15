@@ -14,6 +14,7 @@ import { useFlipGrid } from '@/hooks/useFlipGrid'
 import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
 import { track } from '@/lib/analytics'
 import { cn } from '@/lib/cn'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
@@ -48,12 +49,7 @@ export default function Menu() {
     ? activeCampaigns.find((campaign) => campaign.slug === campaignSlug)
     : undefined
 
-  useSeo({
-    title: 'Menü | Gönülden Tatlar',
-    description:
-      'Magnolya ve cup tatlılar: çilekli, muzlu, çikolatalı, bisküvili çeşitler. Gönülden Tatlar menüsünü keşfet.',
-    path: '/menu',
-  })
+  useSeo(PAGE_SEO.menu)
 
   useEffect(() => track('view_menu', { filter: activeFilter }), [activeFilter])
 

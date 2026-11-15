@@ -12,6 +12,7 @@ import { track } from '@/lib/analytics'
 import { cn } from '@/lib/cn'
 import { formatPrice } from '@/lib/format'
 import { multiply, subtract, sum } from '@/lib/money'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { buildOrderMessage, buildWhatsAppUrl, optionsSummary } from '@/lib/whatsapp'
 import type { DeliveryType, Order } from '@/types'
@@ -45,11 +46,7 @@ export default function Checkout() {
   const [placedOrder, setPlacedOrder] = useState<Order | null>(null)
   const [placedMessage, setPlacedMessage] = useState('')
 
-  useSeo({
-    title: 'Siparişi Tamamla | Gönülden Tatlar',
-    description: 'Teslimat yöntemini seç, bilgilerini gir ve siparişini tamamla.',
-    path: '/siparis',
-  })
+  useSeo(PAGE_SEO.checkout)
 
   const deliveryFee = useMemo(() => {
     if (deliveryType === 'pickup') return 0

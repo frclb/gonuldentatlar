@@ -6,18 +6,14 @@ import { Section, SectionHeader } from '@/components/ui/Section'
 import { EmptyState } from '@/components/ui/States'
 import { useCatalog } from '@/context/CatalogContext'
 import { useMagnolyaCards } from '@/hooks/useMagnolyaCards'
+import { PAGE_SEO } from '@/data/pageSeo'
 import { useSeo } from '@/lib/seo'
 import { rise } from '@/lib/motion'
 
 export default function Campaigns() {
   const { activeCampaigns, activeProducts } = useCatalog()
 
-  useSeo({
-    title: 'Kampanyalar | Gönülden Tatlar',
-    description:
-      'Gönülden Tatlar kampanyalarını kaçırma: ikili menüler ve döneme özel fırsatlar.',
-    path: '/kampanyalar',
-  })
+  useSeo(PAGE_SEO.campaigns)
 
   const campaignProductIds = new Set(activeCampaigns.flatMap((campaign) => campaign.productIds ?? []))
   const campaignProducts = activeProducts.filter(
